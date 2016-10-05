@@ -22,6 +22,8 @@ public class GUI {
 		// Creating the window for the GUI
 		this.frame = new JFrame("MainWindow");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.pack();
+		frame.setVisible(true);
 	}	
 
 }
