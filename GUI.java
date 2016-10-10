@@ -59,6 +59,7 @@ public class GUI {
 
 		// Adding multi-column list to display address book
 		String[] columnNames = {"First", "Last", "Phone"};
+		// Just sample data created
 		Object[][] sampleData = {{"Meg", "Fredericks", "5412923031"}, {"Brooke", "Fredericks", "5412920283"}};
 		addressBookDisplay = new JTable(sampleData, columnNames);
 		JScrollPane scrollPane = new JScrollPane();
