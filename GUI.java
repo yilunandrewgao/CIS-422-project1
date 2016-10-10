@@ -10,6 +10,7 @@ import javax.swing.*;
 public class GUI {
 	
 	private JFrame frame;
+	private JPanel panel;
 	private JLabel headerLabel;
 	private JMenuBar menuBar;
 	private JMenu menu, submenu;
@@ -28,7 +29,11 @@ public class GUI {
 		this.frame = new JFrame("MainWindow");
 		this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.frame.setSize(400, 400);
-		
+
+		this.panel = new JPanel();
+		panel.setPreferredSize(new Dimension(400,400));
+		frame.add(panel);
+
 		// Add component
 		JLabel blank = new JLabel();
 		blank.setOpaque(true);
