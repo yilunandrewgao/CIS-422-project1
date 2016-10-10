@@ -13,20 +13,20 @@ public class GUI {
 	private JPanel panel;
 	private JLabel headerLabel;
 	private JMenuBar menuBar;
-	private JMenu menu, submenu;
-	private JMenuItem menuItem;
+	private JMenu fileMenu;
+	private JMenuItem newButton, openButton, saveButton, saveAsButton;
+	private JTable addressBookDisplay;
 
 	public GUI() {
 		createPanel();
 	}
 
 	/**
-	 * Creates a JFrame that will host the buttons for the address book
-	 * @return	the panel created by this method
+	 * Creates a JFrame that will host the buttons for the address book.
 	 */
 	private void createPanel() {
 		// Creating the window for the GUI
-		this.frame = new JFrame("MainWindow");
+		this.frame = new JFrame("Address Book");
 		this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.frame.setSize(400, 400);
 
@@ -40,27 +40,30 @@ public class GUI {
 		blank.setPreferredSize(new Dimension(400, 400));
 
 		// Creating the menu bar
-		/*menuBar = new JMenuBar();
+		menuBar = new JMenuBar();
 
 		// Build "File" menu
-		menu = new JMenu("File");
-		menu.setMnemonic(KeyEvent.VK_A);
-		*/
-		// Create "File" drop-down menu
-		/**
-		String[] fileOptions = {"File", "New", "Open", "Save", "Save As"};
-		final DefaultComboBoxModel defaultOptions = new DefaultComboBoxModel(fileOptions);
-		final JComboBox fileMenu = new JComboBox(defaultOptions);
-		fileMenu.setSelectedIndex(0);
-		
-		JScrollPane fileMenuScrollPane = new JScrollPane(defaultOptions);
+		fileMenu = new JMenu("File");
+		fileMenu.setMnemonic(KeyEvent.VK_A);
+		newButton = new JMenuItem("New");
+		fileMenu.add(newButton);
+		openButton = new JMenuItem("Open");
+		fileMenu.add(openButton);
+		saveButton = new JMenuItem("Save");
+		fileMenu.add(saveButton);
+		saveAsButton = new JMenuItem("Save As");
+		fileMenu.add(saveAsButton);
+		fileMenu.add(newButton);
+		menuBar.add(fileMenu);
+		frame.setJMenuBar(menuBar);
 
-		JButton showButton = new JButton("Show");
-	
-		ActionListener e = new ActionListener();
-		showButton.addActionListener(e);
-		frame.add(fileMenuScrollPane);
-		frame.add(showButton);*/
+		// Adding multi-column list to display address book
+		String[] columnNames = {"First", "Last", "Phone"};
+		Object[][] sampleData = {{"Meg", "Fredericks", "5412923031"}, {"Brooke", "Fredericks", "5412920283"}};
+		addressBookDisplay = new JTable(sampleData, columnNames);
+		JScrollPane scrollPane = new JScrollPane();
+		addressBookDisplay.setFillsViewportHeight(true);
+		frame.add(addressBookDisplay);
 		
 		// Makes the window visible
 		frame.pack();
