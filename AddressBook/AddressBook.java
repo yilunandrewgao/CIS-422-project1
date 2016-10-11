@@ -4,25 +4,25 @@ import java.util.ArrayList;
 
 public class AddressBook {
 	private ArrayList<AddressEntry> book=new ArrayList<AddressEntry>();
-	private int numEntrys;
+	private int numEntries;
 	
-	public AddressBook(String Filename) throws Exception
+	public AddressBook(String filename) throws Exception
 	{
 		BufferedReader TSVFile=new BufferedReader(new FileReader("TSVFile.tsv"));
 		String dataRow=TSVFile.readLine();
-		numEntrys=0;
+		numEntries =0;
 		while (dataRow!=null)
 		{
 			String[] dataArray=dataRow.split("\t");	
 			int t=0;
-			AddressEntry Entry=new AddressEntry();
+			AddressEntry entry=new AddressEntry();
 			for (String item:dataArray)
 			{
-				Entry.getEntry(t,item);
+				entry.setEntry(t,item);
 				t++;
 			}
-			book.add(Entry);
-			numEntrys++;
+			book.add(entry);
+			numEntries++;
 			dataRow=TSVFile.readLine();			
 		}
 		TSVFile.close();
