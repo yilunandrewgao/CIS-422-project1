@@ -50,10 +50,17 @@ public class DisplayGUI implements ActionListener {
 		fileMenu.add(saveAsButton);
 		menuBar.add(fileMenu);*/
 
+		ImageIcon logo = new ImageIcon(this.getClass().getResource("/Logo/initial_logo.png"));
+		Image image = logo.getImage();
+		Image resizedLogo = image.getScaledInstance(400, 200, Image.SCALE_SMOOTH);
+		logo = new ImageIcon(resizedLogo);
 		newButton = new JButton("Create New Address Book");
 		openButton = new JButton("Open Existing Address Book");
 		openButton.addActionListener(this);
 		mainPanel = new JPanel();
+		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+		JLabel iconLabel = new JLabel(logo);
+		mainPanel.add(iconLabel);
 		mainPanel.add(newButton);
 		mainPanel.add(openButton);
 		frame = new JFrame();
