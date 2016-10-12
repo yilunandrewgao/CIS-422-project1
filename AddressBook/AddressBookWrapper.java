@@ -2,6 +2,7 @@ package AddressBook;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
 import javax.swing.*;
 
 /**
@@ -14,12 +15,14 @@ public class AddressBookWrapper implements ActionListener {
     private JTable addressBookDisplay;
     private JPanel tablePanel;
     private JButton newContact;
+    private JMenuBar menuBar;
+    private Controller controller;
 
 
-    private AddressBookWrapper(String tsvFileName) {
-        Controller c = new Controller();
+    public AddressBookWrapper(String tsvFileName) throws Exception {
+        this.controller = new Controller(tsvFileName);
+        this.controller.loadAddressBook();
         this.fileName = tsvFileName;
-        c.loadAddressBook(tsvFileName);
         displayWindow();
     }
 
@@ -61,8 +64,26 @@ public class AddressBookWrapper implements ActionListener {
     }
 
     private Object[][] getAddressBookDisplay() {
-        Object[][] sampleData = {{"Meg", "Fredericks", "5412923031"}, {"Brooke", "Fredericks", "5412920283"}};
-        return sampleData;
+
+        int line_num = 0;
+        ArrayList<AddressEntry> book = this.controller.returnCurrentBook();
+        System.out.println(book);
+        Object[][] returnArray = new Object[book.size()][9];
+        for(AddressEntry entry:book) {
+            returnArray[line_num][0] = entry.getFirstName();
+            returnArray[line_num][1] = entry.getLastName();
+            returnArray[line_num][2] = entry.getDelivery();
+            returnArray[line_num][3] = entry.getSecond();
+            returnArray[line_num][4] = entry.getEmail();
+            returnArray[line_num][5] = entry.getPhone();
+            returnArray[line_num][6] = entry.getCity();
+            returnArray[line_num][7] = entry.getState();
+            returnArray[line_num][8] = entry.getZip();
+
+            line_num += 1;
+        }
+
+        return returnArray;
     }
 
     public void actionPerformed(ActionEvent e) {

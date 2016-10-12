@@ -15,7 +15,7 @@ public class Controller {
 		tsvFileName = _tsvFileName;
 	}
 
-	public void loadAddressBook () {
+	public void loadAddressBook () throws Exception{
 		BufferedReader TSVFileReader=new BufferedReader(new FileReader(tsvFileName));
 		String dataRow=TSVFileReader.readLine();
 		int numEntries =0;
