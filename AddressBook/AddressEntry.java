@@ -8,6 +8,10 @@ public class AddressEntry {
 	public AddressEntry() {
 		this.entries = new String[9];
 	}
+
+	public AddressEntry(String[] _entries) {
+		this.entries = _entries;
+	}
 	
 	public void setEntry(int index, String entry)
 	{

@@ -41,6 +41,21 @@ public class Controller {
 		return currentBook.returnEntries();
 	}
 
+	public static bool validateEnoughInputs(String[9] dataFields) {
+		if (!(dataFields[0] != "" && dataFields[1] != "" && dataFields[5] != "" && dataFields[8] != "")) {
+			return False;
+		}
+		else {
+			return True;
+		}
+	}
 
+	
+
+	// this method adds an entry to the currentBook
+	public void addEntry(String[9] dataFields) {
+		newEntry = new AddressEntry(dataFields);
+		currentBook.addEntry(newEntry);
+	}
 
 }

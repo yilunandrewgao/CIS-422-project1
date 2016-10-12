@@ -4,6 +4,8 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import java.util.ArrayList;
+import java.io.File;
+import java.net.URL;
 
 /**
  * This program launches a simple GUI that allows the user to access
@@ -69,8 +71,13 @@ public class DisplayGUI implements ActionListener {
 	 */
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == openButton) {
+
+
+			File file = new File("AddressBook/example_tsv.tsv");
+			String absolutePath = file.getAbsolutePath();
+			System.out.println(absolutePath);
 			try {
-				AddressBookWrapper test = new AddressBookWrapper("/Users/megfredericks/Documents/School/FALL16/cis422f16-t1/AddressBook/example_tsv.tsv");
+				AddressBookWrapper test = new AddressBookWrapper(absolutePath);
 			} catch (Exception e1) {
 				e1.printStackTrace();
 			}
