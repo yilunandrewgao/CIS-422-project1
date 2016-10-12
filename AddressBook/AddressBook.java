@@ -27,20 +27,18 @@ public class AddressBook {
 		}
 		TSVFile.close();
 	}
-	
-	public static void main(String[] args)
-	{
-		try {
-			AddressBook myaddressbook=new AddressBook("TSVFile.tsv");
-			System.out.print(myaddressbook.book.get(0));
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+
+	// return entries in this book
+	public returnEntries() {
+		return this.book;
+	}
+
+	// adds a new entry
+	public void addEntry(Entry newEntry) {
+		book.add(newEntry)
+	}
 		
-		
-		
-		
+			
 	}
 
 }
