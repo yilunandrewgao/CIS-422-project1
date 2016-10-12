@@ -19,13 +19,12 @@ public class AddressBookWrapper implements ActionListener {
     private String fileName;
     private JFrame frame;
     private JTable addressBookDisplay;
-    private JPanel tablePanel;
+    private JPanel mainPanel, tablePanel, rightPanel;
     private JButton newContact;
     private JMenuBar menuBar;
     private JMenu fileMenu;
-    private JMenuItem saveOption, saveAsOption;
+    private JMenuItem saveOption, saveAsOption, newContactOption;
     private Controller controller;
-
 
     public AddressBookWrapper(String tsvFileName) throws Exception {
         this.controller = new Controller(tsvFileName);
@@ -36,9 +35,7 @@ public class AddressBookWrapper implements ActionListener {
 
     private void displayWindow() {
         // Panel for the address book display
-        this.tablePanel = new JPanel(new BorderLayout());
-        tablePanel.setPreferredSize(new Dimension(800, 400));
-        tablePanel.setLayout(new FlowLayout());
+        this.tablePanel = new JPanel();
 
         // Build "File" menu with save and save as options
         menuBar = new JMenuBar();
@@ -47,33 +44,37 @@ public class AddressBookWrapper implements ActionListener {
 		saveAsOption = new JMenuItem("Save As");
 		saveAsOption.addActionListener(this);
 		saveOption = new JMenuItem("Save");
+        saveOption.addActionListener(this);
+        newContactOption = new JMenuItem("Add New Contact");
+        newContactOption.addActionListener(this);
+        fileMenu.add(newContactOption);
 		fileMenu.add(saveOption);
 		fileMenu.add(saveAsOption);
 		menuBar.add(fileMenu);
 
         // Adding multi-column list to display address book
-        String[] columnNames = {"First", "Last", "Phone"};
-        // Just sample data created
+        String[] columnNames = {"First", "Last"};
         Object[][] displayData = getAddressBookDisplay();
         addressBookDisplay = new JTable(displayData, columnNames);
-        JScrollPane scrollPane = new JScrollPane(addressBookDisplay);
-        addressBookDisplay.setPreferredScrollableViewportSize(new Dimension(800, 400));
-        scrollPane.setViewportView(addressBookDisplay);
         tablePanel.add(addressBookDisplay);
-
+        JScrollPane scrollPane = new JScrollPane(tablePanel,
+                ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         // Panel for the add contact button
-        JPanel contactButtonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 0, 0));
+        //JPanel contactButtonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 0, 0));
         // Adding a button to add a contact
-        this.newContact = new JButton("Add New Contact");
+        /*this.newContact = new JButton("Add New Contact");
         newContact.addActionListener(this);
         newContact.setMnemonic(KeyEvent.VK_D);
-        contactButtonPanel.add(newContact);
+        tablePanel.add(newContact);*/
 
         // Main panel creation
-        JPanel mainPanel = new JPanel();
-        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.PAGE_AXIS));
+        rightPanel = new JPanel();
+        rightPanel.setPreferredSize(new Dimension(200, 200));
+        mainPanel = new JPanel();
+        tablePanel.setLayout(new BoxLayout(tablePanel, BoxLayout.Y_AXIS));
         mainPanel.add(tablePanel);
-        mainPanel.add(contactButtonPanel);
+        mainPanel.add(rightPanel);
+        mainPanel.setLayout(new GridLayout(1, 2));
 
         // Make frame visible
         this.frame = new JFrame(this.fileName);
@@ -108,31 +109,43 @@ public class AddressBookWrapper implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == newContact) {
-            JTextField firstName = new JTextField(10);
-            JTextField lastName = new JTextField(10);
-            JTextField phone = new JTextField(10);
-            JTextField address1 = new JTextField(20);
-            JTextField address2 = new JTextField(20);
-            JFrame newContactFrame = new JFrame("Add New Contact");
-            JPanel contactFields = new JPanel();
-            contactFields.setLayout(new BoxLayout(contactFields, BoxLayout.Y_AXIS));
-            contactFields.add(new JLabel("First Name:"));
-            contactFields.add(firstName);
-            contactFields.add(new JLabel("Last Name:"));
-            contactFields.add(lastName);
-            contactFields.add(Box.createHorizontalStrut(15));
-            contactFields.add(new JLabel("Phone:"));
-            contactFields.add(phone);
-            contactFields.add(new JLabel("Address 1:"));
-            contactFields.add(address1);
-            contactFields.add(new JLabel("Address 2:"));
-            contactFields.add(address2);
-            newContactFrame.add(contactFields);
-            newContactFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            newContactFrame.pack();
-            newContactFrame.setVisible(true);
+        // If you select a contact, info will display on side, and there are save and delete options
+        // editable fields
+        if (e.getSource() == newContactOption) {
+            displayNewContact(); // put this on right side of window
+        } else if (e.getSource() == saveOption) {
+            // Controller.save, true or false if saved. display "saved successfully" method
+            // If save failed, display "error while saving"
         }
+    }
 
+    private void displayNewContact() {
+        JTextField firstName = new JTextField(10);
+        JTextField lastName = new JTextField(10);
+        JTextField phone = new JTextField(10);
+        JTextField address1 = new JTextField(20);
+        JTextField address2 = new JTextField(20);
+        // JFrame newContactFrame = new JFrame("Add New Contact");
+        JPanel contactFields = new JPanel();
+        contactFields.setLayout(new BoxLayout(contactFields, BoxLayout.Y_AXIS));
+        contactFields.add(new JLabel("First Name:"));
+        contactFields.add(firstName);
+        contactFields.add(new JLabel("Last Name:"));
+        contactFields.add(lastName);
+        contactFields.add(Box.createHorizontalStrut(15));
+        contactFields.add(new JLabel("Phone:"));
+        contactFields.add(phone);
+        contactFields.add(new JLabel("Address 1:"));
+        contactFields.add(address1);
+        contactFields.add(new JLabel("Address 2:"));
+        contactFields.add(address2);
+        /*newContactFrame.add(contactFields);
+        newContactFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        newContactFrame.pack();
+        newContactFrame.setVisible(true);*/
+
+        rightPanel.add(contactFields);
+        this.frame.pack();
+        this.frame.setVisible(true);
     }
 }

@@ -14,21 +14,15 @@ public class DisplayGUI implements ActionListener {
 	
 	private JFrame frame;
 	private JPanel mainPanel;
-	private JMenuBar menuBar;
-	private JMenu fileMenu;
-	private JMenuItem saveButton, saveAsButton;
 	private JLabel iconLabel;
 	private JButton newButton, openButton;
-	private JTable addressBookDisplay;
 	//private ArrayList<AddressBookWrapper> booksOpen;
-	//private Controller controller;
 
 	/**
 	 * Constructor that takes no parameters-- always displays the main menu, with options
 	 * to open an existing address book or create a new one.
 	 */
 	public DisplayGUI() {
-		//this.controller = c;
 		createPanel();
 	}
 
@@ -68,12 +62,15 @@ public class DisplayGUI implements ActionListener {
 	 * @param e	the ActionEvent that is triggered by the user.
 	 */
 	public void actionPerformed(ActionEvent e) {
+		// open menu, list all existing address books and let user choose
 		if (e.getSource() == openButton) {
 			try {
-				AddressBookWrapper test = new AddressBookWrapper("/Users/megfredericks/Documents/School/FALL16/cis422f16-t1/AddressBook/example_tsv.tsv");
+				AddressBookWrapper test = new AddressBookWrapper("/Users/megfredericks/Documents/School/FALL16/cis422f16-t1/Saved/example_tsv.tsv");
 			} catch (Exception e1) {
 				e1.printStackTrace();
 			}
+		} else if (e.getSource() == newButton) {
+
 		}
 	}
 
