@@ -1,15 +1,15 @@
 package AddressBook;
 
- /**
- * This program launches a GUI that allows the user to access the features 
- * of our address book easily. 
- */
-
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import java.util.ArrayList;
 
+/**
+ * This program launches a simple GUI that allows the user to access
+ * features of our address book. It displays our team logo ("Semi-Professional"),
+ * as well as buttons to either create a new address book or open an existing one.
+ */
 public class DisplayGUI implements ActionListener {
 	
 	private JFrame frame;
@@ -17,49 +17,42 @@ public class DisplayGUI implements ActionListener {
 	private JMenuBar menuBar;
 	private JMenu fileMenu;
 	private JMenuItem saveButton, saveAsButton;
+	private JLabel iconLabel;
 	private JButton newButton, openButton;
 	private JTable addressBookDisplay;
 	//private ArrayList<AddressBookWrapper> booksOpen;
 	//private Controller controller;
 
+	/**
+	 * Constructor that takes no parameters-- always displays the main menu, with options
+	 * to open an existing address book or create a new one.
+	 */
 	public DisplayGUI() {
 		//this.controller = c;
 		createPanel();
 	}
 
 	/**
-	 * Creates a JFrame that will host the buttons for the address book.
+	 * Creates and shows the GUI. Initializes logo and buttons, and displays them.
 	 */
 	private void createPanel() {
 
-		// Creating the menu bar
-		//menuBar = new JMenuBar();
-
-		// Build "File" menu with open, save, save as, and new options
-		/*fileMenu = new JMenu("File");
-		fileMenu.setMnemonic(KeyEvent.VK_A);
-		openButton = new JMenuItem("Open");
-		openButton.addActionListener(this);
-		saveAsButton = new JMenuItem("Save As");
-		saveAsButton.addActionListener(this);
-		newButton = new JMenuItem("New");
-		saveButton = new JMenuItem("Save");
-		fileMenu.add(newButton);
-		fileMenu.add(openButton);
-		fileMenu.add(saveButton);
-		fileMenu.add(saveAsButton);
-		menuBar.add(fileMenu);*/
-
+		// Get team logo from "Logo" folder and resize it
 		ImageIcon logo = new ImageIcon(this.getClass().getResource("/Logo/initial_logo.png"));
 		Image image = logo.getImage();
 		Image resizedLogo = image.getScaledInstance(400, 200, Image.SCALE_SMOOTH);
 		logo = new ImageIcon(resizedLogo);
+
+		// Create "new" and "open buttons
 		newButton = new JButton("Create New Address Book");
 		openButton = new JButton("Open Existing Address Book");
 		openButton.addActionListener(this);
+		newButton.addActionListener(this);
+
+		// Make panel, change its layout, add components, and display frame.
 		mainPanel = new JPanel();
 		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
-		JLabel iconLabel = new JLabel(logo);
+		iconLabel = new JLabel(logo);
 		mainPanel.add(iconLabel);
 		mainPanel.add(newButton);
 		mainPanel.add(openButton);
@@ -70,6 +63,10 @@ public class DisplayGUI implements ActionListener {
 		frame.setVisible(true);
 	}
 
+	/**
+	 * This method keeps track of how all ActionEvents are handled on this GUI.
+	 * @param e	the ActionEvent that is triggered by the user.
+	 */
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == openButton) {
 			try {

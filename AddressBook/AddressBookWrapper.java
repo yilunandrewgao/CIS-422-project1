@@ -1,3 +1,7 @@
+/**
+ * Created by megfredericks on 10/11/16.
+ */
+
 package AddressBook;
 
 import java.awt.*;
@@ -6,7 +10,9 @@ import java.util.ArrayList;
 import javax.swing.*;
 
 /**
- * Created by megfredericks on 10/11/16.
+ * The AddressBookWrapper class displays a specified open address book to the user
+ * in a new window with the same title as the address book. The user can add new
+ * contacts to the address book from this page.
  */
 public class AddressBookWrapper implements ActionListener {
 
@@ -16,6 +22,8 @@ public class AddressBookWrapper implements ActionListener {
     private JPanel tablePanel;
     private JButton newContact;
     private JMenuBar menuBar;
+    private JMenu fileMenu;
+    private JMenuItem saveOption, saveAsOption;
     private Controller controller;
 
 
@@ -31,6 +39,17 @@ public class AddressBookWrapper implements ActionListener {
         this.tablePanel = new JPanel(new BorderLayout());
         tablePanel.setPreferredSize(new Dimension(800, 400));
         tablePanel.setLayout(new FlowLayout());
+
+        // Build "File" menu with save and save as options
+        menuBar = new JMenuBar();
+		fileMenu = new JMenu("File");
+		fileMenu.setMnemonic(KeyEvent.VK_A);
+		saveAsOption = new JMenuItem("Save As");
+		saveAsOption.addActionListener(this);
+		saveOption = new JMenuItem("Save");
+		fileMenu.add(saveOption);
+		fileMenu.add(saveAsOption);
+		menuBar.add(fileMenu);
 
         // Adding multi-column list to display address book
         String[] columnNames = {"First", "Last", "Phone"};
@@ -56,7 +75,9 @@ public class AddressBookWrapper implements ActionListener {
         mainPanel.add(tablePanel);
         mainPanel.add(contactButtonPanel);
 
+        // Make frame visible
         this.frame = new JFrame(this.fileName);
+        this.frame.setJMenuBar(menuBar);
         this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.frame.add(mainPanel);
         this.frame.pack();
