@@ -80,14 +80,36 @@ public class GUI {
 	}
 
 	private class ButtonAction extends AbstractAction {
-		public ButtonAction(String name, Integer mnemonic) {
+		private ButtonAction(String name, Integer mnemonic) {
 			super(name);
 			putValue(MNEMONIC_KEY, mnemonic);
 		}
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			System.out.println("button pressed");
+			JTextField firstName = new JTextField(10);
+			JTextField lastName = new JTextField(10);
+			JTextField phone = new JTextField(10);
+			JTextField address1 = new JTextField(20);
+			JTextField address2 = new JTextField(20);
+			JFrame newContactFrame = new JFrame("Add New Contact");
+			JPanel contactFields = new JPanel();
+			contactFields.setLayout(new BoxLayout(contactFields, BoxLayout.Y_AXIS));
+			contactFields.add(new JLabel("First Name:"));
+			contactFields.add(firstName);
+			contactFields.add(new JLabel("Last Name:"));
+			contactFields.add(lastName);
+			contactFields.add(Box.createHorizontalStrut(15));
+			contactFields.add(new JLabel("Phone:"));
+			contactFields.add(phone);
+			contactFields.add(new JLabel("Address 1:"));
+			contactFields.add(address1);
+			contactFields.add(new JLabel("Address 2:"));
+			contactFields.add(address2);
+			newContactFrame.add(contactFields);
+			newContactFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			newContactFrame.pack();
+			newContactFrame.setVisible(true);
 		}
 	}
 	
