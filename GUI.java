@@ -10,7 +10,7 @@ import javax.swing.*;
 public class GUI {
 	
 	private JFrame frame;
-	private JPanel panel;
+	private JPanel tablePanel;
 	private JLabel headerLabel;
 	private JMenuBar menuBar;
 	private JMenu fileMenu;
@@ -25,54 +25,73 @@ public class GUI {
 	 * Creates a JFrame that will host the buttons for the address book.
 	 */
 	private void createPanel() {
-		// Creating the window for the GUI
-		this.frame = new JFrame("Address Book");
-		this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.frame.setSize(400, 400);
-
-		this.panel = new JPanel();
-		panel.setPreferredSize(new Dimension(400,400));
-		frame.add(panel);
-
-		// Add component
-		JLabel blank = new JLabel();
-		blank.setOpaque(true);
-		blank.setPreferredSize(new Dimension(400, 400));
 
 		// Creating the menu bar
 		menuBar = new JMenuBar();
 
-		// Build "File" menu
+		// Build "File" menu with open, save, save as, and new options
 		fileMenu = new JMenu("File");
 		fileMenu.setMnemonic(KeyEvent.VK_A);
-		newButton = new JMenuItem("New");
-		fileMenu.add(newButton);
 		openButton = new JMenuItem("Open");
-		fileMenu.add(openButton);
-		saveButton = new JMenuItem("Save");
-		fileMenu.add(saveButton);
 		saveAsButton = new JMenuItem("Save As");
-		fileMenu.add(saveAsButton);
+		newButton = new JMenuItem("New");
+		saveButton = new JMenuItem("Save");
 		fileMenu.add(newButton);
+		fileMenu.add(openButton);
+		fileMenu.add(saveButton);
+		fileMenu.add(saveAsButton);
 		menuBar.add(fileMenu);
-		frame.setJMenuBar(menuBar);
+
+		// Panel for the address book display
+		this.tablePanel = new JPanel(new BorderLayout());
+		tablePanel.setPreferredSize(new Dimension(800, 400));
+		tablePanel.setLayout(new FlowLayout());
 
 		// Adding multi-column list to display address book
 		String[] columnNames = {"First", "Last", "Phone"};
 		// Just sample data created
 		Object[][] sampleData = {{"Meg", "Fredericks", "5412923031"}, {"Brooke", "Fredericks", "5412920283"}};
 		addressBookDisplay = new JTable(sampleData, columnNames);
-		JScrollPane scrollPane = new JScrollPane();
-		addressBookDisplay.setFillsViewportHeight(true);
-		frame.add(addressBookDisplay);
+		JScrollPane scrollPane = new JScrollPane(addressBookDisplay);
+		addressBookDisplay.setPreferredScrollableViewportSize(new Dimension(800, 400));
+		scrollPane.setViewportView(addressBookDisplay);
+		tablePanel.add(addressBookDisplay);
+
+		// Panel for the add contact button
+		JPanel contactButtonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 0, 0));
+		// Adding a button to add a contact
+		JButton newContact = new JButton(new ButtonAction("Add New Contact", KeyEvent.VK_A));
+		newContact.setMnemonic(KeyEvent.VK_D);
+		contactButtonPanel.add(newContact);
+
+		// Main panel creation
+		JPanel mainPanel = new JPanel();
+		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.PAGE_AXIS));
+		mainPanel.add(tablePanel);
+		mainPanel.add(contactButtonPanel);
 		
-		// Makes the window visible
+		// Makes window visible
+		this.frame = new JFrame("Address Book");
+		this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.frame.setJMenuBar(menuBar);
+		frame.add(mainPanel);
 		frame.pack();
 		frame.setVisible(true);
-	}	
+	}
+
+	private class ButtonAction extends AbstractAction {
+		public ButtonAction(String name, Integer mnemonic) {
+			super(name);
+			putValue(MNEMONIC_KEY, mnemonic);
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			System.out.println("button pressed");
+		}
+	}
 	
 	public static void main(String[] args) {
 		new GUI();
 	}
-
 }
