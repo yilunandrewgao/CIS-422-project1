@@ -3,7 +3,11 @@ package AddressBook;
 
 public class AddressEntry {
 	//0=FirstName,1=LastName,2=Delivery,3=Second,4=Email,5=Phone,6=City,7=State,8=Zip;
-	private String[] entries =new String[9];
+	private String[] entries;
+
+	public AddressEntry() {
+		this.entries = new String[9];
+	}
 	
 	public void setEntry(int index, String entry)
 	{

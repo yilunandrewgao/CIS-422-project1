@@ -5,29 +5,13 @@ import java.io.FileReader;
 import java.util.ArrayList;
 
 public class AddressBook {
-	private ArrayList<AddressEntry> book=new ArrayList<AddressEntry>();
+	private ArrayList<AddressEntry> book;
 	private int numEntries;
 	
-	public AddressBook(String filename) throws Exception
+	public AddressBook() 
 	{
-		BufferedReader TSVFile=new BufferedReader(new FileReader("TSVFile.tsv"));
-		String dataRow=TSVFile.readLine();
-		numEntries =0;
-		while (dataRow!=null)
-		{
-			String[] dataArray=dataRow.split("\t");	
-			int t=0;
-			AddressEntry entry=new AddressEntry();
-			for (String item:dataArray)
-			{
-				entry.setEntry(t,item);
-				t++;
-			}
-			book.add(entry);
-			numEntries++;
-			dataRow=TSVFile.readLine();			
-		}
-		TSVFile.close();
+		book = new ArrayList<AddressEntry>();
+		numEntries = 0;
 	}
 
 	// return entries in this book

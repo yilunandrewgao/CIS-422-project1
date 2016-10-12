@@ -5,8 +5,8 @@ package AddressBook;
  */
 public class AddressBookWrapper {
 
-    private AddressBookWrapper(String tsvFileName) {
-        Controller c = new Controller();
-        c.loadAddressBook(tsvFileName);
+    public AddressBookWrapper(String tsvFileName) {
+        Controller c = new Controller(tsvFileName);
+        c.loadAddressBook();
     }
 }
