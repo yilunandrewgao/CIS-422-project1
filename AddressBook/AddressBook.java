@@ -1,3 +1,5 @@
+package AddressBook;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.ArrayList;
@@ -29,16 +31,14 @@ public class AddressBook {
 	}
 
 	// return entries in this book
-	public returnEntries() {
+	public ArrayList<AddressEntry> returnEntries() {
 		return this.book;
 	}
 
 	// adds a new entry
-	public void addEntry(Entry newEntry) {
-		book.add(newEntry)
+	public void addEntry(AddressEntry newEntry) {
+		book.add(newEntry);
 	}
-		
-			
-	}
+
 
 }

@@ -1,3 +1,5 @@
+package AddressBook;
+
 
 public class AddressEntry {
 	//0=FirstName,1=LastName,2=Delivery,3=Second,4=Email,5=Phone,6=City,7=State,8=Zip;

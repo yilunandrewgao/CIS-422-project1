@@ -1,3 +1,9 @@
+package AddressBook;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.util.ArrayList;
+
 public class Controller {
 
 	private AddressBook currentBook;
@@ -7,10 +13,10 @@ public class Controller {
 		
 	}
 
-	public loadAddressBook (String tsvFileName) throws Exception{
+	public void loadAddressBook (String tsvFileName) {
 		BufferedReader TSVFileReader=new BufferedReader(new FileReader(tsvFileName));
 		String dataRow=TSVFileReader.readLine();
-		numEntries =0;
+		int numEntries =0;
 		while (dataRow!=null)
 		{
 			String[] dataArray=dataRow.split("\t");	
@@ -29,7 +35,7 @@ public class Controller {
 	}
 
 	// this method returns a list of entry objects for the currentBook
-	public returnCurrentBook() {
+	public ArrayList<AddressEntry> returnCurrentBook() {
 		return currentBook.returnEntries();
 	}
 

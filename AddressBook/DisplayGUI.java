@@ -1,4 +1,4 @@
-/**
+package AddressBook; /**
  * This program launches a GUI that allows the user to access the features 
  * of our address book easily. 
  */
