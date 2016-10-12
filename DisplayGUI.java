@@ -7,17 +7,19 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-public class GUI {
+public class DisplayGUI implements ActionListener {
 	
 	private JFrame frame;
 	private JPanel tablePanel;
-	private JLabel headerLabel;
 	private JMenuBar menuBar;
 	private JMenu fileMenu;
 	private JMenuItem newButton, openButton, saveButton, saveAsButton;
+	private JButton newContact;
 	private JTable addressBookDisplay;
+	//private Controller controller;
 
-	public GUI() {
+	public DisplayGUI() {
+		//this.controller = c;
 		createPanel();
 	}
 
@@ -33,7 +35,9 @@ public class GUI {
 		fileMenu = new JMenu("File");
 		fileMenu.setMnemonic(KeyEvent.VK_A);
 		openButton = new JMenuItem("Open");
+		openButton.addActionListener(this);
 		saveAsButton = new JMenuItem("Save As");
+		saveAsButton.addActionListener(this);
 		newButton = new JMenuItem("New");
 		saveButton = new JMenuItem("Save");
 		fileMenu.add(newButton);
@@ -50,8 +54,8 @@ public class GUI {
 		// Adding multi-column list to display address book
 		String[] columnNames = {"First", "Last", "Phone"};
 		// Just sample data created
-		Object[][] sampleData = {{"Meg", "Fredericks", "5412923031"}, {"Brooke", "Fredericks", "5412920283"}};
-		addressBookDisplay = new JTable(sampleData, columnNames);
+		Object[][] displayData = getAddressBookDisplay();
+		addressBookDisplay = new JTable(displayData, columnNames);
 		JScrollPane scrollPane = new JScrollPane(addressBookDisplay);
 		addressBookDisplay.setPreferredScrollableViewportSize(new Dimension(800, 400));
 		scrollPane.setViewportView(addressBookDisplay);
@@ -60,7 +64,8 @@ public class GUI {
 		// Panel for the add contact button
 		JPanel contactButtonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 0, 0));
 		// Adding a button to add a contact
-		JButton newContact = new JButton(new ButtonAction("Add New Contact", KeyEvent.VK_A));
+		this.newContact = new JButton("Add New Contact");
+		newContact.addActionListener(this);
 		newContact.setMnemonic(KeyEvent.VK_D);
 		contactButtonPanel.add(newContact);
 
@@ -79,14 +84,8 @@ public class GUI {
 		frame.setVisible(true);
 	}
 
-	private class ButtonAction extends AbstractAction {
-		private ButtonAction(String name, Integer mnemonic) {
-			super(name);
-			putValue(MNEMONIC_KEY, mnemonic);
-		}
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
+	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() == newContact) {
 			JTextField firstName = new JTextField(10);
 			JTextField lastName = new JTextField(10);
 			JTextField phone = new JTextField(10);
@@ -110,10 +109,22 @@ public class GUI {
 			newContactFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			newContactFrame.pack();
 			newContactFrame.setVisible(true);
+		} else if (e.getSource() == openButton) {
+
+		} else if (e.getSource() == newButton) {
+
+		} else if (e.getSource() == saveAsButton) {
+
 		}
 	}
-	
+
+
+	private Object[][] getAddressBookDisplay() {
+		Object[][] sampleData = {{"Meg", "Fredericks", "5412923031"}, {"Brooke", "Fredericks", "5412920283"}};
+		return sampleData;
+	}
+
 	public static void main(String[] args) {
-		new GUI();
+		new DisplayGUI();
 	}
 }
