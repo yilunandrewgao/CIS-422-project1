@@ -1,7 +1,7 @@
 package AddressBook;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
+import java.io.*;
 import java.util.ArrayList;
 
 public class Controller {
@@ -41,20 +41,27 @@ public class Controller {
 		return currentBook.returnEntries();
 	}
 
-	public static bool validateEnoughInputs(String[9] dataFields) {
+	public static boolean validateEnoughInputs(String[] dataFields) {
 		if (!(dataFields[0] != "" && dataFields[1] != "" && dataFields[5] != "" && dataFields[8] != "")) {
-			return False;
+			return false;
 		}
 		else {
-			return True;
+			return true;
 		}
 	}
 
 
+//	public tryToAddEntry(String[] dataFields) {
+//
+//		if (!(dataFields[0] != "" && dataFields[1] != "" && dataFields[5] != "" && dataFields[8] != "")) {
+//			throw new InvalidInputException();
+//		}
+//
+//	}
 
 	// this method adds an entry to the currentBook
-	public void addEntry(String[9] dataFields) {
-		newEntry = new AddressEntry(dataFields);
+	public void addEntry(String[] dataFields) {
+		AddressEntry newEntry = new AddressEntry(dataFields);
 		currentBook.addEntry(newEntry);
 	}
 
