@@ -31,11 +31,20 @@ public class AddressBookWrapper implements ActionListener {
     private JTextField firstName, lastName, phone, address1, address2, city, state, zip, email;
     private Controller controller;
 
-    public AddressBookWrapper(String tsvFileName) throws Exception {
+    // reference to parent GUIController
+    private DisplayGUI GUIController;
+
+    public AddressBookWrapper(String tsvFileName, DisplayGUI _GUIController) throws Exception {
         this.controller = new Controller(tsvFileName);
         this.controller.loadAddressBook();
         this.fileName = tsvFileName;
+        GUIController = _GUIController;
         displayWindow();
+    }
+
+    // getter for fileName
+    public String getFileName() {
+        return fileName;
     }
 
     private void displayWindow() {
@@ -81,6 +90,10 @@ public class AddressBookWrapper implements ActionListener {
         this.frame.add(mainPanel);
         this.frame.pack();
         this.frame.setVisible(true);
+
+        // add the closing listener
+        closingListener cl = new closingListener(this);
+        this.frame.addWindowListener(cl);
     }
 
     private Object[][] getAddressBookDisplay() {
@@ -146,6 +159,7 @@ public class AddressBookWrapper implements ActionListener {
         }
     }
 
+
     private void displayNewContact() {
         firstName = new JTextField(textFieldDimension);
         lastName = new JTextField(textFieldDimension);
@@ -188,5 +202,22 @@ public class AddressBookWrapper implements ActionListener {
         rightPanel.add(contactFields);
         this.frame.pack();
         this.frame.setVisible(true);
+    }
+
+
+    // the window listener that handles closing
+    // need to pass in reference to this AddressBookWrapper so it can be removed from the Arraylist of wrappers.
+    class closingListener extends WindowAdapter {
+
+        private AddressBookWrapper thisAddressBookWrapper;
+
+        public closingListener(AddressBookWrapper _thisAddressBookWrapper) {
+            super();
+            thisAddressBookWrapper = _thisAddressBookWrapper;
+        }
+
+        public void windowClosing(WindowEvent we) {
+            GUIController.getOpenBooks().remove(thisAddressBookWrapper);
+        }
     }
 }

@@ -29,6 +29,11 @@ public class DisplayGUI implements ActionListener {
 		createPanel();
 	}
 
+	// returns the array of open books
+    public ArrayList<AddressBookWrapper> getOpenBooks() {
+        return booksOpen;
+    }
+
 	/**
 	 * Creates and shows the GUI. Initializes logo and buttons, and displays them.
 	 */
@@ -58,6 +63,9 @@ public class DisplayGUI implements ActionListener {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.pack();
 		frame.setVisible(true);
+
+        // initialize array of open books
+        booksOpen = new ArrayList<AddressBookWrapper>();
 	}
 
 	/**
@@ -81,7 +89,13 @@ public class DisplayGUI implements ActionListener {
 
 			try {
 
-				AddressBookWrapper newBook = new AddressBookWrapper(absolutePath);
+				AddressBookWrapper newBook = new AddressBookWrapper(absolutePath, this);
+                booksOpen.add(newBook);
+
+
+                System.out.println(booksOpen.size());
+
+
 
 
 			} catch (Exception e1) {
