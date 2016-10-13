@@ -16,14 +16,19 @@ import javax.swing.*;
  */
 public class AddressBookWrapper implements ActionListener {
 
+    private int textFieldDimension = 10;
+
     private String fileName;
+    private Object[][] displayData;
+    private String[] columnNames;
     private JFrame frame;
     private JTable addressBookDisplay;
-    private JPanel mainPanel, tablePanel, rightPanel;
-    private JButton newContact;
+    private JPanel mainPanel, tablePanel, rightPanel, contactFields;
+    private JButton newContactSave, newContactCancel;
     private JMenuBar menuBar;
     private JMenu fileMenu;
     private JMenuItem saveOption, saveAsOption, newContactOption;
+    private JTextField firstName, lastName, phone, address1, address2, city, state, zip, email;
     private Controller controller;
 
     public AddressBookWrapper(String tsvFileName) throws Exception {
@@ -53,19 +58,10 @@ public class AddressBookWrapper implements ActionListener {
 		menuBar.add(fileMenu);
 
         // Adding multi-column list to display address book
-        String[] columnNames = {"First", "Last"};
-        Object[][] displayData = getAddressBookDisplay();
+        columnNames = new String[]{"First", "Last"};
+        displayData = getAddressBookDisplay();
         addressBookDisplay = new JTable(displayData, columnNames);
         tablePanel.add(addressBookDisplay);
-        JScrollPane scrollPane = new JScrollPane(tablePanel,
-                ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        // Panel for the add contact button
-        //JPanel contactButtonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 0, 0));
-        // Adding a button to add a contact
-        /*this.newContact = new JButton("Add New Contact");
-        newContact.addActionListener(this);
-        newContact.setMnemonic(KeyEvent.VK_D);
-        tablePanel.add(newContact);*/
 
         // Main panel creation
         rightPanel = new JPanel();
@@ -117,32 +113,63 @@ public class AddressBookWrapper implements ActionListener {
             // Controller.save, true or false if saved. display "saved successfully" method
             // If save failed, display "error while saving"
         }
+        // If the user wants to save a new contact, send info from text fields to controller
+        else if (e.getSource() == newContactSave) {
+            String[] newContactInfo = new String[9];
+            newContactInfo[0] = firstName.getText();
+            newContactInfo[1] = lastName.getText();
+            newContactInfo[2] = address1.getText();
+            newContactInfo[3] = address2.getText();
+            newContactInfo[4] = email.getText();
+            newContactInfo[5] = phone.getText();
+            newContactInfo[6] = city.getText();
+            newContactInfo[7] = state.getText();
+            newContactInfo[8] = zip.getText();
+            controller.addEntry(newContactInfo);
+            addressBookDisplay = new JTable(getAddressBookDisplay(), columnNames);
+        } else if (e.getSource() == newContactCancel) {
+
+        }
     }
 
     private void displayNewContact() {
-        JTextField firstName = new JTextField(10);
-        JTextField lastName = new JTextField(10);
-        JTextField phone = new JTextField(10);
-        JTextField address1 = new JTextField(20);
-        JTextField address2 = new JTextField(20);
-        // JFrame newContactFrame = new JFrame("Add New Contact");
-        JPanel contactFields = new JPanel();
+        firstName = new JTextField(textFieldDimension);
+        lastName = new JTextField(textFieldDimension);
+        phone = new JTextField(textFieldDimension);
+        address1 = new JTextField(textFieldDimension);
+        address2 = new JTextField(textFieldDimension);
+        city = new JTextField(textFieldDimension);
+        state = new JTextField(textFieldDimension);
+        zip = new JTextField(textFieldDimension);
+        email = new JTextField(textFieldDimension);
+        contactFields = new JPanel();
         contactFields.setLayout(new BoxLayout(contactFields, BoxLayout.Y_AXIS));
         contactFields.add(new JLabel("First Name:"));
         contactFields.add(firstName);
         contactFields.add(new JLabel("Last Name:"));
         contactFields.add(lastName);
-        contactFields.add(Box.createHorizontalStrut(15));
         contactFields.add(new JLabel("Phone:"));
         contactFields.add(phone);
         contactFields.add(new JLabel("Address 1:"));
         contactFields.add(address1);
         contactFields.add(new JLabel("Address 2:"));
         contactFields.add(address2);
-        /*newContactFrame.add(contactFields);
-        newContactFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        newContactFrame.pack();
-        newContactFrame.setVisible(true);*/
+        contactFields.add(new JLabel("City:"));
+        contactFields.add(city);
+        contactFields.add(new JLabel("State:"));
+        contactFields.add(state);
+        contactFields.add(new JLabel("ZIP:"));
+        contactFields.add(zip);
+        contactFields.add(new JLabel("Email:"));
+        contactFields.add(email);
+
+        // Adding save and cancel buttons
+        newContactSave = new JButton("Save Contact");
+        newContactSave.addActionListener(this);
+        newContactCancel = new JButton("Cancel");
+        newContactCancel.addActionListener(this);
+        contactFields.add(newContactSave);
+        contactFields.add(newContactCancel);
 
         rightPanel.add(contactFields);
         this.frame.pack();
