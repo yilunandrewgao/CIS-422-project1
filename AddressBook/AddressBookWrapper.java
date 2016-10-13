@@ -77,7 +77,7 @@ public class AddressBookWrapper implements ActionListener {
         // Make frame visible
         this.frame = new JFrame(this.fileName);
         this.frame.setJMenuBar(menuBar);
-        this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.frame.add(mainPanel);
         this.frame.pack();
         this.frame.setVisible(true);

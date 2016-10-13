@@ -3,6 +3,7 @@ package AddressBook;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import javax.swing.filechooser.*;
 import java.util.ArrayList;
 import java.io.File;
 import java.net.URL;
@@ -18,7 +19,7 @@ public class DisplayGUI implements ActionListener {
 	private JPanel mainPanel;
 	private JLabel iconLabel;
 	private JButton newButton, openButton;
-	//private ArrayList<AddressBookWrapper> booksOpen;
+	private ArrayList<AddressBookWrapper> booksOpen;
 
 	/**
 	 * Constructor that takes no parameters-- always displays the main menu, with options
@@ -66,15 +67,25 @@ public class DisplayGUI implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		// open menu, list all existing address books and let user choose
 		if (e.getSource() == openButton) {
-			File file = new File("Saved/example_tsv.tsv");
-			String absolutePath = file.getAbsolutePath();
-			System.out.println(absolutePath);
+
+            // open a file chooser component that shows the working directory
+			String absolutePath = "";
+			JFileChooser chooser = new JFileChooser(System.getProperty("user.dir"));
+			FileNameExtensionFilter filter = new FileNameExtensionFilter("TSV Files", "tsv");
+			chooser.setFileFilter(filter);
+			int returnVal = chooser.showOpenDialog(mainPanel);
+			if(returnVal == JFileChooser.APPROVE_OPTION) {
+				absolutePath = chooser.getSelectedFile().getAbsolutePath();
+
+			}
+
 			try {
 
-				AddressBookWrapper test = new AddressBookWrapper(absolutePath);
+				AddressBookWrapper newBook = new AddressBookWrapper(absolutePath);
+
 
 			} catch (Exception e1) {
-				e1.printStackTrace();
+				System.out.println("Invalid File Chosen");
 			}
 		} else if (e.getSource() == newButton) {
 
