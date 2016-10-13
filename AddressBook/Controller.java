@@ -41,15 +41,7 @@ public class Controller {
 	public ArrayList<AddressEntry> returnCurrentBook() {
 		return currentBook.returnEntries();
 	}
-
-	public static boolean validateEnoughInputs(String[] dataFields) {
-		if (!(dataFields[0] != "" && dataFields[1] != "" && dataFields[5] != "" && dataFields[8] != "")) {
-			return false;
-		}
-		else {
-			return true;
-		}
-	}
+	
 
 
 	public void tryToAddEntry(String[] dataFields) throws TooLittleInputException, InvalidInputException {
