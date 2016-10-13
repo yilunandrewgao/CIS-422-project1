@@ -59,6 +59,8 @@ public class AddressBookWrapper implements ActionListener {
 
         // Adding multi-column list to display address book
         columnNames = new String[]{"First", "Last"};
+        //DefaultTableModel contactTableModel = (DefaultTableModel) jTable
+               // .getModel();
         displayData = getAddressBookDisplay();
         addressBookDisplay = new JTable(displayData, columnNames);
         tablePanel.add(addressBookDisplay);
@@ -125,8 +127,20 @@ public class AddressBookWrapper implements ActionListener {
             newContactInfo[6] = city.getText();
             newContactInfo[7] = state.getText();
             newContactInfo[8] = zip.getText();
-            controller.addEntry(newContactInfo);
+            try {
+                controller.tryToAddEntry(newContactInfo);
+            } catch (TooLittleInputException ex1) {
+                System.out.println(ex1.getMessage());
+            } catch (InvalidInputException ex2) {
+                System.out.println(ex2.getMessage());
+                System.out.println(ex2.getInvalidFieldNum());
+            }
             addressBookDisplay = new JTable(getAddressBookDisplay(), columnNames);
+
+            // Removing "add new contact" screen because contact has been added.
+            rightPanel.remove(contactFields);
+            this.frame.pack();
+            this.frame.setVisible(true);
         } else if (e.getSource() == newContactCancel) {
 
         }

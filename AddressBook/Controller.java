@@ -51,16 +51,23 @@ public class Controller {
 	}
 
 
-//	public tryToAddEntry(String[] dataFields) {
-//
-//		if (!(dataFields[0] != "" && dataFields[1] != "" && dataFields[5] != "" && dataFields[8] != "")) {
-//			throw new InvalidInputException();
-//		}
-//
-//	}
+	public void tryToAddEntry(String[] dataFields) throws TooLittleInputException, InvalidInputException {
+
+		if (dataFields[0].isEmpty() || dataFields[1].isEmpty() || dataFields[5].isEmpty() || dataFields[8].isEmpty()) {
+			throw new TooLittleInputException("Not all of First name, last name, zip and phone are filled in");
+		}
+
+		else if (dataFields[5].length() > 10) {
+			throw new InvalidInputException("Phone number is too long", 5);
+		}
+
+		else addEntry(dataFields);
+
+	}
 
 	// this method adds an entry to the currentBook
 	public void addEntry(String[] dataFields) {
+
 
 		AddressEntry newEntry = new AddressEntry(dataFields);
 

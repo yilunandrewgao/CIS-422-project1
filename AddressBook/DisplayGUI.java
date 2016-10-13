@@ -66,9 +66,7 @@ public class DisplayGUI implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		// open menu, list all existing address books and let user choose
 		if (e.getSource() == openButton) {
-
-
-			File file = new File("AddressBook/example_tsv.tsv");
+			File file = new File("Saved/example_tsv.tsv");
 			String absolutePath = file.getAbsolutePath();
 			System.out.println(absolutePath);
 			try {
