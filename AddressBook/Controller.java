@@ -53,7 +53,7 @@ public class Controller {
 
 
 	// this method adds an entry to the currentBook
-	public void addEntry(String[9] dataFields) {
+	public void addEntry(String[] dataFields) {
 		newEntry = new AddressEntry(dataFields);
 		currentBook.addEntry(newEntry);
 	}
