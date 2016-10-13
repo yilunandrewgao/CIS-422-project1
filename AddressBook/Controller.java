@@ -3,6 +3,7 @@ package AddressBook;
 import java.io.BufferedReader;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.regex.*;
 
 public class Controller {
 
@@ -57,9 +58,23 @@ public class Controller {
 			throw new TooLittleInputException("Not all of First name, last name, zip and phone are filled in");
 		}
 
-		else if (dataFields[5].length() > 10) {
-			throw new InvalidInputException("Phone number is too long", 5);
+		else if (!Pattern.matches("^(\\(\\d{3}\\)|\\d{3})[\\s-]?\\d{3}[\\s-]?\\d{4}$", dataFields[5])) {
+			throw new InvalidInputException("Phone number is invalid", 5);
 		}
+
+		else if (!Pattern.matches("/d{5}", dataFields[8])) {
+			throw new InvalidInputException("ZIP code is invalid", 8);
+		}
+
+		else if (!Pattern.matches("[A-Z]{2}", dataFields[7])) {
+			throw new InvalidInputException("State is invalid", 7);
+		}
+
+		else if (!Pattern.matches(".*@.*\\..*", dataFields[4])) {
+			throw new InvalidInputException("Email is invalid", 4);
+		}
+
+
 
 		else addEntry(dataFields);
 
