@@ -127,6 +127,33 @@ public class AddressBookWrapper implements ActionListener {
         } else if (e.getSource() == saveOption) {
             // Controller.save, true or false if saved. display "saved successfully" method
             // If save failed, display "error while saving"
+
+            try {
+                controller.save();
+            } catch (Exception ex) {
+                System.out.println("Failed to save Address Book.");
+            }
+
+        } else if (e.getSource() == saveAsOption) {
+            // open a file chooser dialog box
+
+            String userFileName = null;
+
+            JFileChooser c = new JFileChooser();
+            int rVal = c.showSaveDialog(fileMenu);
+            if (rVal == JFileChooser.APPROVE_OPTION) {
+                userFileName = c.getCurrentDirectory().toString() + "/" + c.getSelectedFile().getName();
+            }
+
+            // if user chose a file, call the save as method
+            if (userFileName != null) {
+                try {
+                    controller.saveAs(userFileName);
+                } catch (Exception ex) {
+                    System.out.println("Failed to save Address Book as " + userFileName);
+                }
+            }
+
         }
         // If the user wants to save a new contact, send info from text fields to controller
         else if (e.getSource() == newContactSave) {

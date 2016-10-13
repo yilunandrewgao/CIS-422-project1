@@ -56,13 +56,9 @@ public class Controller {
 	}
 
 	// overwrites the current .tsv file with new info
-	public void save(){
+	public void save() throws Exception {
 
-		try {
-			createTsvFile(currentBook.getFileName(),currentBook);
-		} catch (Exception e) {
-			System.out.println("Failed to save Address Book");
-		}
+		createTsvFile(currentBook.getFileName(),currentBook);
 
 	}
 
@@ -94,15 +90,15 @@ public class Controller {
 			throw new InvalidInputException("Phone number is invalid", 5);
 		}
 
-		else if (!Pattern.matches("/d{5}", dataFields[8])) {
+		else if (!Pattern.matches("^\\d{5}$", dataFields[8])) {
 			throw new InvalidInputException("ZIP code is invalid", 8);
 		}
 
-		else if (!Pattern.matches("[A-Z]{2}", dataFields[7])) {
+		else if (!Pattern.matches("^[A-Z]{2}$", dataFields[7])) {
 			throw new InvalidInputException("State is invalid", 7);
 		}
 
-		else if (!Pattern.matches(".*@.*\\..*", dataFields[4])) {
+		else if (!Pattern.matches("^.*@.*\\..*$", dataFields[4])) {
 			throw new InvalidInputException("Email is invalid", 4);
 		}
 
