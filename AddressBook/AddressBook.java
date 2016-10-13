@@ -6,12 +6,12 @@ import java.util.ArrayList;
 
 public class AddressBook {
 	private ArrayList<AddressEntry> book;
-	private int numEntries;
+	private String fileName;
 	
-	public AddressBook() 
+	public AddressBook(String fileName)
 	{
-		book = new ArrayList<AddressEntry>();
-		numEntries = 0;
+		this.book = new ArrayList<AddressEntry>();
+		this.fileName=fileName;
 	}
 
 	// return entries in this book
@@ -23,6 +23,8 @@ public class AddressBook {
 	public void addEntry(AddressEntry newEntry) {
 		book.add(newEntry);
 	}
+
+	public String getFileName(){ return this.fileName; }
 
 
 }

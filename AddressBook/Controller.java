@@ -8,16 +8,16 @@ import java.util.regex.*;
 public class Controller {
 
 	private AddressBook currentBook;
-	private String tsvFileName;
+
 
 
 	public Controller(String _tsvFileName) {
-		currentBook = new AddressBook();
-		tsvFileName = _tsvFileName;
+		currentBook = new AddressBook(_tsvFileName);
+
 	}
 
 	public void loadAddressBook () throws Exception{
-		BufferedReader TSVFileReader=new BufferedReader(new FileReader(tsvFileName));
+		BufferedReader TSVFileReader=new BufferedReader(new FileReader(currentBook.getFileName()));
 		String dataRow=TSVFileReader.readLine();
 		int numEntries =0;
 		while (dataRow!=null)
@@ -35,6 +35,12 @@ public class Controller {
 			dataRow=TSVFileReader.readLine();			
 		}
 		TSVFileReader.close();
+	}
+
+
+	public void saveAddressBook(){
+
+
 	}
 
 	// this method returns a list of entry objects for the currentBook
@@ -65,8 +71,6 @@ public class Controller {
 		else if (!Pattern.matches(".*@.*\\..*", dataFields[4])) {
 			throw new InvalidInputException("Email is invalid", 4);
 		}
-
-
 
 		else addEntry(dataFields);
 
