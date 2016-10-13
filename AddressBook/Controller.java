@@ -19,7 +19,7 @@ public class Controller {
 	public void loadAddressBook () throws Exception{
 		BufferedReader TSVFileReader=new BufferedReader(new FileReader(currentBook.getFileName()));
 		String dataRow=TSVFileReader.readLine();
-		int numEntries =0;
+
 		while (dataRow!=null)
 		{
 			String[] dataArray=dataRow.split("\t");	
@@ -31,15 +31,49 @@ public class Controller {
 				t++;
 			}
 			this.currentBook.addEntry(entry);
-			numEntries++;
+
 			dataRow=TSVFileReader.readLine();			
 		}
 		TSVFileReader.close();
 	}
 
+	// Helper function for saveAddressBook
+	public static void createTsvFile(String FileName, AddressBook book) throws Exception {
+		BufferedWriter bw = new BufferedWriter(new FileWriter(FileName));
 
-	public void saveAddressBook(){
+		ArrayList<AddressEntry> listOfEntries = book.returnEntries();
 
+		for (int i = 0; i < listOfEntries.size(); i++) {
+			bw.write(listOfEntries.get(i).toString());
+			if (i < listOfEntries.size() - 1){
+				bw.write("\n");
+			}
+
+		}
+
+		bw.close();
+
+	}
+
+	// overwrites the current .tsv file with new info
+	public void save(){
+
+		try {
+			createTsvFile(currentBook.getFileName(),currentBook);
+		} catch (Exception e) {
+			System.out.println("Failed to save Address Book");
+		}
+
+	}
+
+	// Creates a new .tsv file with new info
+	public void saveAs(String newFileName){
+
+		try {
+			createTsvFile(newFileName,currentBook);
+		} catch (Exception e) {
+			System.out.println("Failed to save Address Book as " + newFileName);
+		}
 
 	}
 

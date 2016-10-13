@@ -29,7 +29,11 @@ public class AddressEntry {
 	
 	@Override
 	public String toString() {
-		return "First Name: " + getFirstName() + " Last Name: " + getLastName();
+		String returnString = ""
+		for (String field:entries) {
+			returnString = returnString + field + "\t";
+		}
+		returnString = returnString.substring(0, returnString.length() - 1);
 	}
 	
 	public void setLastName(String lastName)
