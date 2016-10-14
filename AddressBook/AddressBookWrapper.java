@@ -24,7 +24,7 @@ public class AddressBookWrapper implements ActionListener {
     private JFrame frame;
     private JTable addressBookDisplay;
     private JPanel mainPanel, tablePanel, rightPanel, contactFields;
-    private JButton newContactSave, newContactCancel;
+    private JButton ContactSave, ContactCancel;
     private JMenuBar menuBar;
     private JMenu fileMenu;
     private JMenuItem saveOption, saveAsOption, newContactOption, deleteOption;
@@ -32,6 +32,9 @@ public class AddressBookWrapper implements ActionListener {
     private Controller controller;
 
     private ArrayList<AddressEntry> lastContactList;
+
+    // keeps track of which entry is selected in the table, null if new entry is being added
+    private AddressEntry currentSelectedEntry = null;
 
     // reference to parent GUIController
     private DisplayGUI GUIController;
@@ -57,6 +60,9 @@ public class AddressBookWrapper implements ActionListener {
 
                 //display the detailed contact info on side
                 displayContact(lastContactList.get(addressBookDisplay.rowAtPoint(e.getPoint())));
+
+                // keep track of the selected entry
+                currentSelectedEntry = lastContactList.get(addressBookDisplay.rowAtPoint(e.getPoint()));
             }
         });
     }
@@ -151,12 +157,12 @@ public class AddressBookWrapper implements ActionListener {
         contactFields.add(email);
 
         // Adding save and cancel buttons
-        newContactSave = new JButton("Save Contact");
-        newContactSave.addActionListener(this);
-        newContactCancel = new JButton("Cancel");
-        newContactCancel.addActionListener(this);
-        contactFields.add(newContactSave);
-        contactFields.add(newContactCancel);
+        ContactSave = new JButton("Save Contact");
+        ContactSave.addActionListener(this);
+        ContactCancel = new JButton("Cancel");
+        ContactCancel.addActionListener(this);
+        contactFields.add(ContactSave);
+        contactFields.add(ContactCancel);
     }
 
     private Object[][] getAddressBookDisplay() {
@@ -183,11 +189,32 @@ public class AddressBookWrapper implements ActionListener {
         return returnArray;
     }
 
+    // helper function to encapsulate add or edit entry behavior. Used in actionPerformed method
+    private void addOrEditEntry(String[] newContactInfo) {
+        // if there is no current selected entry, add the entry
+        if (currentSelectedEntry == null) {
+            controller.addEntry(newContactInfo);
+        }
+        else {
+            controller.editEntry(newContactInfo, currentSelectedEntry);
+        }
+
+        addressBookDisplay = new JTable(getAddressBookDisplay(), columnNames);
+
+        // Removing "add new contact" screen because contact has been added.
+        rightPanel.remove(contactFields);
+        this.frame.pack();
+        this.frame.setVisible(true);
+    }
+
     public void actionPerformed(ActionEvent e) {
         // If you select a contact, info will display on side, and there are save and delete options
         // editable fields
         if (e.getSource() == newContactOption) {
             displayNewContact(); // put this on right side of window
+
+            // set the selected entry to null
+            currentSelectedEntry = null;
         } else if (e.getSource() == saveOption) {
             // Controller.save, true or false if saved. display "saved successfully" method
             // If save failed, display "error while saving"
@@ -234,7 +261,7 @@ public class AddressBookWrapper implements ActionListener {
             }
         }
         // If the user wants to save a new contact, send info from text fields to controller
-        else if (e.getSource() == newContactSave) {
+        else if (e.getSource() == ContactSave) {
             String[] newContactInfo = new String[9];
             newContactInfo[0] = firstName.getText();
             newContactInfo[1] = lastName.getText();
@@ -246,25 +273,24 @@ public class AddressBookWrapper implements ActionListener {
             newContactInfo[7] = state.getText();
             newContactInfo[8] = zip.getText();
             try {
-                controller.tryToAddEntry(newContactInfo);
-            } catch (TooLittleInputException ex1) {
-                // Displays "Too little input" message
-                JOptionPane.showMessageDialog(frame, ex1.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-            } catch (InvalidInputException ex2) {
-                // Would you still like to save?
-                int response = JOptionPane.showConfirmDialog(null, ex2.getMessage() + " Do you still want to save?",
-                        "Warning", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-                if (response == JOptionPane.YES_OPTION) {
-                    // Still save address book if user chooses "yes"
-                }
-            }
-            addressBookDisplay = new JTable(getAddressBookDisplay(), columnNames);
+                controller.validateEntry(newContactInfo);
 
-            // Removing "add new contact" screen because contact has been added.
-            rightPanel.remove(contactFields);
-            this.frame.pack();
-            this.frame.setVisible(true);
-        } else if (e.getSource() == newContactCancel) {
+                addOrEditEntry(newContactInfo);
+            } catch (TooLittleInputException ex1) {
+
+                // if user does not put in the required fields
+                JOptionPane.showMessageDialog(frame, ex1.getMessage());
+            } catch (InvalidInputException ex2) {
+                int response = JOptionPane.showConfirmDialog(null,
+                        ex2.getMessage() + " Are you sure you want to continue anyways?", "Warning",
+                        JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                if (response == JOptionPane.YES_OPTION) {
+                    addOrEditEntry(newContactInfo);
+                }
+
+            }
+            
+        } else if (e.getSource() == ContactCancel) {
 
         }
 
