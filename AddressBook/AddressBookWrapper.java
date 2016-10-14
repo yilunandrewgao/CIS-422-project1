@@ -46,6 +46,7 @@ public class AddressBookWrapper implements ActionListener {
         GUIController = _GUIController;
 
         displayWindow();
+        initializeContactFieldsComponents();
 
         //code for mouse listener
         //contacts are indexed starting at 1, since the column headers are in row 0
@@ -53,6 +54,9 @@ public class AddressBookWrapper implements ActionListener {
             @Override
             public void mouseClicked(MouseEvent e) {
                 System.out.println(lastContactList.get(addressBookDisplay.rowAtPoint(e.getPoint())).toString());
+
+                //display the detailed contact info on side
+                displayContact(lastContactList.get(addressBookDisplay.rowAtPoint(e.getPoint())));
             }
         });
     }
@@ -112,6 +116,47 @@ public class AddressBookWrapper implements ActionListener {
         // add the closing listener
         closingListener cl = new closingListener(this);
         this.frame.addWindowListener(cl);
+    }
+
+    // helper method to initialize all widgets in contactFields panel
+    private void initializeContactFieldsComponents() {
+        firstName = new JTextField(textFieldDimension);
+        lastName = new JTextField(textFieldDimension);
+        phone = new JTextField(textFieldDimension);
+        address1 = new JTextField(textFieldDimension);
+        address2 = new JTextField(textFieldDimension);
+        city = new JTextField(textFieldDimension);
+        state = new JTextField(textFieldDimension);
+        zip = new JTextField(textFieldDimension);
+        email = new JTextField(textFieldDimension);
+        contactFields = new JPanel();
+        contactFields.setLayout(new BoxLayout(contactFields, BoxLayout.Y_AXIS));
+        contactFields.add(new JLabel("First Name:"));
+        contactFields.add(firstName);
+        contactFields.add(new JLabel("Last Name:"));
+        contactFields.add(lastName);
+        contactFields.add(new JLabel("Phone:"));
+        contactFields.add(phone);
+        contactFields.add(new JLabel("Address 1:"));
+        contactFields.add(address1);
+        contactFields.add(new JLabel("Address 2:"));
+        contactFields.add(address2);
+        contactFields.add(new JLabel("City:"));
+        contactFields.add(city);
+        contactFields.add(new JLabel("State:"));
+        contactFields.add(state);
+        contactFields.add(new JLabel("ZIP:"));
+        contactFields.add(zip);
+        contactFields.add(new JLabel("Email:"));
+        contactFields.add(email);
+
+        // Adding save and cancel buttons
+        newContactSave = new JButton("Save Contact");
+        newContactSave.addActionListener(this);
+        newContactCancel = new JButton("Cancel");
+        newContactCancel.addActionListener(this);
+        contactFields.add(newContactSave);
+        contactFields.add(newContactCancel);
     }
 
     private Object[][] getAddressBookDisplay() {
@@ -221,48 +266,44 @@ public class AddressBookWrapper implements ActionListener {
     }
 
     private void displayNewContact() {
-        firstName = new JTextField(textFieldDimension);
-        lastName = new JTextField(textFieldDimension);
-        phone = new JTextField(textFieldDimension);
-        address1 = new JTextField(textFieldDimension);
-        address2 = new JTextField(textFieldDimension);
-        city = new JTextField(textFieldDimension);
-        state = new JTextField(textFieldDimension);
-        zip = new JTextField(textFieldDimension);
-        email = new JTextField(textFieldDimension);
-        contactFields = new JPanel();
-        contactFields.setLayout(new BoxLayout(contactFields, BoxLayout.Y_AXIS));
-        contactFields.add(new JLabel("First Name:"));
-        contactFields.add(firstName);
-        contactFields.add(new JLabel("Last Name:"));
-        contactFields.add(lastName);
-        contactFields.add(new JLabel("Phone:"));
-        contactFields.add(phone);
-        contactFields.add(new JLabel("Address 1:"));
-        contactFields.add(address1);
-        contactFields.add(new JLabel("Address 2:"));
-        contactFields.add(address2);
-        contactFields.add(new JLabel("City:"));
-        contactFields.add(city);
-        contactFields.add(new JLabel("State:"));
-        contactFields.add(state);
-        contactFields.add(new JLabel("ZIP:"));
-        contactFields.add(zip);
-        contactFields.add(new JLabel("Email:"));
-        contactFields.add(email);
 
-        // Adding save and cancel buttons
-        newContactSave = new JButton("Save Contact");
-        newContactSave.addActionListener(this);
-        newContactCancel = new JButton("Cancel");
-        newContactCancel.addActionListener(this);
-        contactFields.add(newContactSave);
-        contactFields.add(newContactCancel);
+        // empty the default text in each JTextField
+        firstName.setText("");
+        lastName.setText("");
+        phone.setText("");
+        address1.setText("");
+        address2.setText("");
+        city.setText("");
+        state.setText("");
+        zip.setText("");
+        email.setText("");
+
+        contactFields.repaint();
 
         rightPanel.add(contactFields);
         this.frame.pack();
         this.frame.setVisible(true);
     }
+
+    // variant of displayNewContact for case where an AddressEntry is provided
+    private void displayContact(AddressEntry entry) {
+        firstName.setText(entry.getFirstName());
+        lastName.setText(entry.getLastName());
+        phone.setText(entry.getPhone());
+        address1.setText(entry.getDelivery());
+        address2.setText(entry.getSecond());
+        city.setText(entry.getCity());
+        state.setText(entry.getState());
+        zip.setText(entry.getZip());
+        email.setText(entry.getEmail());
+
+        contactFields.repaint();
+
+        rightPanel.add(contactFields);
+        this.frame.pack();
+        this.frame.setVisible(true);
+    }
+
 
 
     // the window listener that handles closing
