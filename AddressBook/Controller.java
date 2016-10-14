@@ -8,11 +8,12 @@ import java.util.regex.*;
 public class Controller {
 
 	private AddressBook currentBook;
+	private DisplayGUI GUIController;
 
 
-
-	public Controller(String _tsvFileName) {
+	public Controller(String _tsvFileName, DisplayGUI _GUIController) {
 		currentBook = new AddressBook(_tsvFileName);
+		GUIController = _GUIController;
 
 	}
 
@@ -63,14 +64,20 @@ public class Controller {
 	}
 
 	// Creates a new .tsv file with new info
-	public void saveAs(String newFileName){
+	public void saveAs(String newFileName) throws Exception {
 
-		try {
-			createTsvFile(newFileName,currentBook);
-		} catch (Exception e) {
-			System.out.println("Failed to save Address Book as " + newFileName);
-		}
+		createTsvFile(newFileName,currentBook);
 
+	}
+
+	// Deletes the current .tsv file and removes it from GUIController's array
+	public boolean delete() {
+		File file = new File(currentBook.getFileName());
+
+		// remove it from GUIController's array
+		GUIController.getOpenBooks().remove(currentBook);
+
+		return file.delete();
 	}
 
 	// this method returns a list of entry objects for the currentBook

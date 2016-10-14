@@ -35,10 +35,11 @@ public class AddressBookWrapper implements ActionListener {
     private DisplayGUI GUIController;
 
     public AddressBookWrapper(String tsvFileName, DisplayGUI _GUIController) throws Exception {
-        this.controller = new Controller(tsvFileName);
+        GUIController = _GUIController;
+        this.controller = new Controller(tsvFileName, GUIController);
         this.controller.loadAddressBook();
         this.fileName = tsvFileName;
-        GUIController = _GUIController;
+
         displayWindow();
     }
 
@@ -139,7 +140,7 @@ public class AddressBookWrapper implements ActionListener {
 
             String userFileName = null;
 
-            JFileChooser c = new JFileChooser();
+            JFileChooser c = new JFileChooser(System.getProperty("user.dir"));
             int rVal = c.showSaveDialog(fileMenu);
             if (rVal == JFileChooser.APPROVE_OPTION) {
                 userFileName = c.getCurrentDirectory().toString() + "/" + c.getSelectedFile().getName();
