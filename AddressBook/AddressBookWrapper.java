@@ -249,10 +249,14 @@ public class AddressBookWrapper implements ActionListener {
                 controller.tryToAddEntry(newContactInfo);
             } catch (TooLittleInputException ex1) {
                 // Displays "Too little input" message
-                JOptionPane.showMessageDialog(frame, "Error", ex1.getMessage(), JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(frame, ex1.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             } catch (InvalidInputException ex2) {
                 // Would you still like to save?
-                JOptionPane.showMessageDialog(frame, "Error", ex2.getMessage(), JOptionPane.ERROR_MESSAGE);
+                int response = JOptionPane.showConfirmDialog(null, ex2.getMessage() + " Do you still want to save?",
+                        "Warning", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                if (response == JOptionPane.YES_OPTION) {
+                    // Still save address book if user chooses "yes"
+                }
             }
             addressBookDisplay = new JTable(getAddressBookDisplay(), columnNames);
 
