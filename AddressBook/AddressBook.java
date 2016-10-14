@@ -24,6 +24,13 @@ public class AddressBook {
 		book.add(newEntry);
 	}
 
+	// edit an entry
+	public void editEntry(AddressEntry editedEntry, AddressEntry oldEntry) {
+		// get index of oldEntry
+		int entryIndex = book.indexOf(oldEntry);
+		book.set(entryIndex, editedEntry);
+	}
+
 	public String getFileName(){ return this.fileName; }
 
 

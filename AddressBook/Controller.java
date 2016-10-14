@@ -87,29 +87,29 @@ public class Controller {
 	
 
 
-	public void tryToAddEntry(String[] dataFields) throws TooLittleInputException, InvalidInputException {
+	public void validateEntry(String[] dataFields) throws TooLittleInputException, InvalidInputException {
 
 		if (dataFields[0].isEmpty() || dataFields[1].isEmpty() || dataFields[5].isEmpty() || dataFields[8].isEmpty()) {
-			throw new TooLittleInputException("Not all of First name, last name, zip and phone are filled in");
+			throw new TooLittleInputException("Not all of First name, last name, zip and phone are filled in.");
 		}
 
 		else if (!Pattern.matches("^(\\(\\d{3}\\)|\\d{3})[\\s-]?\\d{3}[\\s-]?\\d{4}$", dataFields[5])) {
-			throw new InvalidInputException("Phone number is invalid", 5);
+			throw new InvalidInputException("Phone number is invalid.", 5);
 		}
 
 		else if (!Pattern.matches("^\\d{5}$", dataFields[8])) {
-			throw new InvalidInputException("ZIP code is invalid", 8);
+			throw new InvalidInputException("ZIP code is invalid.", 8);
 		}
 
 		else if (!Pattern.matches("^[A-Z]{2}$", dataFields[7])) {
-			throw new InvalidInputException("State is invalid", 7);
+			throw new InvalidInputException("State is invalid.", 7);
 		}
 
 		else if (!Pattern.matches("^.*@.*\\..*$", dataFields[4])) {
-			throw new InvalidInputException("Email is invalid", 4);
+			throw new InvalidInputException("Email is invalid.", 4);
 		}
 
-		else addEntry(dataFields);
+
 
 	}
 
@@ -120,6 +120,15 @@ public class Controller {
 		AddressEntry newEntry = new AddressEntry(dataFields);
 
 		currentBook.addEntry(newEntry);
+	}
+
+	public void editEntry(String[] dataFields, AddressEntry oldEntry) {
+
+		// create the edited entry
+		AddressEntry editedEntry = new AddressEntry(dataFields);
+
+		currentBook.editEntry(editedEntry, oldEntry);
+
 	}
 
 }
