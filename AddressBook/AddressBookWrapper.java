@@ -261,6 +261,9 @@ public class AddressBookWrapper implements ActionListener {
                 if (deleted == false) {
                     JOptionPane.showMessageDialog(frame, "Unable to delete address book.");
                 }
+                else {
+                    frame.dispose();
+                }
             }
         }
         // If the user wants to save a new contact, send info from text fields to controller
