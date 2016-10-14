@@ -31,6 +31,8 @@ public class AddressBookWrapper implements ActionListener {
     private JTextField firstName, lastName, phone, address1, address2, city, state, zip, email;
     private Controller controller;
 
+    private ArrayList<AddressEntry> lastContactList;
+
     // reference to parent GUIController
     private DisplayGUI GUIController;
 
@@ -38,8 +40,18 @@ public class AddressBookWrapper implements ActionListener {
         this.controller = new Controller(tsvFileName);
         this.controller.loadAddressBook();
         this.fileName = tsvFileName;
+        this.lastContactList = new ArrayList<AddressEntry>();
         GUIController = _GUIController;
         displayWindow();
+
+        //code for mouse listener
+        //contacts are indexed starting at 1, since the column headers are in row 0
+        this.addressBookDisplay.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                System.out.println(lastContactList.get(addressBookDisplay.rowAtPoint(e.getPoint())).toString());
+            }
+        });
     }
 
     // getter for fileName
@@ -100,6 +112,7 @@ public class AddressBookWrapper implements ActionListener {
 
         int line_num = 0;
         ArrayList<AddressEntry> book = this.controller.returnCurrentBook();
+        lastContactList = book;
         System.out.println(book);
         Object[][] returnArray = new Object[book.size()][9];
         for(AddressEntry entry:book) {
@@ -186,7 +199,6 @@ public class AddressBookWrapper implements ActionListener {
         }
     }
 
-
     private void displayNewContact() {
         firstName = new JTextField(textFieldDimension);
         lastName = new JTextField(textFieldDimension);
@@ -247,4 +259,5 @@ public class AddressBookWrapper implements ActionListener {
             GUIController.getOpenBooks().remove(thisAddressBookWrapper);
         }
     }
+
 }
