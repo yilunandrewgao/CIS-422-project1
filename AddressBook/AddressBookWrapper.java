@@ -297,7 +297,13 @@ public class AddressBookWrapper implements ActionListener {
             }
             
         } else if (e.getSource() == ContactCancel) {
-
+            int response = JOptionPane.showConfirmDialog(null, "Are you sure you want to cancel without saving?", "Warning",
+                    JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+            if (response == JOptionPane.YES_OPTION) {
+                rightPanel.remove(contactFields);
+                frame.pack();
+                frame.setVisible(true);
+            }
         }
 
 
