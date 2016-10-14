@@ -27,7 +27,7 @@ public class AddressBookWrapper implements ActionListener {
     private JButton newContactSave, newContactCancel;
     private JMenuBar menuBar;
     private JMenu fileMenu;
-    private JMenuItem saveOption, saveAsOption, newContactOption;
+    private JMenuItem saveOption, saveAsOption, newContactOption, deleteOption;
     private JTextField firstName, lastName, phone, address1, address2, city, state, zip, email;
     private Controller controller;
 
@@ -76,9 +76,12 @@ public class AddressBookWrapper implements ActionListener {
         saveOption.addActionListener(this);
         newContactOption = new JMenuItem("Add New Contact");
         newContactOption.addActionListener(this);
+        deleteOption = new JMenuItem("Delete Address Book");
+        deleteOption.addActionListener(this);
         fileMenu.add(newContactOption);
 		fileMenu.add(saveOption);
 		fileMenu.add(saveAsOption);
+        fileMenu.add(deleteOption);
 		menuBar.add(fileMenu);
 
         // Adding multi-column list to display address book
@@ -171,6 +174,19 @@ public class AddressBookWrapper implements ActionListener {
             }
 
         }
+
+        else if (e.getSource() == deleteOption) {
+            boolean deleted;
+            int response = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete this phone book?", "Warning",
+                    JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+            if (response == JOptionPane.YES_OPTION) {
+                deleted = controller.delete();
+
+                if (deleted == false) {
+                    JOptionPane.showMessageDialog(frame, "Unable to delete address book.");
+                }
+            }
+        }
         // If the user wants to save a new contact, send info from text fields to controller
         else if (e.getSource() == newContactSave) {
             String[] newContactInfo = new String[9];
@@ -200,6 +216,8 @@ public class AddressBookWrapper implements ActionListener {
         } else if (e.getSource() == newContactCancel) {
 
         }
+
+
     }
 
     private void displayNewContact() {
