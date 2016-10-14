@@ -8,6 +8,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
 import javax.swing.*;
+import javax.swing.table.*;
 
 /**
  * The AddressBookWrapper class displays a specified open address book to the user
@@ -199,7 +200,9 @@ public class AddressBookWrapper implements ActionListener {
             controller.editEntry(newContactInfo, currentSelectedEntry);
         }
 
-        addressBookDisplay = new JTable(getAddressBookDisplay(), columnNames);
+        // update the JTable, addressBookDisplay
+        DefaultTableModel addressBookModel = new DefaultTableModel(getAddressBookDisplay(), columnNames);
+        addressBookDisplay.setModel(addressBookModel);
 
         // Removing "add new contact" screen because contact has been added.
         rightPanel.remove(contactFields);
