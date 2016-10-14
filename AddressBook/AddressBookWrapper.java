@@ -222,6 +222,7 @@ public class AddressBookWrapper implements ActionListener {
             try {
                 controller.save();
             } catch (Exception ex) {
+                JOptionPane.showMessageDialog(frame, "Error", "Failed to save Address Book.", JOptionPane.ERROR_MESSAGE);
                 System.out.println("Failed to save Address Book.");
             }
 
@@ -241,7 +242,7 @@ public class AddressBookWrapper implements ActionListener {
                 try {
                     controller.saveAs(userFileName);
                 } catch (Exception ex) {
-                    System.out.println("Failed to save Address Book as " + userFileName);
+                    JOptionPane.showMessageDialog(frame, "Error", "Failed to save Address Book as " + userFileName, JOptionPane.ERROR_MESSAGE);
                 }
             }
 
@@ -276,6 +277,7 @@ public class AddressBookWrapper implements ActionListener {
 
                 addOrEditEntry(newContactInfo);
             } catch (TooLittleInputException ex1) {
+
                 // if user does not put in the required fields
                 JOptionPane.showMessageDialog(frame, ex1.getMessage());
             } catch (InvalidInputException ex2) {
@@ -285,6 +287,7 @@ public class AddressBookWrapper implements ActionListener {
                 if (response == JOptionPane.YES_OPTION) {
                     addOrEditEntry(newContactInfo);
                 }
+
             }
             
         } else if (e.getSource() == ContactCancel) {
