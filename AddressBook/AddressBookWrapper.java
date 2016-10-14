@@ -25,7 +25,7 @@ public class AddressBookWrapper implements ActionListener {
     private JFrame frame;
     private JTable addressBookDisplay;
     private JPanel mainPanel, tablePanel, rightPanel, contactFields;
-    private JButton ContactSave, ContactCancel;
+    private JButton ContactSave, ContactCancel, ContactDelete;
     private JMenuBar menuBar;
     private JMenu fileMenu;
     private JMenuItem saveOption, saveAsOption, newContactOption, deleteOption;
@@ -162,8 +162,11 @@ public class AddressBookWrapper implements ActionListener {
         ContactSave.addActionListener(this);
         ContactCancel = new JButton("Cancel");
         ContactCancel.addActionListener(this);
+        ContactDelete = new JButton("Delete");
+        ContactDelete.addActionListener(this);
         contactFields.add(ContactSave);
         contactFields.add(ContactCancel);
+        contactFields.add(ContactDelete);
     }
 
     private Object[][] getAddressBookDisplay() {
@@ -209,6 +212,25 @@ public class AddressBookWrapper implements ActionListener {
         this.frame.pack();
         this.frame.setVisible(true);
     }
+
+    // helper function to encapsulate delete entry behavior
+    private void deleteEntry() {
+        // check if there is an entry selected
+        if (currentSelectedEntry != null) {
+            controller.deleteEntry(currentSelectedEntry);
+
+
+            // update the JTable, addressBookDisplay
+            DefaultTableModel addressBookModel = new DefaultTableModel(getAddressBookDisplay(), columnNames);
+            addressBookDisplay.setModel(addressBookModel);
+
+            // Removing "add new contact" screen because contact has been added.
+            rightPanel.remove(contactFields);
+            this.frame.pack();
+            this.frame.setVisible(true);
+        }
+    }
+
 
     public void actionPerformed(ActionEvent e) {
         // If you select a contact, info will display on side, and there are save and delete options
@@ -296,7 +318,18 @@ public class AddressBookWrapper implements ActionListener {
 
             }
             
-        } else if (e.getSource() == ContactCancel) {
+        }
+
+        else if (e.getSource() == ContactDelete) {
+            int response = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete this contact?", "Warning",
+                    JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+            if (response == JOptionPane.YES_OPTION) {
+
+                deleteEntry();
+            }
+        }
+
+        else if (e.getSource() == ContactCancel) {
             int response = JOptionPane.showConfirmDialog(null, "Are you sure you want to cancel without saving?", "Warning",
                     JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
             if (response == JOptionPane.YES_OPTION) {
