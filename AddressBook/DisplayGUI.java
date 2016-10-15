@@ -16,7 +16,7 @@ import java.net.URL;
 public class DisplayGUI implements ActionListener {
 	
 	private JFrame frame;
-	private JPanel mainPanel;
+	private JPanel mainPanel, buttonPanel;
 	private JLabel iconLabel;
 	private JButton newButton, openButton;
 	private ArrayList<AddressBookWrapper> booksOpen;
@@ -42,7 +42,7 @@ public class DisplayGUI implements ActionListener {
 		// Get team logo from "Logo" folder and resize it
 		ImageIcon logo = new ImageIcon(this.getClass().getResource("/Logo/initial_logo.png"));
 		Image image = logo.getImage();
-		Image resizedLogo = image.getScaledInstance(400, 200, Image.SCALE_SMOOTH);
+		Image resizedLogo = image.getScaledInstance(500, 120, Image.SCALE_SMOOTH);
 		logo = new ImageIcon(resizedLogo);
 
 		// Create "new" and "open buttons
@@ -56,8 +56,11 @@ public class DisplayGUI implements ActionListener {
 		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
 		iconLabel = new JLabel(logo);
 		mainPanel.add(iconLabel);
-		mainPanel.add(newButton);
-		mainPanel.add(openButton);
+
+		buttonPanel = new JPanel(new FlowLayout());
+		buttonPanel.add(newButton);
+		buttonPanel.add(openButton);
+		mainPanel.add(buttonPanel);
 		frame = new JFrame();
 		frame.add(mainPanel);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

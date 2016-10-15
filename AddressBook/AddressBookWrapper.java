@@ -24,12 +24,14 @@ public class AddressBookWrapper implements ActionListener {
     private String[] columnNames;
     private JFrame frame;
     private JTable addressBookDisplay;
-    private JPanel mainPanel, tablePanel, rightPanel, contactFields;
-    private JButton ContactSave, ContactCancel, ContactDelete;
+    private JPanel mainPanel, tablePanel, contactFieldsDisplayPanel, contactFields, buttonPanel;
+    private JButton ContactSave, ContactCancel, ContactDelete, NewContact;
+    private JLabel searchBarLabel;
     private JMenuBar menuBar;
     private JMenu fileMenu;
     private JMenuItem saveOption, saveAsOption, newContactOption, deleteOption;
-    private JTextField firstName, lastName, phone, address1, address2, city, state, zip, email;
+    private JTextField firstName, lastName, phone, address1, address2, city, state, zip, email, searchBar;
+    private GridBagConstraints c;
     private Controller controller;
 
     private ArrayList<AddressEntry> lastContactList;
@@ -96,21 +98,48 @@ public class AddressBookWrapper implements ActionListener {
 		menuBar.add(fileMenu);
 
         // Adding multi-column list to display address book
-        columnNames = new String[]{"First", "Last"};
-        //DefaultTableModel contactTableModel = (DefaultTableModel) jTable
-               // .getModel();
+        columnNames = new String[]{"First", "Last", "Address 1", "Address 2", "Email", "Phone", "City", "State", "ZIP"};
         displayData = getAddressBookDisplay();
         addressBookDisplay = new JTable(displayData, columnNames);
         tablePanel.add(addressBookDisplay);
 
-        // Main panel creation
-        rightPanel = new JPanel();
-        rightPanel.setPreferredSize(new Dimension(200, 200));
-        mainPanel = new JPanel();
-        tablePanel.setLayout(new BoxLayout(tablePanel, BoxLayout.Y_AXIS));
-        mainPanel.add(tablePanel);
-        mainPanel.add(rightPanel);
-        mainPanel.setLayout(new GridLayout(1, 2));
+        // Create button panel for search bar and new contact button
+        buttonPanel = new JPanel(new FlowLayout());
+        NewContact = new JButton("Add New Contact");
+        searchBarLabel = new JLabel("Search: ");
+        searchBar = new JTextField(textFieldDimension);
+        buttonPanel.add(NewContact);
+        buttonPanel.add(searchBarLabel);
+        buttonPanel.add(searchBar);
+
+        mainPanel = new JPanel(new GridBagLayout());
+        c = new GridBagConstraints();
+
+        // Set Button Panel constraints, and add to panel
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.weightx = 0.0;
+        //c.gridwidth = 4;
+        c.gridx = 0;
+        c.gridy = 0;
+        mainPanel.add(buttonPanel, c);
+
+        // Set Address Table constraints, and add to panel
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.gridwidth = 4;
+        c.gridheight = 4;
+        c.ipady = 40;
+        c.gridx = 0;
+        c.gridy = 1;
+        mainPanel.add(addressBookDisplay, c);
+
+        // Set contact field display constraints and add to panel
+        contactFieldsDisplayPanel = new JPanel();
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.gridwidth = 4;
+        c.gridheight = 4;
+        c.gridx = 0;
+        c.gridy = 3;
+        mainPanel.add(contactFieldsDisplayPanel, c);
 
         // Make frame visible
         this.frame = new JFrame(this.fileName);
@@ -136,26 +165,69 @@ public class AddressBookWrapper implements ActionListener {
         state = new JTextField(textFieldDimension);
         zip = new JTextField(textFieldDimension);
         email = new JTextField(textFieldDimension);
-        contactFields = new JPanel();
-        contactFields.setLayout(new BoxLayout(contactFields, BoxLayout.Y_AXIS));
-        contactFields.add(new JLabel("First Name:"));
-        contactFields.add(firstName);
-        contactFields.add(new JLabel("Last Name:"));
-        contactFields.add(lastName);
-        contactFields.add(new JLabel("Phone:"));
-        contactFields.add(phone);
-        contactFields.add(new JLabel("Address 1:"));
-        contactFields.add(address1);
-        contactFields.add(new JLabel("Address 2:"));
-        contactFields.add(address2);
-        contactFields.add(new JLabel("City:"));
-        contactFields.add(city);
-        contactFields.add(new JLabel("State:"));
-        contactFields.add(state);
-        contactFields.add(new JLabel("ZIP:"));
-        contactFields.add(zip);
-        contactFields.add(new JLabel("Email:"));
-        contactFields.add(email);
+        contactFields = new JPanel(new GridBagLayout());
+        GridBagConstraints c2 = new GridBagConstraints();
+        //c.fill = GridBagConstraints.HORIZONTAL;
+
+        c2.gridx = 0;
+        c2.gridy = 0;
+        contactFields.add(new JLabel("First Name:"), c2);
+        //c.fill = GridBagConstraints.HORIZONTAL;
+        c2.gridx = 1;
+        c2.gridy = 0;
+        contactFields.add(firstName, c2);
+
+        //c.fill = GridBagConstraints.HORIZONTAL;
+        c2.gridx = 2;
+        c2.gridy = 0;
+        contactFields.add(new JLabel("Last Name:"), c2);
+        c2.gridx = 3;
+        c2.gridy = 0;
+        contactFields.add(lastName, c2);
+
+        c2.gridx = 0;
+        c2.gridy = 1;
+        contactFields.add(new JLabel("Phone:"), c2);
+        c2.gridx = 1;
+        c2.gridy = 1;
+        contactFields.add(phone, c2);
+
+        c2.gridx = 2;
+        c2.gridy = 1;
+        contactFields.add(new JLabel("Address 1:"), c2);
+        c2.gridx = 3;
+        c2.gridy = 1;
+        contactFields.add(address1, c2);
+        c2.gridx = 0;
+        c2.gridy = 3;
+        contactFields.add(new JLabel("Address 2:"), c2);
+        c2.gridx = 1;
+        c2.gridy = 3;
+        contactFields.add(address2, c2);
+        c2.gridx = 2;
+        c2.gridy = 2;
+        contactFields.add(new JLabel("City:"), c2);
+        c2.gridx = 3;
+        c2.gridy = 2;
+        contactFields.add(city, c2);
+        c2.gridx = 0;
+        c2.gridy = 2;
+        contactFields.add(new JLabel("State:"), c2);
+        c2.gridx = 1;
+        c2.gridy = 2;
+        contactFields.add(state, c2);
+        c2.gridx = 2;
+        c2.gridy = 3;
+        contactFields.add(new JLabel("ZIP:"), c2);
+        c2.gridx = 3;
+        c2.gridy = 3;
+        contactFields.add(zip, c2);
+        c2.gridx = 0;
+        c2.gridy = 4;
+        contactFields.add(new JLabel("Email:"), c2);
+        c2.gridx = 1;
+        c2.gridy = 4;
+        contactFields.add(email, c2);
 
         // Adding save and cancel buttons
         ContactSave = new JButton("Save Contact");
@@ -164,9 +236,15 @@ public class AddressBookWrapper implements ActionListener {
         ContactCancel.addActionListener(this);
         ContactDelete = new JButton("Delete");
         ContactDelete.addActionListener(this);
-        contactFields.add(ContactSave);
-        contactFields.add(ContactCancel);
-        contactFields.add(ContactDelete);
+        c2.gridx = 4;
+        c2.gridy = 0;
+        contactFields.add(ContactSave, c2);
+        c2.gridx = 4;
+        c2.gridy = 1;
+        contactFields.add(ContactCancel, c2);
+        c2.gridx = 4;
+        c2.gridy = 2;
+        contactFields.add(ContactDelete, c2);
     }
 
     private Object[][] getAddressBookDisplay() {
@@ -208,7 +286,7 @@ public class AddressBookWrapper implements ActionListener {
         addressBookDisplay.setModel(addressBookModel);
 
         // Removing "add new contact" screen because contact has been added.
-        rightPanel.remove(contactFields);
+        contactFieldsDisplayPanel.remove(contactFields);
         this.frame.pack();
         this.frame.setVisible(true);
     }
@@ -217,7 +295,7 @@ public class AddressBookWrapper implements ActionListener {
     private void deleteEntry() {
         // check if there is an entry selected
         if (currentSelectedEntry != null) {
-            controller.deleteEntry(currentSelectedEntry);
+            //controller.deleteEntry(currentSelectedEntry);
 
 
             // update the JTable, addressBookDisplay
@@ -225,7 +303,7 @@ public class AddressBookWrapper implements ActionListener {
             addressBookDisplay.setModel(addressBookModel);
 
             // Removing "add new contact" screen because contact has been added.
-            rightPanel.remove(contactFields);
+            contactFieldsDisplayPanel.remove(contactFields);
             this.frame.pack();
             this.frame.setVisible(true);
         }
@@ -235,7 +313,7 @@ public class AddressBookWrapper implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         // If you select a contact, info will display on side, and there are save and delete options
         // editable fields
-        if (e.getSource() == newContactOption) {
+        if (e.getSource() == NewContact) {
             displayNewContact(); // put this on right side of window
 
             // set the selected entry to null
@@ -333,7 +411,7 @@ public class AddressBookWrapper implements ActionListener {
             int response = JOptionPane.showConfirmDialog(null, "Are you sure you want to cancel without saving?", "Warning",
                     JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
             if (response == JOptionPane.YES_OPTION) {
-                rightPanel.remove(contactFields);
+                contactFieldsDisplayPanel.remove(contactFields);
                 frame.pack();
                 frame.setVisible(true);
             }
@@ -357,7 +435,7 @@ public class AddressBookWrapper implements ActionListener {
 
         contactFields.repaint();
 
-        rightPanel.add(contactFields);
+        contactFieldsDisplayPanel.add(contactFields);
         this.frame.pack();
         this.frame.setVisible(true);
     }
@@ -376,7 +454,7 @@ public class AddressBookWrapper implements ActionListener {
 
         contactFields.repaint();
 
-        rightPanel.add(contactFields);
+        contactFieldsDisplayPanel.add(contactFields);
         this.frame.pack();
         this.frame.setVisible(true);
     }
