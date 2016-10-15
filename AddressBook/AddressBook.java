@@ -31,6 +31,11 @@ public class AddressBook {
 		book.set(entryIndex, editedEntry);
 	}
 
+	// delete an entry
+	public void deleteEntry(AddressEntry entryToDelete) {
+		book.remove(entryToDelete);
+	}
+
 	public String getFileName(){ return this.fileName; }
 
 

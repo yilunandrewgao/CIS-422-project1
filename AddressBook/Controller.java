@@ -122,6 +122,7 @@ public class Controller {
 		currentBook.addEntry(newEntry);
 	}
 
+	// this method edits an entry in currentBook
 	public void editEntry(String[] dataFields, AddressEntry oldEntry) {
 
 		// create the edited entry
@@ -129,6 +130,11 @@ public class Controller {
 
 		currentBook.editEntry(editedEntry, oldEntry);
 
+	}
+
+	// this method deletes an entry in currentBook
+	public void deleteEntry(AddressEntry entryToDelete) {
+		currentBook.deleteEntry(entryToDelete);
 	}
 
 }
