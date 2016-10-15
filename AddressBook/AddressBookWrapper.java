@@ -29,7 +29,7 @@ public class AddressBookWrapper implements ActionListener {
     private JLabel searchBarLabel;
     private JMenuBar menuBar;
     private JMenu fileMenu;
-    private JMenuItem saveOption, saveAsOption, newContactOption, deleteOption;
+    private JMenuItem saveOption, saveAsOption, deleteOption;
     private JTextField firstName, lastName, phone, address1, address2, city, state, zip, email, searchBar;
     private GridBagConstraints c;
     private Controller controller;
@@ -87,11 +87,8 @@ public class AddressBookWrapper implements ActionListener {
 		saveAsOption.addActionListener(this);
 		saveOption = new JMenuItem("Save");
         saveOption.addActionListener(this);
-        newContactOption = new JMenuItem("Add New Contact");
-        newContactOption.addActionListener(this);
         deleteOption = new JMenuItem("Delete Address Book");
         deleteOption.addActionListener(this);
-        fileMenu.add(newContactOption);
 		fileMenu.add(saveOption);
 		fileMenu.add(saveAsOption);
         fileMenu.add(deleteOption);
