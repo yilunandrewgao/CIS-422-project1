@@ -31,6 +31,7 @@ public class AddressBookWrapper implements ActionListener {
     private JMenu fileMenu;
     private JMenuItem saveOption, saveAsOption, deleteOption;
     private JTextField firstName, lastName, phone, address1, address2, city, state, zip, email, searchBar;
+    private JScrollPane scrollPane;
     private GridBagConstraints c;
     private Controller controller;
 
@@ -62,7 +63,7 @@ public class AddressBookWrapper implements ActionListener {
             @Override
             public void mouseClicked(MouseEvent e) {
                 int indexClicked = addressBookDisplay.rowAtPoint(e.getPoint());
-                if (indexClicked > 0){
+                if (indexClicked >= 0){
                     // if the index is 0 then it's the header row, if it's -1 then click was in the frame but not a table row
                     currentSelectedEntry = lastContactList.get(indexClicked);
                     //display the detailed contact info on side
@@ -85,6 +86,8 @@ public class AddressBookWrapper implements ActionListener {
     private void displayWindow() {
         // Panel for the address book display
         this.tablePanel = new JPanel();
+        this.scrollPane = new JScrollPane();
+
 
         // Build "File" menu with save and save as options
         menuBar = new JMenuBar();
@@ -104,8 +107,11 @@ public class AddressBookWrapper implements ActionListener {
         // Adding multi-column list to display address book
         columnNames = new String[]{"First", "Last", "Address 1", "Address 2", "Email", "Phone", "City", "State", "ZIP"};
         displayData = getAddressBookDisplay();
-        addressBookDisplay = new JTable(displayData, columnNames);
-        tablePanel.add(addressBookDisplay);
+        //FIXME test to see if column names work now
+        DefaultTableModel initialModel = new DefaultTableModel(displayData, columnNames);
+        addressBookDisplay = new JTable(initialModel);
+        tablePanel.add(scrollPane);
+        scrollPane.setViewportView(addressBookDisplay);
 
         // Create button panel for search bar and new contact button
         buttonPanel = new JPanel(new FlowLayout());
@@ -135,6 +141,8 @@ public class AddressBookWrapper implements ActionListener {
         c.ipady = 40;
         c.gridx = 0;
         c.gridy = 1;
+        //mainPanel.add(addressBookDisplay, c);
+        //mainPanel.add(scrollPane, c);
         mainPanel.add(tablePanel, c);
 
         // Set contact field display constraints and add to panel
@@ -291,16 +299,16 @@ public class AddressBookWrapper implements ActionListener {
         }
 
         // update the JTable, addressBookDisplay
-        /*DefaultTableModel addressBookModel = new DefaultTableModel(getAddressBookDisplay(), columnNames);
-        addressBookDisplay.setModel(addressBookModel);*/
+        DefaultTableModel addressBookModel = new DefaultTableModel(getAddressBookDisplay(), columnNames);
+        addressBookDisplay.setModel(addressBookModel);
 
         // Removing "add new contact" screen because contact has been added.
         contactFieldsDisplayPanel.remove(contactFields);
-        /*this.frame.pack();
-        this.frame.setVisible(true);*/
+        this.frame.pack();
+        this.frame.setVisible(true);
 
-        //Combined the old update stuff FIXME does it matter if line 286 happens in the middle?
-        refreshTable();
+        //Combined the old update stuff
+        //refreshTable();
     }
 
     // helper function to encapsulate delete entry behavior
@@ -400,8 +408,6 @@ public class AddressBookWrapper implements ActionListener {
                 // if user does not put in the required fields
                 JOptionPane.showMessageDialog(frame, ex1.getMessage());
             } catch (InvalidInputException ex2) {
-
-
                 int response = JOptionPane.showConfirmDialog(null,
                         ex2.getMessage() + "Are you sure you want to continue anyways?", "Warning",
                         JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);

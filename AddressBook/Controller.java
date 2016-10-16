@@ -20,6 +20,7 @@ public class Controller {
 	public void loadAddressBook () throws Exception{
 		BufferedReader TSVFileReader=new BufferedReader(new FileReader(currentBook.getFileName()));
 		String dataRow=TSVFileReader.readLine();
+		dataRow=TSVFileReader.readLine();
 
 		while (dataRow!=null)
 		{
