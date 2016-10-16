@@ -135,19 +135,20 @@ public class AddressBookWrapper implements ActionListener {
 
         // Set Address Table constraints, and add to panel
         c.fill = GridBagConstraints.HORIZONTAL;
-        c.gridwidth = 4;
-        c.gridheight = 4;
+        c.gridwidth = 1;
+        c.gridheight = 1;
         c.ipady = 40;
         c.gridx = 0;
         c.gridy = 1;
         //mainPanel.add(addressBookDisplay, c);
-        mainPanel.add(scrollPane, c);
+        //mainPanel.add(scrollPane, c);
+        mainPanel.add(tablePanel, c);
 
         // Set contact field display constraints and add to panel
         contactFieldsDisplayPanel = new JPanel();
         c.fill = GridBagConstraints.HORIZONTAL;
-        c.gridwidth = 4;
-        c.gridheight = 4;
+        c.gridwidth = 1;
+        c.gridheight = 1;
         c.gridx = 0;
         c.gridy = 3;
         mainPanel.add(contactFieldsDisplayPanel, c);
@@ -301,7 +302,7 @@ public class AddressBookWrapper implements ActionListener {
         /*this.frame.pack();
         this.frame.setVisible(true);*/
 
-        //Combined the old update stuff FIXME does it matter if line 286 happens in the middle?
+        //Combined the old update stuff
         refreshTable();
     }
 
