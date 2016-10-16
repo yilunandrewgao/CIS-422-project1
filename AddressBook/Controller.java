@@ -105,9 +105,9 @@ public class Controller {
 				errorList.add(new InputError("ZIP code is invalid.", 8));
 			}
 
-			if (!Pattern.matches("^[A-Z]{2}$", dataFields[7])) {
-				errorList.add(new InputError("State is invalid.", 7));
-			}
+//			if (!Pattern.matches("^[A-Z]{2}$", dataFields[7])) {
+//				errorList.add(new InputError("State is invalid.", 7));
+//			}
 
 			if (!Pattern.matches("^.*@.*\\..*$", dataFields[4])) {
 				errorList.add(new InputError("Email is invalid.", 4));

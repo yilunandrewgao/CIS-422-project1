@@ -135,7 +135,7 @@ public class AddressBookWrapper implements ActionListener {
         c.ipady = 40;
         c.gridx = 0;
         c.gridy = 1;
-        mainPanel.add(addressBookDisplay, c);
+        mainPanel.add(tablePanel, c);
 
         // Set contact field display constraints and add to panel
         contactFieldsDisplayPanel = new JPanel();
@@ -307,7 +307,7 @@ public class AddressBookWrapper implements ActionListener {
     private void deleteEntry() {
         // check if there is an entry selected
         if (currentSelectedEntry != null) {
-            //controller.deleteEntry(currentSelectedEntry);
+            controller.deleteEntry(currentSelectedEntry);
 
 
             // update the JTable, addressBookDisplay
@@ -403,7 +403,7 @@ public class AddressBookWrapper implements ActionListener {
 
 
                 int response = JOptionPane.showConfirmDialog(null,
-                        ex2.getMessage() + "\nAre you sure you want to continue anyways?", "Warning",
+                        ex2.getMessage() + "Are you sure you want to continue anyways?", "Warning",
                         JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
                 if (response == JOptionPane.YES_OPTION) {
                     addOrEditEntry(newContactInfo);

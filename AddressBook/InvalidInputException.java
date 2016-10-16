@@ -15,7 +15,6 @@ public class InvalidInputException extends Exception {
         for (InputError error : errorList) {
             message += error.getMessage() + "\n";
         }
-        message = message.substring(0,message.length() - 1);
 
     }
 
