@@ -35,9 +35,10 @@ public class AddressBookWrapper implements ActionListener {
     private Controller controller;
 
     private ArrayList<AddressEntry> lastContactList;
+    private AddressEntry lastClickedContact;
 
     // keeps track of which entry is selected in the table, null if new entry is being added
-    private AddressEntry currentSelectedEntry = null;
+    private AddressEntry currentSelectedEntry;
 
     // reference to parent GUIController
     private DisplayGUI GUIController;
@@ -49,6 +50,7 @@ public class AddressBookWrapper implements ActionListener {
         this.fileName = tsvFileName;
 
         this.lastContactList = new ArrayList<AddressEntry>();
+        this.currentSelectedEntry = null; //FIXME what should it default to? Check if = null when accessing?
         GUIController = _GUIController;
 
         displayWindow();
@@ -59,13 +61,18 @@ public class AddressBookWrapper implements ActionListener {
         this.addressBookDisplay.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                System.out.println(lastContactList.get(addressBookDisplay.rowAtPoint(e.getPoint())).toString());
+                int indexClicked = addressBookDisplay.rowAtPoint(e.getPoint());
+                if (indexClicked > 0){
+                    // if the index is 0 then it's the header row, if it's -1 then click was in the frame but not a table row
+                    currentSelectedEntry = lastContactList.get(indexClicked);
+                    //display the detailed contact info on side
+                    displayContact(currentSelectedEntry);
+                }
+                else return; //The click wasn't on the table so we are done now
 
-                //display the detailed contact info on side
-                displayContact(lastContactList.get(addressBookDisplay.rowAtPoint(e.getPoint())));
+                //TODO remove, this is just for testing
+                System.out.println(currentSelectedEntry.toString());
 
-                // keep track of the selected entry
-                currentSelectedEntry = lastContactList.get(addressBookDisplay.rowAtPoint(e.getPoint()));
             }
         });
     }
@@ -279,13 +286,16 @@ public class AddressBookWrapper implements ActionListener {
         }
 
         // update the JTable, addressBookDisplay
-        DefaultTableModel addressBookModel = new DefaultTableModel(getAddressBookDisplay(), columnNames);
-        addressBookDisplay.setModel(addressBookModel);
+        /*DefaultTableModel addressBookModel = new DefaultTableModel(getAddressBookDisplay(), columnNames);
+        addressBookDisplay.setModel(addressBookModel);*/
 
         // Removing "add new contact" screen because contact has been added.
         contactFieldsDisplayPanel.remove(contactFields);
-        this.frame.pack();
-        this.frame.setVisible(true);
+        /*this.frame.pack();
+        this.frame.setVisible(true);*/
+
+        //Combined the old update stuff FIXME does it matter if line 286 happens in the middle?
+        refreshTable();
     }
 
     // helper function to encapsulate delete entry behavior
@@ -296,13 +306,14 @@ public class AddressBookWrapper implements ActionListener {
 
 
             // update the JTable, addressBookDisplay
-            DefaultTableModel addressBookModel = new DefaultTableModel(getAddressBookDisplay(), columnNames);
-            addressBookDisplay.setModel(addressBookModel);
+            /*DefaultTableModel addressBookModel = new DefaultTableModel(getAddressBookDisplay(), columnNames);
+            addressBookDisplay.setModel(addressBookModel);*/
 
             // Removing "add new contact" screen because contact has been added.
             contactFieldsDisplayPanel.remove(contactFields);
-            this.frame.pack();
-            this.frame.setVisible(true);
+            /*this.frame.pack();
+            this.frame.setVisible(true);*/
+            refreshTable();
         }
     }
 
@@ -456,7 +467,13 @@ public class AddressBookWrapper implements ActionListener {
         this.frame.setVisible(true);
     }
 
+    private void refreshTable(){
+        DefaultTableModel addressBookModel = new DefaultTableModel(getAddressBookDisplay(), columnNames);
+        addressBookDisplay.setModel(addressBookModel);
+        this.frame.pack();
+        this.frame.setVisible(true);
 
+    }
 
     // the window listener that handles closing
     // need to pass in reference to this AddressBookWrapper so it can be removed from the Arraylist of wrappers.
