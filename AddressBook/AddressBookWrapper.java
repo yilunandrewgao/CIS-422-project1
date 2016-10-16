@@ -63,7 +63,7 @@ public class AddressBookWrapper implements ActionListener {
             @Override
             public void mouseClicked(MouseEvent e) {
                 int indexClicked = addressBookDisplay.rowAtPoint(e.getPoint());
-                if (indexClicked > 0){
+                if (indexClicked >= 0){
                     // if the index is 0 then it's the header row, if it's -1 then click was in the frame but not a table row
                     currentSelectedEntry = lastContactList.get(indexClicked);
                     //display the detailed contact info on side
@@ -298,16 +298,16 @@ public class AddressBookWrapper implements ActionListener {
         }
 
         // update the JTable, addressBookDisplay
-        /*DefaultTableModel addressBookModel = new DefaultTableModel(getAddressBookDisplay(), columnNames);
-        addressBookDisplay.setModel(addressBookModel);*/
+        DefaultTableModel addressBookModel = new DefaultTableModel(getAddressBookDisplay(), columnNames);
+        addressBookDisplay.setModel(addressBookModel);
 
         // Removing "add new contact" screen because contact has been added.
         contactFieldsDisplayPanel.remove(contactFields);
-        /*this.frame.pack();
-        this.frame.setVisible(true);*/
+        this.frame.pack();
+        this.frame.setVisible(true);
 
         //Combined the old update stuff
-        refreshTable();
+        //refreshTable();
     }
 
     // helper function to encapsulate delete entry behavior
