@@ -1,19 +1,26 @@
 package AddressBook;
 
+import java.util.ArrayList;
+
 /**
  * Created by yilungao on 10/12/16.
  */
 public class InvalidInputException extends Exception {
 
-    private int invalidFieldNum;
 
-    public InvalidInputException(String message,int number) {
-        super(message);
+    private String message = "";
 
-        this.invalidFieldNum = number;
+    public InvalidInputException(ArrayList<InputError> errorList) {
+
+        for (InputError error : errorList) {
+            message += error.getMessage() + "\n";
+        }
+
     }
 
-    public int getInvalidFieldNum() {
-        return this.invalidFieldNum;
+    @Override
+    public String getMessage(){
+        return message;
     }
+
 }

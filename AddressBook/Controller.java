@@ -93,20 +93,31 @@ public class Controller {
 			throw new TooLittleInputException("Not all of First name, last name, zip and phone are filled in.");
 		}
 
-		else if (!Pattern.matches("^(\\(\\d{3}\\)|\\d{3})[\\s-]?\\d{3}[\\s-]?\\d{4}$", dataFields[5])) {
-			throw new InvalidInputException("Phone number is invalid.", 5);
-		}
+		else {
 
-		else if (!Pattern.matches("^\\d{5}$", dataFields[8])) {
-			throw new InvalidInputException("ZIP code is invalid.", 8);
-		}
+			ArrayList<InputError> errorList = new ArrayList<InputError>();
 
-		else if (!Pattern.matches("^[A-Z]{2}$", dataFields[7])) {
-			throw new InvalidInputException("State is invalid.", 7);
-		}
+			if (!Pattern.matches("^(\\(\\d{3}\\)|\\d{3})[\\s-]?\\d{3}[\\s-]?\\d{4}$", dataFields[5])) {
+				errorList.add(new InputError("Phone number is invalid.", 5));
+			}
 
-		else if (!Pattern.matches("^.*@.*\\..*$", dataFields[4])) {
-			throw new InvalidInputException("Email is invalid.", 4);
+			if (!Pattern.matches("^\\d{5}$", dataFields[8])) {
+				errorList.add(new InputError("ZIP code is invalid.", 8));
+			}
+
+//			if (!Pattern.matches("^[A-Z]{2}$", dataFields[7])) {
+//				errorList.add(new InputError("State is invalid.", 7));
+//			}
+
+			if (!Pattern.matches("^.*@.*\\..*$", dataFields[4])) {
+				errorList.add(new InputError("Email is invalid.", 4));
+			}
+
+
+			if (errorList.size() > 0) {
+				throw new InvalidInputException(errorList);
+			}
+
 		}
 
 
