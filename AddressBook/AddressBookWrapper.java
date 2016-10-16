@@ -105,7 +105,7 @@ public class AddressBookWrapper implements ActionListener {
 		menuBar.add(fileMenu);
 
         // Adding multi-column list to display address book
-        String[] columnNames = {"First", "Last", "Address 1", "Address 2", "Email", "Phone", "City", "State", "ZIP"};
+        columnNames = new String[]{"First", "Last", "Address 1", "Address 2", "Email", "Phone", "City", "State", "ZIP"};
         displayData = getAddressBookDisplay();
         //FIXME test to see if column names work now
         DefaultTableModel initialModel = new DefaultTableModel(displayData, columnNames);
@@ -136,19 +136,21 @@ public class AddressBookWrapper implements ActionListener {
 
         // Set Address Table constraints, and add to panel
         c.fill = GridBagConstraints.HORIZONTAL;
-        c.gridwidth = 1;
-        c.gridheight = 1;
+        c.gridwidth = 4;
+        c.gridheight = 4;
         c.ipady = 40;
         c.gridx = 0;
         c.gridy = 1;
 
-        mainPanel.add(tablePanel, c);
+        //mainPanel.add(addressBookDisplay, c);
+        //mainPanel.add(scrollPane, c);
+
 
         // Set contact field display constraints and add to panel
         contactFieldsDisplayPanel = new JPanel();
         c.fill = GridBagConstraints.HORIZONTAL;
-        c.gridwidth = 1;
-        c.gridheight = 1;
+        c.gridwidth = 4;
+        c.gridheight = 4;
         c.gridx = 0;
         c.gridy = 10;
         mainPanel.add(contactFieldsDisplayPanel, c);
@@ -407,8 +409,6 @@ public class AddressBookWrapper implements ActionListener {
                 // if user does not put in the required fields
                 JOptionPane.showMessageDialog(frame, ex1.getMessage());
             } catch (InvalidInputException ex2) {
-
-
                 int response = JOptionPane.showConfirmDialog(null,
                         ex2.getMessage() + "Are you sure you want to continue anyways?", "Warning",
                         JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
