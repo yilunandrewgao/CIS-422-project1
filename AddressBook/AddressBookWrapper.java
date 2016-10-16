@@ -110,6 +110,7 @@ public class AddressBookWrapper implements ActionListener {
         // Create button panel for search bar and new contact button
         buttonPanel = new JPanel(new FlowLayout());
         NewContact = new JButton("Add New Contact");
+        NewContact.addActionListener(this);
         searchBarLabel = new JLabel("Search: ");
         searchBar = new JTextField(textFieldDimension);
         buttonPanel.add(NewContact);
@@ -142,7 +143,7 @@ public class AddressBookWrapper implements ActionListener {
         c.gridwidth = 4;
         c.gridheight = 4;
         c.gridx = 0;
-        c.gridy = 3;
+        c.gridy = 10;
         mainPanel.add(contactFieldsDisplayPanel, c);
 
         // Make frame visible
@@ -249,6 +250,10 @@ public class AddressBookWrapper implements ActionListener {
         c2.gridx = 4;
         c2.gridy = 2;
         contactFields.add(ContactDelete, c2);
+
+        contactFieldsDisplayPanel.add(contactFields);
+        this.frame.pack();
+
     }
 
     private Object[][] getAddressBookDisplay() {
@@ -395,8 +400,10 @@ public class AddressBookWrapper implements ActionListener {
                 // if user does not put in the required fields
                 JOptionPane.showMessageDialog(frame, ex1.getMessage());
             } catch (InvalidInputException ex2) {
+
+
                 int response = JOptionPane.showConfirmDialog(null,
-                        ex2.getMessage() + " Are you sure you want to continue anyways?", "Warning",
+                        ex2.getMessage() + "\nAre you sure you want to continue anyways?", "Warning",
                         JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
                 if (response == JOptionPane.YES_OPTION) {
                     addOrEditEntry(newContactInfo);
