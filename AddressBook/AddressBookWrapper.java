@@ -31,6 +31,7 @@ public class AddressBookWrapper implements ActionListener {
     private JMenu fileMenu;
     private JMenuItem saveOption, saveAsOption, deleteOption;
     private JTextField firstName, lastName, phone, address1, address2, city, state, zip, email, searchBar;
+    private JScrollPane scrollPane;
     private GridBagConstraints c;
     private Controller controller;
 
@@ -85,6 +86,8 @@ public class AddressBookWrapper implements ActionListener {
     private void displayWindow() {
         // Panel for the address book display
         this.tablePanel = new JPanel();
+        this.scrollPane = new JScrollPane();
+
 
         // Build "File" menu with save and save as options
         menuBar = new JMenuBar();
@@ -102,10 +105,13 @@ public class AddressBookWrapper implements ActionListener {
 		menuBar.add(fileMenu);
 
         // Adding multi-column list to display address book
-        columnNames = new String[]{"First", "Last", "Address 1", "Address 2", "Email", "Phone", "City", "State", "ZIP"};
+        String[] columnNames = {"First", "Last", "Address 1", "Address 2", "Email", "Phone", "City", "State", "ZIP"};
         displayData = getAddressBookDisplay();
-        addressBookDisplay = new JTable(displayData, columnNames);
-        tablePanel.add(addressBookDisplay);
+        //FIXME test to see if column names work now
+        DefaultTableModel initialModel = new DefaultTableModel(displayData, columnNames);
+        addressBookDisplay = new JTable(initialModel);
+        tablePanel.add(scrollPane);
+        scrollPane.setViewportView(addressBookDisplay);
 
         // Create button panel for search bar and new contact button
         buttonPanel = new JPanel(new FlowLayout());
@@ -134,7 +140,8 @@ public class AddressBookWrapper implements ActionListener {
         c.ipady = 40;
         c.gridx = 0;
         c.gridy = 1;
-        mainPanel.add(addressBookDisplay, c);
+        //mainPanel.add(addressBookDisplay, c);
+        mainPanel.add(scrollPane, c);
 
         // Set contact field display constraints and add to panel
         contactFieldsDisplayPanel = new JPanel();
