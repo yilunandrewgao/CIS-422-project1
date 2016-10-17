@@ -5,8 +5,15 @@ import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.filechooser.*;
 import java.util.ArrayList;
+import static java.nio.file.StandardOpenOption.*;
+import java.lang.Object;
+import java.nio.file.Path;
+import java.nio.file.Files;
+import java.nio.file.*;
+import java.nio.file.Paths;
 import java.io.File;
 import java.net.URL;
+import java.io.*;
 
 /**
  * This program launches a simple GUI that allows the user to access
@@ -105,7 +112,17 @@ public class DisplayGUI implements ActionListener {
 				System.out.println("Invalid File Chosen");
 			}
 		} else if (e.getSource() == newButton) {
-
+			try {
+				File tempFile = File.createTempFile("New File", ".tsv");
+				String label = "FirstName\tLastName\tDelivery\tSecond\tEmail\tPhone\tCity\tState\tZIP";
+				FileWriter fw = new FileWriter(tempFile.getAbsoluteFile());
+				BufferedWriter bw = new BufferedWriter(fw);
+				bw.write(label);
+				AddressBookWrapper createNewBook = new AddressBookWrapper(tempFile.getAbsolutePath(), this);
+				booksOpen.add(createNewBook);
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
 		}
 	}
 
