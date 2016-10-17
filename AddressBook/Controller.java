@@ -184,7 +184,7 @@ public class Controller {
 
 		// change contents of bookToDisplay
 		bookToDisplay.setEntries(newList);
-		
+
 	}
 
 	// sets bookToDisplay to be the current book

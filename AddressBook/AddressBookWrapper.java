@@ -112,6 +112,7 @@ public class AddressBookWrapper implements ActionListener {
         DefaultTableModel initialModel = new DefaultTableModel(displayData, columnNames);
         addressBookDisplay = new JTable(initialModel);
         addressBookDisplay.setPreferredScrollableViewportSize(new Dimension(600,200));
+        addressBookDisplay.setAutoCreateRowSorter(true);
         tablePanel.add(scrollPane);
         scrollPane.setViewportView(addressBookDisplay);
 
@@ -121,7 +122,8 @@ public class AddressBookWrapper implements ActionListener {
         NewContact.addActionListener(this);
         searchBarLabel = new JLabel("Search: ");
         searchBar = new JTextField(textFieldDimension);
-        CancelSearch = new JButton("x");
+        ImageIcon cancelBtnImage = new ImageIcon("Logo/cancel_button.png");
+        CancelSearch = new JButton(cancelBtnImage);
         CancelSearch.addActionListener(this);
         InitiateSearch = new JButton("Search");
         InitiateSearch.addActionListener(this);
