@@ -120,7 +120,7 @@ public class Controller {
 //				errorList.add(new InputError("State is invalid.", 7));
 //			}
 
-			if (!Pattern.matches("\\(^.*@.*\\..*$\\)|^$", dataFields[4])) {
+			if (!Pattern.matches("^.*@.*\\..*$|^$", dataFields[4])) {
 				errorList.add(new InputError("Email is invalid.", 4));
 			}
 

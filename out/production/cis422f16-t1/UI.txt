@@ -1,0 +1,3 @@
+User Interface
+
+In order to make the features of our address book easily accessible, we will create a GUI using Java's Swing library. We have decided to use Swing because it's lightwight, easily customizable, and creates windows that are containers as opposed to just canvases.  
