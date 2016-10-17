@@ -8,12 +8,14 @@ import java.util.regex.*;
 public class Controller {
 
 	private AddressBook currentBook;
+	private AddressBook bookToDisplay;
 	private DisplayGUI GUIController;
 
 
 	public Controller(String _tsvFileName, DisplayGUI _GUIController) {
 		currentBook = new AddressBook(_tsvFileName);
 		GUIController = _GUIController;
+		bookToDisplay = currentBook.copyAddressBook();
 
 	}
 
@@ -86,6 +88,10 @@ public class Controller {
 	public ArrayList<AddressEntry> returnCurrentBook() {
 		return currentBook.returnEntries();
 	}
+
+	public ArrayList<AddressEntry> returnBookToDisplay() {
+		return bookToDisplay.returnEntries();
+	}
 	
 
 
@@ -142,6 +148,8 @@ public class Controller {
 		AddressEntry newEntry = new AddressEntry(dataFields);
 
 		currentBook.addEntry(newEntry);
+
+		bookToDisplay = currentBook.copyAddressBook();
 	}
 
 	// this method edits an entry in currentBook
@@ -152,11 +160,37 @@ public class Controller {
 
 		currentBook.editEntry(editedEntry, oldEntry);
 
+		bookToDisplay.editEntry(editedEntry, oldEntry);
+
 	}
 
 	// this method deletes an entry in currentBook
 	public void deleteEntry(AddressEntry entryToDelete) {
+
 		currentBook.deleteEntry(entryToDelete);
+		bookToDisplay = currentBook.copyAddressBook();
+	}
+
+	// sets bookToDisplay to correct entries
+	public void searchAddressBook(String keyword) {
+		ArrayList<AddressEntry> newList = new ArrayList<AddressEntry>();
+
+		// populate newList with entries containing the keyword
+		for (AddressEntry entry : currentBook.returnEntries()) {
+			if (entry.toString().toLowerCase().contains(keyword.toLowerCase())){
+				newList.add(entry);
+			}
+		}
+
+		// change contents of bookToDisplay
+		bookToDisplay.setEntries(newList);
+		
+	}
+
+	// sets bookToDisplay to be the current book
+	public void cancelSearch() {
+		bookToDisplay = currentBook.copyAddressBook();
+
 	}
 
 }

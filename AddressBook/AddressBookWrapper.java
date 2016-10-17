@@ -25,7 +25,7 @@ public class AddressBookWrapper implements ActionListener {
     private JFrame frame;
     private JTable addressBookDisplay;
     private JPanel mainPanel, tablePanel, contactFieldsDisplayPanel, contactFields, buttonPanel;
-    private JButton ContactSave, ContactCancel, ContactDelete, NewContact;
+    private JButton ContactSave, ContactCancel, ContactDelete, NewContact, CancelSearch, InitiateSearch;
     private JLabel searchBarLabel;
     private JMenuBar menuBar;
     private JMenu fileMenu;
@@ -121,9 +121,15 @@ public class AddressBookWrapper implements ActionListener {
         NewContact.addActionListener(this);
         searchBarLabel = new JLabel("Search: ");
         searchBar = new JTextField(textFieldDimension);
+        CancelSearch = new JButton("x");
+        CancelSearch.addActionListener(this);
+        InitiateSearch = new JButton("Search");
+        InitiateSearch.addActionListener(this);
         buttonPanel.add(NewContact);
         buttonPanel.add(searchBarLabel);
         buttonPanel.add(searchBar);
+        buttonPanel.add(CancelSearch);
+        buttonPanel.add(InitiateSearch);
 
         mainPanel = new JPanel(new GridBagLayout());
         c = new GridBagConstraints();
@@ -271,7 +277,7 @@ public class AddressBookWrapper implements ActionListener {
     private Object[][] getAddressBookDisplay() {
 
         int line_num = 0;
-        ArrayList<AddressEntry> book = this.controller.returnCurrentBook();
+        ArrayList<AddressEntry> book = this.controller.returnBookToDisplay();
         lastContactList = book;
         System.out.println(book);
         Object[][] returnArray = new Object[book.size()][9];
@@ -444,6 +450,20 @@ public class AddressBookWrapper implements ActionListener {
                 frame.pack();
                 frame.setVisible(true);
             }
+        }
+
+        else if (e.getSource() == CancelSearch) {
+            searchBar.setText("");
+            controller.cancelSearch();
+
+            refreshTable();
+        }
+
+        else if (e.getSource() == InitiateSearch) {
+            String keyword = searchBar.getText();
+            controller.searchAddressBook(keyword);
+
+            refreshTable();
         }
 
 
