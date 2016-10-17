@@ -110,6 +110,7 @@ public class AddressBookWrapper implements ActionListener {
         //FIXME test to see if column names work now
         DefaultTableModel initialModel = new DefaultTableModel(displayData, columnNames);
         addressBookDisplay = new JTable(initialModel);
+        addressBookDisplay.setPreferredScrollableViewportSize(new Dimension(600,200));
         tablePanel.add(scrollPane);
         scrollPane.setViewportView(addressBookDisplay);
 
@@ -506,3 +507,5 @@ public class AddressBookWrapper implements ActionListener {
     }
 
 }
+
+//Comment for git2
