@@ -91,18 +91,18 @@ public class AddressBookWrapper implements ActionListener {
 
         // Build "File" menu with save and save as options
         menuBar = new JMenuBar();
-		fileMenu = new JMenu("File");
-		fileMenu.setMnemonic(KeyEvent.VK_A);
-		saveAsOption = new JMenuItem("Save As");
-		saveAsOption.addActionListener(this);
-		saveOption = new JMenuItem("Save");
+        fileMenu = new JMenu("File");
+        fileMenu.setMnemonic(KeyEvent.VK_A);
+        saveAsOption = new JMenuItem("Save As");
+        saveAsOption.addActionListener(this);
+        saveOption = new JMenuItem("Save");
         saveOption.addActionListener(this);
         deleteOption = new JMenuItem("Delete Address Book");
         deleteOption.addActionListener(this);
-		fileMenu.add(saveOption);
-		fileMenu.add(saveAsOption);
+        fileMenu.add(saveOption);
+        fileMenu.add(saveAsOption);
         fileMenu.add(deleteOption);
-		menuBar.add(fileMenu);
+        menuBar.add(fileMenu);
 
         // Adding multi-column list to display address book
         columnNames = new String[]{"First", "Last", "Address 1", "Address 2", "Email", "Phone", "City", "State", "ZIP"};
@@ -142,10 +142,9 @@ public class AddressBookWrapper implements ActionListener {
         c.ipady = 40;
         c.gridx = 0;
         c.gridy = 1;
-
         //mainPanel.add(addressBookDisplay, c);
         //mainPanel.add(scrollPane, c);
-
+        mainPanel.add(tablePanel, c);
 
         // Set contact field display constraints and add to panel
         contactFieldsDisplayPanel = new JPanel();
@@ -418,7 +417,7 @@ public class AddressBookWrapper implements ActionListener {
                 }
 
             }
-            
+
         }
 
         else if (e.getSource() == ContactDelete) {
