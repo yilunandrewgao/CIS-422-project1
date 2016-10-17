@@ -56,6 +56,7 @@ public class AddressBookWrapper implements ActionListener {
 
         displayWindow();
         initializeContactFieldsComponents();
+        displayNewContact();
 
         //code for mouse listener
         //contacts are indexed starting at 1, since the column headers are in row 0
@@ -304,7 +305,8 @@ public class AddressBookWrapper implements ActionListener {
         addressBookDisplay.setModel(addressBookModel);
 
         // Removing "add new contact" screen because contact has been added.
-        contactFieldsDisplayPanel.remove(contactFields);
+        //contactFieldsDisplayPanel.remove(contactFields);
+        displayNewContact();
         this.frame.pack();
         this.frame.setVisible(true);
 
