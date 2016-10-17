@@ -20,4 +20,9 @@ public class InputError {
     public int getInvalidFieldNum() {
         return fieldNum;
     }
+
+    @Override
+    public String toString() {
+        return "error" + fieldNum + "\n";
+    }
 }

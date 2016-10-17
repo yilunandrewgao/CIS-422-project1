@@ -42,6 +42,7 @@ public class Controller {
 	// Helper function for saveAddressBook
 	public static void createTsvFile(String FileName, AddressBook book) throws Exception {
 		BufferedWriter bw = new BufferedWriter(new FileWriter(FileName));
+		bw.write("FirstName\tLastName\tDelivery\tSecond\tEmail\tPhone\tCity\tState\tZip\n");
 
 		ArrayList<AddressEntry> listOfEntries = book.returnEntries();
 
@@ -90,18 +91,16 @@ public class Controller {
 
 	public void validateEntry(String[] dataFields) throws TooLittleInputException, InvalidInputException {
 
-		if (dataFields[0].isEmpty() || dataFields[1].isEmpty()) {
-
-			int nonempty_fields = 0;
-			for (String field: dataFields) {
-				if (!(field.isEmpty())) {
-					nonempty_fields++;
-				}
+		int other_nonempty_fields = 0;
+		for (int i = 0; i <dataFields.length; i++) {
+			if (!(dataFields[i].isEmpty()) && i != 0 && i != 1) {
+				other_nonempty_fields++;
 			}
+		}
 
-			if (nonempty_fields < 2) {
-				throw new TooLittleInputException("Not all of First name, last name, zip and phone are filled in.");
-			}
+		if( (dataFields[0].isEmpty() && dataFields[1].isEmpty()) || (other_nonempty_fields < 1)) {
+
+			throw new TooLittleInputException("Please enter a first name or last name and another field.");
 
 		}
 
@@ -109,11 +108,11 @@ public class Controller {
 
 			ArrayList<InputError> errorList = new ArrayList<InputError>();
 
-			if (!Pattern.matches("\\(^(\\(\\d{3}\\)|\\d{3})[\\s-]?\\d{3}[\\s-]?\\d{4}$\\)|^$", dataFields[5])) {
+			if (!Pattern.matches("^(\\(\\d{3}\\)|\\d{3})[\\s-]?\\d{3}[\\s-]?\\d{4}$|^$", dataFields[5])) {
 				errorList.add(new InputError("Phone number is invalid.", 5));
 			}
 
-			if (!Pattern.matches("^\\d{5}$", dataFields[8])) {
+			if (!Pattern.matches("^\\d{5}$|^\\d{5}-\\d{4}$|^$", dataFields[8])) {
 				errorList.add(new InputError("ZIP code is invalid.", 8));
 			}
 
@@ -121,7 +120,7 @@ public class Controller {
 //				errorList.add(new InputError("State is invalid.", 7));
 //			}
 
-			if (!Pattern.matches("^.*@.*\\..*$", dataFields[4])) {
+			if (!Pattern.matches("\\(^.*@.*\\..*$\\)|^$", dataFields[4])) {
 				errorList.add(new InputError("Email is invalid.", 4));
 			}
 

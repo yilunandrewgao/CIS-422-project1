@@ -156,6 +156,7 @@ public class AddressBookWrapper implements ActionListener {
         c.gridy = 10;
         mainPanel.add(contactFieldsDisplayPanel, c);
 
+
         // Make frame visible
         this.frame = new JFrame(this.fileName);
         this.frame.setResizable(false);
@@ -327,9 +328,12 @@ public class AddressBookWrapper implements ActionListener {
             addressBookDisplay.setModel(addressBookModel);*/
 
             // Removing "add new contact" screen because contact has been added.
+
+
             contactFieldsDisplayPanel.remove(contactFields);
-            /*this.frame.pack();
-            this.frame.setVisible(true);*/
+
+//            this.frame.pack();
+//            this.frame.setVisible(true);
             refreshTable();
         }
     }
