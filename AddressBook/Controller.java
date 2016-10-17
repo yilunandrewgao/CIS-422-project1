@@ -90,15 +90,26 @@ public class Controller {
 
 	public void validateEntry(String[] dataFields) throws TooLittleInputException, InvalidInputException {
 
-		if (dataFields[0].isEmpty() || dataFields[1].isEmpty() || dataFields[5].isEmpty() || dataFields[8].isEmpty()) {
-			throw new TooLittleInputException("Not all of First name, last name, zip and phone are filled in.");
+		if (dataFields[0].isEmpty() || dataFields[1].isEmpty()) {
+
+			int nonempty_fields = 0;
+			for (String field: dataFields) {
+				if (!(field.isEmpty())) {
+					nonempty_fields++;
+				}
+			}
+
+			if (nonempty_fields < 2) {
+				throw new TooLittleInputException("Not all of First name, last name, zip and phone are filled in.");
+			}
+
 		}
 
 		else {
 
 			ArrayList<InputError> errorList = new ArrayList<InputError>();
 
-			if (!Pattern.matches("^(\\(\\d{3}\\)|\\d{3})[\\s-]?\\d{3}[\\s-]?\\d{4}$", dataFields[5])) {
+			if (!Pattern.matches("\\(^(\\(\\d{3}\\)|\\d{3})[\\s-]?\\d{3}[\\s-]?\\d{4}$\\)|^$", dataFields[5])) {
 				errorList.add(new InputError("Phone number is invalid.", 5));
 			}
 
