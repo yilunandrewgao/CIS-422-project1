@@ -49,5 +49,9 @@ public class AddressBook {
 		return newBook;
 	}
 
+	public String toString() {
+		return book.toString();
+	}
+
 
 }

@@ -379,6 +379,8 @@ public class AddressBookWrapper implements ActionListener {
             controller.editEntry(newContactInfo, currentSelectedEntry);
         }
 
+        searchBar.setText("");
+
 //        // update the JTable, addressBookDisplay
 //        DefaultTableModel addressBookModel = new DefaultTableModel(getAddressBookDisplay(), columnNames);
 //        addressBookDisplay.setModel(addressBookModel);
@@ -400,6 +402,7 @@ public class AddressBookWrapper implements ActionListener {
             controller.deleteEntry(currentSelectedEntry);
 
 
+
             // update the JTable, addressBookDisplay
             /*DefaultTableModel addressBookModel = new DefaultTableModel(getAddressBookDisplay(), columnNames);
             addressBookDisplay.setModel(addressBookModel);*/
@@ -408,6 +411,7 @@ public class AddressBookWrapper implements ActionListener {
 
 
             contactFieldsDisplayPanel.remove(contactFields);
+            searchBar.setText("");
 
 //            this.frame.pack();
 //            this.frame.setVisible(true);
