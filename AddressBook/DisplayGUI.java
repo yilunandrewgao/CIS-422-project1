@@ -52,7 +52,7 @@ public class DisplayGUI implements ActionListener {
 		Image resizedLogo = image.getScaledInstance(500, 120, Image.SCALE_SMOOTH);
 		logo = new ImageIcon(resizedLogo);
 
-		// Create "new" and "open buttons
+		// Create "new" and "open" buttons
 		newButton = new JButton("Create New Address Book");
 		openButton = new JButton("Open Existing Address Book");
 		openButton.addActionListener(this);
@@ -62,6 +62,7 @@ public class DisplayGUI implements ActionListener {
 		mainPanel = new JPanel();
 		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
 		iconLabel = new JLabel(logo);
+		iconLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 		mainPanel.add(iconLabel);
 
 		buttonPanel = new JPanel(new FlowLayout());
