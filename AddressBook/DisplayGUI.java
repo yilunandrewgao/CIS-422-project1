@@ -5,14 +5,7 @@ import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.filechooser.*;
 import java.util.ArrayList;
-import static java.nio.file.StandardOpenOption.*;
-import java.lang.Object;
-import java.nio.file.Path;
-import java.nio.file.Files;
-import java.nio.file.*;
-import java.nio.file.Paths;
 import java.io.File;
-import java.net.URL;
 import java.io.*;
 
 /**
@@ -128,6 +121,10 @@ public class DisplayGUI implements ActionListener {
 	}
 
 
+	/**
+	 * Creates a new DisplayGUI
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		new DisplayGUI();
 	}

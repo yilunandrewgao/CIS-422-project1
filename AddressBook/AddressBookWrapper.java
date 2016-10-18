@@ -44,6 +44,15 @@ public class AddressBookWrapper implements ActionListener {
     // reference to parent GUIController
     private DisplayGUI GUIController;
 
+    /**
+     * This constructor creates a new GUI that displays the address book located at the specified tsvFileName.
+     * Note that this address book may be blank if the user chose to create a new address book from scratch.
+     * Also passed in is the GUI that contains the main screen.
+     *
+     * @param tsvFileName       the name of the address book that this screen should display and interact with.
+     * @param _GUIController    The main "control" screen that the user used to open this AddressBookWrapper
+     * @throws Exception
+     */
     public AddressBookWrapper(String tsvFileName, DisplayGUI _GUIController) throws Exception {
         GUIController = _GUIController;
         this.controller = new Controller(tsvFileName, GUIController);
@@ -79,11 +88,20 @@ public class AddressBookWrapper implements ActionListener {
         });
     }
 
-    // getter for fileName
+    /**
+     * Returns the name of the file that the current address book is stored in.
+     *
+     * @return  the name of the file this address book is stored in.
+     */
     public String getFileName() {
         return fileName;
     }
 
+    /**
+     * Creates and displays this GUI. Adds components that must be present when the window is
+     * initially opened, such as the table of contacts, the file menu, the search bar,
+     * and the "add new contact" option.
+     */
     private void displayWindow() {
         // Panel for the address book display
         this.tablePanel = new JPanel();
@@ -108,7 +126,6 @@ public class AddressBookWrapper implements ActionListener {
         // Adding multi-column list to display address book
         columnNames = new String[]{"First", "Last", "Address 1", "Address 2", "Email", "Phone", "City", "State", "ZIP"};
         displayData = getAddressBookDisplay();
-        //FIXME test to see if column names work now
         DefaultTableModel initialModel = new DefaultTableModel(displayData, columnNames);
         addressBookDisplay = new JTable(initialModel);
         addressBookDisplay.setPreferredScrollableViewportSize(new Dimension(600,200));
@@ -139,7 +156,6 @@ public class AddressBookWrapper implements ActionListener {
         // Set Button Panel constraints, and add to panel
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.0;
-        //c.gridwidth = 4;
         c.gridx = 0;
         c.gridy = 0;
         mainPanel.add(buttonPanel, c);
@@ -151,8 +167,6 @@ public class AddressBookWrapper implements ActionListener {
         c.ipady = 40;
         c.gridx = 0;
         c.gridy = 1;
-        //mainPanel.add(addressBookDisplay, c);
-        //mainPanel.add(scrollPane, c);
         mainPanel.add(tablePanel, c);
 
         // Set contact field display constraints and add to panel
@@ -179,7 +193,11 @@ public class AddressBookWrapper implements ActionListener {
         this.frame.addWindowListener(cl);
     }
 
-    // helper method to initialize all widgets in contactFields panel
+    /**
+     * Initializes all of the text fields that represent fields of each contact. These can be used to
+     * create a new contact and save it to the address book, or to display/edit the fields of an existing
+     * contact.
+     */
     private void initializeContactFieldsComponents() {
         firstName = new JTextField(textFieldDimension);
         lastName = new JTextField(textFieldDimension);
@@ -192,20 +210,21 @@ public class AddressBookWrapper implements ActionListener {
         email = new JTextField(textFieldDimension);
         contactFields = new JPanel(new GridBagLayout());
         GridBagConstraints c2 = new GridBagConstraints();
-        //c.fill = GridBagConstraints.HORIZONTAL;
 
+        // Adding all components to panel with certain constraints for the GridBagLayout
         c2.gridx = 0;
         c2.gridy = 0;
         contactFields.add(new JLabel("First Name:"), c2);
-        //c.fill = GridBagConstraints.HORIZONTAL;
+
         c2.gridx = 1;
         c2.gridy = 0;
         contactFields.add(firstName, c2);
 
-        //c.fill = GridBagConstraints.HORIZONTAL;
+
         c2.gridx = 2;
         c2.gridy = 0;
         contactFields.add(new JLabel("Last Name:"), c2);
+
         c2.gridx = 3;
         c2.gridy = 0;
         contactFields.add(lastName, c2);
@@ -213,6 +232,7 @@ public class AddressBookWrapper implements ActionListener {
         c2.gridx = 0;
         c2.gridy = 1;
         contactFields.add(new JLabel("Phone:"), c2);
+
         c2.gridx = 1;
         c2.gridy = 1;
         contactFields.add(phone, c2);
@@ -220,36 +240,47 @@ public class AddressBookWrapper implements ActionListener {
         c2.gridx = 2;
         c2.gridy = 1;
         contactFields.add(new JLabel("Address 1:"), c2);
+
         c2.gridx = 3;
         c2.gridy = 1;
         contactFields.add(address1, c2);
+
         c2.gridx = 0;
         c2.gridy = 3;
         contactFields.add(new JLabel("Address 2:"), c2);
+
         c2.gridx = 1;
         c2.gridy = 3;
         contactFields.add(address2, c2);
+
         c2.gridx = 2;
         c2.gridy = 2;
         contactFields.add(new JLabel("City:"), c2);
+
         c2.gridx = 3;
         c2.gridy = 2;
         contactFields.add(city, c2);
+
         c2.gridx = 0;
         c2.gridy = 2;
         contactFields.add(new JLabel("State:"), c2);
+
         c2.gridx = 1;
         c2.gridy = 2;
         contactFields.add(state, c2);
+
         c2.gridx = 2;
         c2.gridy = 3;
         contactFields.add(new JLabel("ZIP:"), c2);
+
         c2.gridx = 3;
         c2.gridy = 3;
         contactFields.add(zip, c2);
+
         c2.gridx = 0;
         c2.gridy = 4;
         contactFields.add(new JLabel("Email:"), c2);
+
         c2.gridx = 1;
         c2.gridy = 4;
         contactFields.add(email, c2);
@@ -271,11 +302,18 @@ public class AddressBookWrapper implements ActionListener {
         c2.gridy = 2;
         contactFields.add(ContactDelete, c2);
 
+        // Add fields to display panel and display window.
         contactFieldsDisplayPanel.add(contactFields);
         this.frame.pack();
 
     }
 
+    /**
+     * Returns the 2D array which is used to construct the Table. This array represents all
+     * of the contacts in this address book and their fields.
+     *
+     * @return  a 2D array representing the contacts in this address book.
+     */
     private Object[][] getAddressBookDisplay() {
 
         int line_num = 0;
@@ -300,7 +338,12 @@ public class AddressBookWrapper implements ActionListener {
         return returnArray;
     }
 
-    // helper function to encapsulate add or edit entry behavior. Used in actionPerformed method
+    /**
+     * This method can be used to add or edit entries in the address book. It also updates the table
+     * to reflect any changes.
+     *
+     * @param newContactInfo
+     */
     private void addOrEditEntry(String[] newContactInfo) {
         // if there is no current selected entry, add the entry
         if (currentSelectedEntry == null) {
@@ -314,8 +357,6 @@ public class AddressBookWrapper implements ActionListener {
         DefaultTableModel addressBookModel = new DefaultTableModel(getAddressBookDisplay(), columnNames);
         addressBookDisplay.setModel(addressBookModel);
 
-        // Removing "add new contact" screen because contact has been added.
-        //contactFieldsDisplayPanel.remove(contactFields);
         displayNewContact();
         this.frame.pack();
         this.frame.setVisible(true);
