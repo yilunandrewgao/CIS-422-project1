@@ -13,7 +13,7 @@ import javax.swing.table.*;
 /**
  * The AddressBookWrapper class displays a specified open address book to the user
  * in a new window with the same title as the address book. The user can add new
- * contacts to the address book from this page.
+ * contacts to the address book from this page, as well as delete them.
  */
 public class AddressBookWrapper implements ActionListener {
 
