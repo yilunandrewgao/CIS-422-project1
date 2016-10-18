@@ -36,7 +36,18 @@ public class AddressBook {
 		book.remove(entryToDelete);
 	}
 
+	// set all the entries
+	public void setEntries(ArrayList<AddressEntry> entryList) {
+		book = entryList;
+	}
+
 	public String getFileName(){ return this.fileName; }
+
+	public AddressBook copyAddressBook() {
+		AddressBook newBook = new AddressBook(this.getFileName());
+		newBook.setEntries(this.returnEntries());
+		return newBook;
+	}
 
 
 }

@@ -8,12 +8,14 @@ import java.util.regex.*;
 public class Controller {
 
 	private AddressBook currentBook;
+	private AddressBook bookToDisplay;
 	private DisplayGUI GUIController;
 
 
 	public Controller(String _tsvFileName, DisplayGUI _GUIController) {
 		currentBook = new AddressBook(_tsvFileName);
 		GUIController = _GUIController;
+		bookToDisplay = currentBook.copyAddressBook();
 
 	}
 
@@ -42,6 +44,7 @@ public class Controller {
 	// Helper function for saveAddressBook
 	public static void createTsvFile(String FileName, AddressBook book) throws Exception {
 		BufferedWriter bw = new BufferedWriter(new FileWriter(FileName));
+		bw.write("FirstName\tLastName\tDelivery\tSecond\tEmail\tPhone\tCity\tState\tZip\n");
 
 		ArrayList<AddressEntry> listOfEntries = book.returnEntries();
 
@@ -85,24 +88,37 @@ public class Controller {
 	public ArrayList<AddressEntry> returnCurrentBook() {
 		return currentBook.returnEntries();
 	}
+
+	public ArrayList<AddressEntry> returnBookToDisplay() {
+		return bookToDisplay.returnEntries();
+	}
 	
 
 
 	public void validateEntry(String[] dataFields) throws TooLittleInputException, InvalidInputException {
 
-		if (dataFields[0].isEmpty() || dataFields[1].isEmpty() || dataFields[5].isEmpty() || dataFields[8].isEmpty()) {
-			throw new TooLittleInputException("Not all of First name, last name, zip and phone are filled in.");
+		int other_nonempty_fields = 0;
+		for (int i = 0; i <dataFields.length; i++) {
+			if (!(dataFields[i].isEmpty()) && i != 0 && i != 1) {
+				other_nonempty_fields++;
+			}
+		}
+
+		if( (dataFields[0].isEmpty() && dataFields[1].isEmpty()) || (other_nonempty_fields < 1)) {
+
+			throw new TooLittleInputException("Please enter a first name or last name and another field.");
+
 		}
 
 		else {
 
 			ArrayList<InputError> errorList = new ArrayList<InputError>();
 
-			if (!Pattern.matches("^(\\(\\d{3}\\)|\\d{3})[\\s-]?\\d{3}[\\s-]?\\d{4}$", dataFields[5])) {
+			if (!Pattern.matches("^(\\(\\d{3}\\)|\\d{3})[\\s-]?\\d{3}[\\s-]?\\d{4}$|^$", dataFields[5])) {
 				errorList.add(new InputError("Phone number is invalid.", 5));
 			}
 
-			if (!Pattern.matches("^\\d{5}$", dataFields[8])) {
+			if (!Pattern.matches("^\\d{5}$|^\\d{5}-\\d{4}$|^$", dataFields[8])) {
 				errorList.add(new InputError("ZIP code is invalid.", 8));
 			}
 
@@ -110,7 +126,7 @@ public class Controller {
 //				errorList.add(new InputError("State is invalid.", 7));
 //			}
 
-			if (!Pattern.matches("^.*@.*\\..*$", dataFields[4])) {
+			if (!Pattern.matches("^.*@.*\\..*$|^$", dataFields[4])) {
 				errorList.add(new InputError("Email is invalid.", 4));
 			}
 
@@ -132,6 +148,8 @@ public class Controller {
 		AddressEntry newEntry = new AddressEntry(dataFields);
 
 		currentBook.addEntry(newEntry);
+
+		bookToDisplay = currentBook.copyAddressBook();
 	}
 
 	// this method edits an entry in currentBook
@@ -142,11 +160,37 @@ public class Controller {
 
 		currentBook.editEntry(editedEntry, oldEntry);
 
+		bookToDisplay.editEntry(editedEntry, oldEntry);
+
 	}
 
 	// this method deletes an entry in currentBook
 	public void deleteEntry(AddressEntry entryToDelete) {
+
 		currentBook.deleteEntry(entryToDelete);
+		bookToDisplay = currentBook.copyAddressBook();
+	}
+
+	// sets bookToDisplay to correct entries
+	public void searchAddressBook(String keyword) {
+		ArrayList<AddressEntry> newList = new ArrayList<AddressEntry>();
+
+		// populate newList with entries containing the keyword
+		for (AddressEntry entry : currentBook.returnEntries()) {
+			if (entry.toString().toLowerCase().contains(keyword.toLowerCase())){
+				newList.add(entry);
+			}
+		}
+
+		// change contents of bookToDisplay
+		bookToDisplay.setEntries(newList);
+
+	}
+
+	// sets bookToDisplay to be the current book
+	public void cancelSearch() {
+		bookToDisplay = currentBook.copyAddressBook();
+
 	}
 
 }
