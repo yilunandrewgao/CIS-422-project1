@@ -47,7 +47,8 @@ public class Controller {
 
 			while (dataRow!=null)
 			{
-				String[] dataArray=dataRow.split("\t");
+				// -1 turns off the automatic behavior of deleting empty trailing strings
+				String[] dataArray=dataRow.split("\t", -1);
 				int t=0;
 				AddressEntry entry=new AddressEntry();
 				for (String item:dataArray)
