@@ -5,6 +5,10 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.regex.*;
 
+/**
+ * The Controller is a connection between an AddressBook and the GUI that allows the user to manipulate it.
+ * It does not interact directly with the user, but with the AddressBookWrapper.
+ */
 public class Controller {
 
 	private AddressBook currentBook;
@@ -12,6 +16,13 @@ public class Controller {
 	private DisplayGUI GUIController;
 
 
+	/**
+	 * Creates a new Controller using a file name. The controller then
+	 * creates a new AddressBook from the TSV file.
+	 *
+	 * @param _tsvFileName		the path of the TSV file to be accessed
+	 * @param _GUIController	The GUI
+	 */
 	public Controller(String _tsvFileName, DisplayGUI _GUIController) {
 		currentBook = new AddressBook(_tsvFileName);
 		GUIController = _GUIController;
@@ -19,6 +30,11 @@ public class Controller {
 
 	}
 
+	/**
+	 * Loads an address book from a TSV file.
+	 *
+	 * @throws Exception
+	 */
 	public void loadAddressBook () throws Exception{
 		BufferedReader TSVFileReader=new BufferedReader(new FileReader(currentBook.getFileName()));
 		String dataRow=TSVFileReader.readLine();
@@ -41,7 +57,14 @@ public class Controller {
 		TSVFileReader.close();
 	}
 
-	// Helper function for saveAddressBook
+	/**
+	 * Creates a TSV file so that the AddressBook can be saved into it, including any changes
+	 * that may have been made to its contents.
+	 *
+	 * @param FileName		the name of the file to be saved to
+	 * @param book			The AddressBook that is being saved
+	 * @throws Exception
+	 */
 	public static void createTsvFile(String FileName, AddressBook book) throws Exception {
 		BufferedWriter bw = new BufferedWriter(new FileWriter(FileName));
 		bw.write("FirstName\tLastName\tDelivery\tSecond\tEmail\tPhone\tCity\tState\tZip\n");
@@ -60,21 +83,33 @@ public class Controller {
 
 	}
 
-	// overwrites the current .tsv file with new info
+	/**
+	 * Overwrites the current .tsv file with new info.
+	 *
+	 * @throws Exception
+	 */
 	public void save() throws Exception {
 
 		createTsvFile(currentBook.getFileName(),currentBook);
 
 	}
 
-	// Creates a new .tsv file with new info
+	/**
+	 * Creates a new .tsv file with new info
+	 *
+	 * @param newFileName	The name of the TSV file to be saved to
+	 * @throws Exception
+	 */
 	public void saveAs(String newFileName) throws Exception {
 
 		createTsvFile(newFileName,currentBook);
 
 	}
 
-	// Deletes the current .tsv file and removes it from GUIController's array
+	/**
+	 * Deletes the current .tsv file and removes it from GUIController's array
+	 */
+
 	public boolean delete() {
 		File file = new File(currentBook.getFileName());
 
@@ -84,17 +119,31 @@ public class Controller {
 		return file.delete();
 	}
 
-	// this method returns a list of entry objects for the currentBook
+	/**
+	 * Returns a list of the current AddressEntry objects in the current AddressBook
+	 *
+	 * @return	an ArrayList of AddressEntry objects in the current AddressBook.
+	 */
 	public ArrayList<AddressEntry> returnCurrentBook() {
 		return currentBook.returnEntries();
 	}
 
+	/**
+	 * Returns the AddressEntry objects in this book.
+	 * @return
+	 */
 	public ArrayList<AddressEntry> returnBookToDisplay() {
 		return bookToDisplay.returnEntries();
 	}
-	
 
-
+	/**
+	 * Checks the data that the user wants to add to an AddressEntry for unwanted input.
+	 * This includes too few fields being filled in, and invalid input.
+	 *
+	 * @param dataFields				an array of Strings containing the fields for the Entry
+	 * @throws TooLittleInputException
+	 * @throws InvalidInputException
+	 */
 	public void validateEntry(String[] dataFields) throws TooLittleInputException, InvalidInputException {
 
 		int other_nonempty_fields = 0;
@@ -141,7 +190,11 @@ public class Controller {
 
 	}
 
-	// this method adds an entry to the currentBook
+	/**
+	 * Adds an entry to the current AddressBook
+	 *
+	 * @param dataFields	an array of Strings containing the fields that the new Entry should contain
+	 */
 	public void addEntry(String[] dataFields) {
 
 
@@ -152,7 +205,12 @@ public class Controller {
 		bookToDisplay = currentBook.copyAddressBook();
 	}
 
-	// this method edits an entry in currentBook
+	/**
+	 * Edits the contents of an AddressEntry
+	 *
+	 * @param dataFields	the new information for this Entry
+	 * @param oldEntry		the AddressEntry being edited
+	 */
 	public void editEntry(String[] dataFields, AddressEntry oldEntry) {
 
 		// create the edited entry
@@ -164,14 +222,23 @@ public class Controller {
 
 	}
 
-	// this method deletes an entry in currentBook
+	/**
+	 * Deletes an AddressEntry from the current AddressBook
+	 *
+	 * @param entryToDelete		the AddressEntry to be deleted
+	 */
 	public void deleteEntry(AddressEntry entryToDelete) {
 
 		currentBook.deleteEntry(entryToDelete);
 		bookToDisplay = currentBook.copyAddressBook();
 	}
 
-	// sets bookToDisplay to correct entries
+	/**
+	 * Searches for a keyword in any of the fields of any AddressEntry in the current
+	 * AddressBook.
+	 *
+	 * @param keyword	a String representing a keyword to be searched for
+	 */
 	public void searchAddressBook(String keyword) {
 		ArrayList<AddressEntry> newList = new ArrayList<AddressEntry>();
 
@@ -187,7 +254,9 @@ public class Controller {
 
 	}
 
-	// sets bookToDisplay to be the current book
+	/**
+	 * Sets the AddressBook to be displayed to the current AddressBook.
+	 */
 	public void cancelSearch() {
 		bookToDisplay = currentBook.copyAddressBook();
 

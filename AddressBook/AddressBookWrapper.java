@@ -131,7 +131,6 @@ public class AddressBookWrapper implements ActionListener {
         DefaultTableModel initialModel = new DefaultTableModel(displayData, columnNames);
         addressBookDisplay = new JTable(initialModel);
         addressBookDisplay.setPreferredScrollableViewportSize(new Dimension(600,200));
-//        addressBookDisplay.setAutoCreateRowSorter(true);
 
         displaySorter = new TableRowSorter<DefaultTableModel>(initialModel);
 
@@ -368,7 +367,7 @@ public class AddressBookWrapper implements ActionListener {
      * This method can be used to add or edit entries in the address book. It also updates the table
      * to reflect any changes.
      *
-     * @param newContactInfo
+     * @param newContactInfo    an array containing the fields entered for this contact
      */
     private void addOrEditEntry(String[] newContactInfo) {
         // if there is no current selected entry, add the entry
@@ -380,12 +379,6 @@ public class AddressBookWrapper implements ActionListener {
         }
 
         searchBar.setText("");
-
-//        // update the JTable, addressBookDisplay
-//        DefaultTableModel addressBookModel = new DefaultTableModel(getAddressBookDisplay(), columnNames);
-//        addressBookDisplay.setModel(addressBookModel);
-
-//        Combined the old update stuff
         refreshTable();
 
         displayNewContact();
@@ -395,31 +388,24 @@ public class AddressBookWrapper implements ActionListener {
 
     }
 
-    // helper function to encapsulate delete entry behavior
+    /**
+     * Deletes an entry from the address book.
+     */
     private void deleteEntry() {
         // check if there is an entry selected
         if (currentSelectedEntry != null) {
             controller.deleteEntry(currentSelectedEntry);
-
-
-
-            // update the JTable, addressBookDisplay
-            /*DefaultTableModel addressBookModel = new DefaultTableModel(getAddressBookDisplay(), columnNames);
-            addressBookDisplay.setModel(addressBookModel);*/
-
-            // Removing "add new contact" screen because contact has been added.
-
-
             contactFieldsDisplayPanel.remove(contactFields);
             searchBar.setText("");
-
-//            this.frame.pack();
-//            this.frame.setVisible(true);
             refreshTable();
         }
     }
 
-
+    /**
+     * This method keeps track of how all ActionEvents are handled on this GUI.
+     *
+     * @param e	the ActionEvent that is triggered by the user.
+     */
     public void actionPerformed(ActionEvent e) {
         // If you select a contact, info will display on side, and there are save and delete options
         // editable fields
@@ -544,6 +530,9 @@ public class AddressBookWrapper implements ActionListener {
 
     }
 
+    /**
+     * Refreshes the "add new contact" panel, making the text fields empty.
+     */
     private void displayNewContact() {
 
         // empty the default text in each JTextField
@@ -564,7 +553,11 @@ public class AddressBookWrapper implements ActionListener {
         this.frame.setVisible(true);
     }
 
-    // variant of displayNewContact for case where an AddressEntry is provided
+    /**
+     * Displays the fields of an existing, specified contact
+     *
+     * @param entry the entry to be displayed
+     */
     private void displayContact(AddressEntry entry) {
         firstName.setText(entry.getFirstName());
         lastName.setText(entry.getLastName());
@@ -583,6 +576,9 @@ public class AddressBookWrapper implements ActionListener {
         this.frame.setVisible(true);
     }
 
+    /**
+     * Refreshes the table.
+     */
     private void refreshTable(){
         DefaultTableModel addressBookModel = new DefaultTableModel(getAddressBookDisplay(), columnNames);
         addressBookDisplay.setModel(addressBookModel);
@@ -595,8 +591,9 @@ public class AddressBookWrapper implements ActionListener {
 
     }
 
-    // the window listener that handles closing
-    // need to pass in reference to this AddressBookWrapper so it can be removed from the Arraylist of wrappers.
+    /**
+     * Handles closing of this window.
+     */
     class closingListener extends WindowAdapter {
 
         private AddressBookWrapper thisAddressBookWrapper;
@@ -612,5 +609,3 @@ public class AddressBookWrapper implements ActionListener {
     }
 
 }
-
-//Comment for git2
