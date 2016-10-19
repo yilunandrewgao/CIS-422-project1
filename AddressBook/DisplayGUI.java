@@ -92,15 +92,18 @@ public class DisplayGUI implements ActionListener {
 			}
 
 			try {
-
-				AddressBookWrapper newBook = new AddressBookWrapper(absolutePath, this);
-                booksOpen.add(newBook);
-
-
-                System.out.println(booksOpen.size());
-
-
-
+				boolean alreadyOpen = false;
+				for (AddressBookWrapper current: booksOpen) {
+					if (current.getFileName().equals(chooser.getSelectedFile().getAbsolutePath())) {
+						alreadyOpen = true;
+					}
+				}
+				if (alreadyOpen) {
+					JOptionPane.showMessageDialog(frame, "This address book is already open.");
+				} else {
+					AddressBookWrapper newBook = new AddressBookWrapper(absolutePath, this);
+					booksOpen.add(newBook);
+				}
 
 			} catch (Exception e1) {
 				System.out.println("Invalid File Chosen");
