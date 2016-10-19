@@ -12,6 +12,8 @@ public class InvalidInputException extends Exception {
 
     public InvalidInputException(ArrayList<InputError> errorList) {
 
+        super();
+
         for (InputError error : errorList) {
             message += error.getMessage() + "\n";
         }

@@ -105,10 +105,16 @@ public class DisplayGUI implements ActionListener {
 					booksOpen.add(newBook);
 				}
 
-			} catch (Exception e1) {
-				System.out.println("Invalid File Chosen");
-                JOptionPane.showMessageDialog(frame, "Invalid File Chosen", "Error",JOptionPane.ERROR_MESSAGE);
 			}
+			catch (InvalidTSVHeaderException ex) {
+                JOptionPane.showMessageDialog(frame, "Selected .tsv file contains an inappropriate header", "Error",JOptionPane.ERROR_MESSAGE);
+            }
+			catch (ArrayIndexOutOfBoundsException ex) {
+                JOptionPane.showMessageDialog(frame, "Selected .tsv file could not be read", "Error",JOptionPane.ERROR_MESSAGE);
+			}
+			catch (Exception ex) {
+                System.out.println("Could not open .tsv file");
+            }
 		} else if (e.getSource() == newButton) {
 			try {
 				File tempFile = File.createTempFile("New File", ".tsv");

@@ -22,22 +22,29 @@ public class Controller {
 	public void loadAddressBook () throws Exception{
 		BufferedReader TSVFileReader=new BufferedReader(new FileReader(currentBook.getFileName()));
 		String dataRow=TSVFileReader.readLine();
-		dataRow=TSVFileReader.readLine();
 
-		while (dataRow!=null)
-		{
-			String[] dataArray=dataRow.split("\t");	
-			int t=0;
-			AddressEntry entry=new AddressEntry();
-			for (String item:dataArray)
-			{
-				entry.setEntry(t,item);
-				t++;
-			}
-			this.currentBook.addEntry(entry);
-
-			dataRow=TSVFileReader.readLine();			
+		if (!dataRow.toLowerCase().equals("FirstName\tLastName\tDelivery\tSecond\tEmail\tPhone\tCity\tState\tZip".toLowerCase())) {
+			throw new InvalidTSVHeaderException();
 		}
+		else {
+			dataRow=TSVFileReader.readLine();
+
+			while (dataRow!=null)
+			{
+				String[] dataArray=dataRow.split("\t");
+				int t=0;
+				AddressEntry entry=new AddressEntry();
+				for (String item:dataArray)
+				{
+					entry.setEntry(t,item);
+					t++;
+				}
+				this.currentBook.addEntry(entry);
+
+				dataRow=TSVFileReader.readLine();
+			}
+		}
+
 		TSVFileReader.close();
 	}
 
@@ -106,7 +113,7 @@ public class Controller {
 
 		if( (dataFields[0].isEmpty() && dataFields[1].isEmpty()) || (other_nonempty_fields < 1)) {
 
-			throw new TooLittleInputException("Please enter a first name or last name and another field.");
+			throw new TooLittleInputException();
 
 		}
 
