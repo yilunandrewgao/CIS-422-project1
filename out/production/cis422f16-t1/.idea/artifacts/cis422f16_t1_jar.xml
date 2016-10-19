@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="cis422f16-t1:jar">
+    <output-path>$PROJECT_DIR$/out</output-path>
+    <root id="archive" name="cis422f16-t1.jar">
+      <element id="module-output" name="cis422f16-t1" />
+    </root>
+  </artifact>
+</component>
