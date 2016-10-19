@@ -160,7 +160,7 @@ public class Controller {
 
 		currentBook.editEntry(editedEntry, oldEntry);
 
-		bookToDisplay.editEntry(editedEntry, oldEntry);
+		bookToDisplay = currentBook.copyAddressBook();
 
 	}
 
@@ -192,5 +192,6 @@ public class Controller {
 		bookToDisplay = currentBook.copyAddressBook();
 
 	}
+
 
 }

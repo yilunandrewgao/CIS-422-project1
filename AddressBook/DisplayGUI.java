@@ -107,6 +107,7 @@ public class DisplayGUI implements ActionListener {
 
 			} catch (Exception e1) {
 				System.out.println("Invalid File Chosen");
+                JOptionPane.showMessageDialog(frame, "Invalid File Chosen", "Error",JOptionPane.ERROR_MESSAGE);
 			}
 		} else if (e.getSource() == newButton) {
 			try {

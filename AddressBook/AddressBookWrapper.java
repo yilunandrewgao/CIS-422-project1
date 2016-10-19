@@ -7,6 +7,7 @@ package AddressBook;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
+import java.util.Comparator;
 import javax.swing.*;
 import javax.swing.table.*;
 
@@ -34,6 +35,7 @@ public class AddressBookWrapper implements ActionListener {
     private JScrollPane scrollPane;
     private GridBagConstraints c;
     private Controller controller;
+    private TableRowSorter<DefaultTableModel> displaySorter;
 
     private ArrayList<AddressEntry> lastContactList;
     private AddressEntry lastClickedContact;
@@ -129,7 +131,31 @@ public class AddressBookWrapper implements ActionListener {
         DefaultTableModel initialModel = new DefaultTableModel(displayData, columnNames);
         addressBookDisplay = new JTable(initialModel);
         addressBookDisplay.setPreferredScrollableViewportSize(new Dimension(600,200));
-        addressBookDisplay.setAutoCreateRowSorter(true);
+//        addressBookDisplay.setAutoCreateRowSorter(true);
+
+        displaySorter = new TableRowSorter<DefaultTableModel>(initialModel);
+
+        for (int i = 0; i < initialModel.getColumnCount(); i++) {
+            displaySorter.setComparator(i, new Comparator<String>() {
+
+                @Override
+                public int compare(String field1, String field2) {
+                    if (field1.equals("")) {
+                        return 1;
+                    }
+                    else if (field2.equals("")) {
+                        return -1;
+                    }
+                    else {
+                        return field1.compareTo(field2);
+                    }
+
+                }
+            });
+        }
+
+        addressBookDisplay.setRowSorter(displaySorter);
+
         tablePanel.add(scrollPane);
         scrollPane.setViewportView(addressBookDisplay);
 
@@ -353,16 +379,20 @@ public class AddressBookWrapper implements ActionListener {
             controller.editEntry(newContactInfo, currentSelectedEntry);
         }
 
-        // update the JTable, addressBookDisplay
-        DefaultTableModel addressBookModel = new DefaultTableModel(getAddressBookDisplay(), columnNames);
-        addressBookDisplay.setModel(addressBookModel);
+        searchBar.setText("");
+
+//        // update the JTable, addressBookDisplay
+//        DefaultTableModel addressBookModel = new DefaultTableModel(getAddressBookDisplay(), columnNames);
+//        addressBookDisplay.setModel(addressBookModel);
+
+//        Combined the old update stuff
+        refreshTable();
 
         displayNewContact();
         this.frame.pack();
         this.frame.setVisible(true);
 
-        //Combined the old update stuff
-        //refreshTable();
+
     }
 
     // helper function to encapsulate delete entry behavior
@@ -370,6 +400,7 @@ public class AddressBookWrapper implements ActionListener {
         // check if there is an entry selected
         if (currentSelectedEntry != null) {
             controller.deleteEntry(currentSelectedEntry);
+
 
 
             // update the JTable, addressBookDisplay
@@ -380,6 +411,7 @@ public class AddressBookWrapper implements ActionListener {
 
 
             contactFieldsDisplayPanel.remove(contactFields);
+            searchBar.setText("");
 
 //            this.frame.pack();
 //            this.frame.setVisible(true);
@@ -554,6 +586,10 @@ public class AddressBookWrapper implements ActionListener {
     private void refreshTable(){
         DefaultTableModel addressBookModel = new DefaultTableModel(getAddressBookDisplay(), columnNames);
         addressBookDisplay.setModel(addressBookModel);
+
+        displaySorter.setModel(addressBookModel);
+        addressBookDisplay.setRowSorter(displaySorter);
+
         this.frame.pack();
         this.frame.setVisible(true);
 
