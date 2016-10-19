@@ -123,6 +123,7 @@ public class DisplayGUI implements ActionListener {
 				FileWriter fw = new FileWriter(tempFile.getAbsoluteFile());
 				BufferedWriter bw = new BufferedWriter(fw);
 				bw.write(label);
+				bw.close();
 				AddressBookWrapper createNewBook = new AddressBookWrapper(tempFile.getAbsolutePath(), this);
 				booksOpen.add(createNewBook);
 			} catch (Exception e2) {

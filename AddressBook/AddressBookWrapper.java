@@ -36,6 +36,7 @@ public class AddressBookWrapper implements ActionListener {
     private GridBagConstraints c;
     private Controller controller;
     private TableRowSorter<DefaultTableModel> displaySorter;
+    private DefaultTableModel initialModel;
 
     private ArrayList<AddressEntry> lastContactList;
     private AddressEntry lastClickedContact;
@@ -128,7 +129,14 @@ public class AddressBookWrapper implements ActionListener {
         // Adding multi-column list to display address book
         columnNames = new String[]{"First", "Last", "Address 1", "Address 2", "Email", "Phone", "City", "State", "ZIP"};
         displayData = getAddressBookDisplay();
-        DefaultTableModel initialModel = new DefaultTableModel(displayData, columnNames);
+
+        initialModel = new DefaultTableModel(displayData, columnNames) {
+
+            @Override
+            public boolean isCellEditable(int rowIndex, int mColIndex) {
+                return false;
+            }
+        };
         addressBookDisplay = new JTable(initialModel);
         addressBookDisplay.setPreferredScrollableViewportSize(new Dimension(600,200));
 
@@ -344,7 +352,7 @@ public class AddressBookWrapper implements ActionListener {
         int line_num = 0;
         ArrayList<AddressEntry> book = this.controller.returnBookToDisplay();
         lastContactList = book;
-        System.out.println(book);
+
         Object[][] returnArray = new Object[book.size()][9];
         for(AddressEntry entry:book) {
             returnArray[line_num][0] = entry.getFirstName();
@@ -458,6 +466,7 @@ public class AddressBookWrapper implements ActionListener {
                     JOptionPane.showMessageDialog(frame, "Unable to delete address book.");
                 }
                 else {
+                    GUIController.getOpenBooks().remove(this);
                     frame.dispose();
                 }
             }
