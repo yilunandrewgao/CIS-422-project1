@@ -74,6 +74,7 @@ public class DisplayGUI implements ActionListener {
 
 	/**
 	 * This method keeps track of how all ActionEvents are handled on this GUI.
+	 *
 	 * @param e	the ActionEvent that is triggered by the user.
 	 */
 	public void actionPerformed(ActionEvent e) {
