@@ -38,7 +38,6 @@ public class AddressBookWrapper implements ActionListener {
     private Controller controller;
     private TableRowSorter<DefaultTableModel> displaySorter;
     private DefaultTableModel initialModel;
-    private boolean justCreated = false;
 
     private ArrayList<AddressEntry> lastContactList;
     private AddressEntry lastClickedContact;
@@ -58,7 +57,7 @@ public class AddressBookWrapper implements ActionListener {
      * @param _GUIController    The main "control" screen that the user used to open this AddressBookWrapper
      * @throws Exception
      */
-    public AddressBookWrapper(String tsvFileName, DisplayGUI _GUIController) throws Exception {
+    public AddressBookWrapper(String tsvFileName, DisplayGUI _GUIController, boolean justCreated) throws Exception {
         GUIController = _GUIController;
         this.controller = new Controller(tsvFileName, GUIController);
         this.controller.loadAddressBook();
@@ -71,6 +70,11 @@ public class AddressBookWrapper implements ActionListener {
         displayWindow();
         initializeContactFieldsComponents();
         displayNewContact();
+
+        // disable save if it is a new address book
+        if (justCreated) {
+            saveOption.setEnabled(false);
+        }
 
         //code for mouse listener
         //contacts are indexed starting at 1, since the column headers are in row 0
@@ -102,8 +106,6 @@ public class AddressBookWrapper implements ActionListener {
         return fileName;
     }
 
-    public boolean setJustCreated(boolean _justcreated) {return justCreated = _justcreated;}
-
     /**
      * Creates and displays this GUI. Adds components that must be present when the window is
      * initially opened, such as the table of contacts, the file menu, the search bar,
@@ -122,10 +124,6 @@ public class AddressBookWrapper implements ActionListener {
         saveAsOption = new JMenuItem("Save As");
         saveAsOption.addActionListener(this);
         saveOption = new JMenuItem("Save");
-        // disable save if it is a new address book
-        if (justCreated = true) {
-            saveOption.setEnabled(false);
-        }
         saveOption.addActionListener(this);
         deleteOption = new JMenuItem("Delete Address Book");
         deleteOption.addActionListener(this);

@@ -103,7 +103,7 @@ public class DisplayGUI implements ActionListener {
 				if (alreadyOpen) {
 					JOptionPane.showMessageDialog(frame, "This address book is already open.");
 				} else {
-					AddressBookWrapper newBook = new AddressBookWrapper(absolutePath, this);
+					AddressBookWrapper newBook = new AddressBookWrapper(absolutePath, this, false);
 					booksOpen.add(newBook);
 				}
 
@@ -125,8 +125,7 @@ public class DisplayGUI implements ActionListener {
 				BufferedWriter bw = new BufferedWriter(fw);
 				bw.write(label);
 				bw.close();
-				AddressBookWrapper createNewBook = new AddressBookWrapper(tempFile.getAbsolutePath(), this);
-				createNewBook.setJustCreated(true);
+				AddressBookWrapper createNewBook = new AddressBookWrapper(tempFile.getAbsolutePath(), this, true);
 				booksOpen.add(createNewBook);
 			} catch (Exception e2) {
 				e2.printStackTrace();
