@@ -238,7 +238,11 @@ public class AddressEntry {
 				String field1 = entry1.getEntry(fieldNum);
 				String field2 = entry2.getEntry(fieldNum);
 
-				if (field1.equals("")) {
+				if (field1.equals("") && field2.equals("")) {
+					return 0;
+				}
+
+				else if (field1.equals("")) {
 					return 1;
 				}
 				else if (field2.equals("")) {

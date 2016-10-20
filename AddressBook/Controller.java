@@ -177,8 +177,8 @@ public class Controller {
 				errorList.add(new InputError("Phone number is invalid.", 7));
 			}
 
-			if (!Pattern.matches("^\\d{5}$|^\\d{5}-\\d{4}$|^$", dataFields[3])) {
-				errorList.add(new InputError("ZIP code is invalid.", 3));
+			if (!Pattern.matches("^\\d{5}$|^\\d{5}-\\d{4}$|^$", dataFields[2])) {
+				errorList.add(new InputError("ZIP code is invalid.", 2));
 			}
 
 //			if (!Pattern.matches("^[A-Z]{2}$", dataFields[2])) {

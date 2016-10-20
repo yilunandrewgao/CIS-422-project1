@@ -173,7 +173,10 @@ public class AddressBookWrapper implements ActionListener {
 
                 @Override
                 public int compare(String field1, String field2) {
-                    if (field1.equals("")) {
+                    if (field1.equals("") && field2.equals("")){
+                        return 0;
+                    }
+                    else if (field1.equals("")) {
                         return 1;
                     }
                     else if (field2.equals("")) {
@@ -563,7 +566,11 @@ public class AddressBookWrapper implements ActionListener {
             searchBar.setText("");
             controller.cancelSearch();
 
-            refreshTable();
+            DefaultTableModel addressBookModel = new DefaultTableModel(getAddressBookDisplay(), columnNames);
+            addressBookDisplay.setModel(addressBookModel);
+
+            this.frame.pack();
+            this.frame.setVisible(true);
         }
 
         else if (e.getSource() == InitiateSearch) {
