@@ -15,7 +15,7 @@ import java.io.*;
  */
 public class DisplayGUI implements ActionListener {
 
-	
+
 	private JFrame frame;
 	private JPanel mainPanel, buttonPanel;
 	private JLabel iconLabel;

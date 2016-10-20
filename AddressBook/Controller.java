@@ -111,6 +111,7 @@ public class Controller {
 	public void saveAs(String newFileName) throws Exception {
 
 		createTsvFile(newFileName,currentBook);
+		currentBook.setFileName(newFileName);
 
 	}
 

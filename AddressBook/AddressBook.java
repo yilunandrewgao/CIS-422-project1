@@ -72,6 +72,8 @@ public class AddressBook {
 
 	public String getFileName(){ return this.fileName; }
 
+	public void setFileName(String fileName) { this.fileName=fileName; }
+
 	/**
 	 * Returns a copy of this AddressBook.
 	 *
