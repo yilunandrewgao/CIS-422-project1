@@ -486,15 +486,15 @@ public class AddressBookWrapper implements ActionListener {
         // If the user wants to save a new contact, send info from text fields to controller
         else if (e.getSource() == ContactSave) {
             String[] newContactInfo = new String[9];
-            newContactInfo[0] = firstName.getText();
-            newContactInfo[1] = lastName.getText();
-            newContactInfo[2] = address1.getText();
-            newContactInfo[3] = address2.getText();
-            newContactInfo[4] = email.getText();
-            newContactInfo[5] = phone.getText();
-            newContactInfo[6] = city.getText();
-            newContactInfo[7] = state.getText();
-            newContactInfo[8] = zip.getText();
+            newContactInfo[6] = firstName.getText();
+            newContactInfo[5] = lastName.getText();
+            newContactInfo[3] = address1.getText();
+            newContactInfo[4] = address2.getText();
+            newContactInfo[8] = email.getText();
+            newContactInfo[7] = phone.getText();
+            newContactInfo[0] = city.getText();
+            newContactInfo[1] = state.getText();
+            newContactInfo[2] = zip.getText();
             try {
                 controller.validateEntry(newContactInfo);
 

@@ -162,7 +162,7 @@ public class Controller {
 			}
 		}
 
-		if( (dataFields[0].isEmpty() && dataFields[1].isEmpty()) || (other_nonempty_fields < 1)) {
+		if( (dataFields[5].isEmpty() && dataFields[6].isEmpty()) || (other_nonempty_fields < 1)) {
 
 			throw new TooLittleInputException();
 
@@ -172,20 +172,20 @@ public class Controller {
 
 			ArrayList<InputError> errorList = new ArrayList<InputError>();
 
-			if (!Pattern.matches("^(\\(\\d{3}\\)|\\d{3})[\\s-]?\\d{3}[\\s-]?\\d{4}$|^$", dataFields[5])) {
-				errorList.add(new InputError("Phone number is invalid.", 5));
+			if (!Pattern.matches("^(\\(\\d{3}\\)|\\d{3})[\\s-]?\\d{3}[\\s-]?\\d{4}$|^$", dataFields[7])) {
+				errorList.add(new InputError("Phone number is invalid.", 7));
 			}
 
-			if (!Pattern.matches("^\\d{5}$|^\\d{5}-\\d{4}$|^$", dataFields[8])) {
-				errorList.add(new InputError("ZIP code is invalid.", 8));
+			if (!Pattern.matches("^\\d{5}$|^\\d{5}-\\d{4}$|^$", dataFields[3])) {
+				errorList.add(new InputError("ZIP code is invalid.", 3));
 			}
 
-//			if (!Pattern.matches("^[A-Z]{2}$", dataFields[7])) {
-//				errorList.add(new InputError("State is invalid.", 7));
+//			if (!Pattern.matches("^[A-Z]{2}$", dataFields[2])) {
+//				errorList.add(new InputError("State is invalid.", 2));
 //			}
 
-			if (!Pattern.matches("^.*@.*\\..*$|^$", dataFields[4])) {
-				errorList.add(new InputError("Email is invalid.", 4));
+			if (!Pattern.matches("^.*@.*\\..*$|^$", dataFields[8])) {
+				errorList.add(new InputError("Email is invalid.", 8));
 			}
 
 
