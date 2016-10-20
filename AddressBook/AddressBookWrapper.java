@@ -9,6 +9,7 @@ import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.Comparator;
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.*;
 
 /**
@@ -439,9 +440,18 @@ public class AddressBookWrapper implements ActionListener {
             String userFileName = null;
 
             JFileChooser c = new JFileChooser(System.getProperty("user.dir"));
+            FileNameExtensionFilter filter = new FileNameExtensionFilter("TSV Files", "tsv");
+            c.setFileFilter(filter);
             int rVal = c.showSaveDialog(fileMenu);
             if (rVal == JFileChooser.APPROVE_OPTION) {
-                userFileName = c.getCurrentDirectory().toString() + "/" + c.getSelectedFile().getName();
+                // check if extension is acceptable
+                if (filter.accept(c.getSelectedFile())) {
+                    userFileName = c.getCurrentDirectory().toString() + "/" + c.getSelectedFile().getName();
+                }
+                else {
+                    userFileName = c.getCurrentDirectory().toString() + "/" + c.getSelectedFile().getName() + ".tsv";
+                }
+
             }
 
             // if user chose a file, call the save as method
