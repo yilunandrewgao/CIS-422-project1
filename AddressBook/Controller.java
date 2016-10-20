@@ -35,11 +35,11 @@ public class Controller {
 	 *
 	 * @throws Exception
 	 */
-	public void loadAddressBook () throws Exception{
+	public void loadAddressBook () throws Exception{ //Fixed ordering
 		BufferedReader TSVFileReader=new BufferedReader(new FileReader(currentBook.getFileName()));
 		String dataRow=TSVFileReader.readLine();
-
-		if (!dataRow.toLowerCase().equals("FirstName\tLastName\tDelivery\tSecond\tEmail\tPhone\tCity\tState\tZip".toLowerCase())) {
+		System.out.println("DEBUG - HEader line is: " + dataRow);
+		if (!dataRow.toLowerCase().equals("City\tState\tZip\tDelivery\tSecond\tLastName\tFirstName\tPhone\tEmail".toLowerCase())) {
 			throw new InvalidTSVHeaderException();
 		}
 		else {
@@ -75,7 +75,7 @@ public class Controller {
 	 */
 	public static void createTsvFile(String FileName, AddressBook book) throws Exception {
 		BufferedWriter bw = new BufferedWriter(new FileWriter(FileName));
-		bw.write("FirstName\tLastName\tDelivery\tSecond\tEmail\tPhone\tCity\tState\tZip\n");
+		bw.write("City\tState\tZip\tDelivery\tSecond\tLastName\tFirstName\tPhone\tEmail\n");
 
 		ArrayList<AddressEntry> listOfEntries = book.returnEntries();
 

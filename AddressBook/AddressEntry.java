@@ -4,7 +4,7 @@ package AddressBook;
  * An AddressEntry contains information fields describing a contact.
  */
 public class AddressEntry {
-	//0=FirstName,1=LastName,2=Delivery,3=Second,4=Email,5=Phone,6=City,7=State,8=Zip;
+	//0=City,1=State,2=Zip,3=Delivery,4=Second,5=LastName,6=FirstName,7=Phone,8=Email; //Fixed Ordering
 	private String[] entries;
 
 	/**
@@ -41,11 +41,11 @@ public class AddressEntry {
 	 */
 	public void setFirstName(String firstName)
 	{
-		this.entries[0]=firstName;
+		this.entries[6]=firstName;
 	}
 	public String getFirstName()
 	{
-		return this.entries[0];
+		return this.entries[6];
 	}
 
 	/**
@@ -70,7 +70,7 @@ public class AddressEntry {
 	 */
 	public void setLastName(String lastName)
 	{
-		this.entries[1]=lastName;
+		this.entries[5]=lastName;
 	}
 
 	/**
@@ -80,7 +80,7 @@ public class AddressEntry {
 	 */
 	public String getLastName()
 	{
-		return this.entries[1];
+		return this.entries[5];
 	}
 
 	/**
@@ -90,7 +90,7 @@ public class AddressEntry {
 	 */
 	public void setDelivery(String delivery)
 	{
-		this.entries[2]=delivery;
+		this.entries[3]=delivery;
 	}
 
 	/**
@@ -100,7 +100,7 @@ public class AddressEntry {
 	 */
 	public String getDelivery()
 	{
-		return this.entries[2];
+		return this.entries[3];
 	}
 
 	/**
@@ -110,7 +110,7 @@ public class AddressEntry {
 	 */
 	public void setSecond(String second)
 	{
-		this.entries[3]=second;
+		this.entries[4]=second;
 	}
 
 	/**
@@ -120,7 +120,7 @@ public class AddressEntry {
 	 */
 	public String getSecond()
 	{
-		return this.entries[3];
+		return this.entries[4];
 	}
 
 	/**
@@ -130,7 +130,7 @@ public class AddressEntry {
 	 */
 	public void setEmail(String email)
 	{
-		this.entries[4]=email;
+		this.entries[8]=email;
 	}
 
 	/**
@@ -140,7 +140,7 @@ public class AddressEntry {
 	 */
 	public String getEmail()
 	{
-		return this.entries[4];
+		return this.entries[8];
 	}
 
 	/**
@@ -150,7 +150,7 @@ public class AddressEntry {
 	 */
 	public void setPhone(String phone)
 	{
-		this.entries[5]=phone;
+		this.entries[7]=phone;
 	}
 
 	/**
@@ -160,7 +160,7 @@ public class AddressEntry {
 	 */
 	public String getPhone()
 	{
-		return this.entries[5];
+		return this.entries[7];
 	}
 
 	/**
@@ -170,7 +170,7 @@ public class AddressEntry {
 	 */
 	public void setCity(String city)
 	{
-		this.entries[6]=city;
+		this.entries[0]=city;
 	}
 
 	/**
@@ -180,7 +180,7 @@ public class AddressEntry {
 	 */
 	public String getCity()
 	{
-		return this.entries[6];
+		return this.entries[0];
 	}
 
 	/**
@@ -190,7 +190,7 @@ public class AddressEntry {
 	 */
 	public void setState(String state)
 	{
-		this.entries[7]=state;
+		this.entries[1]=state;
 	}
 
 	/**
@@ -200,7 +200,7 @@ public class AddressEntry {
 	 */
 	public String getState()
 	{
-		return this.entries[7];
+		return this.entries[1];
 	}
 
 	/**
@@ -210,7 +210,7 @@ public class AddressEntry {
 	 */
 	public void setZip(String zip)
 	{
-		this.entries[8]=zip;
+		this.entries[2]=zip;
 	}
 
 	/**
@@ -220,6 +220,6 @@ public class AddressEntry {
 	 */
 	public String getZip()
 	{
-		return this.entries[8];
+		return this.entries[2];
 	}
 }

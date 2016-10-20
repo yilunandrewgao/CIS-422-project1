@@ -73,21 +73,16 @@ public class AddressBookWrapper implements ActionListener {
         displayNewContact();
 
         //code for mouse listener
-        //contacts are indexed starting at 1, since the column headers are in row 0
         this.addressBookDisplay.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 int indexClicked = addressBookDisplay.rowAtPoint(e.getPoint());
-                if (indexClicked >= 0){
-                    // if the index is 0 then it's the header row, if it's -1 then click was in the frame but not a table row
+                if (indexClicked >= 0){ //-1 indicates clicked in table not on a row
                     currentSelectedEntry = lastContactList.get(indexClicked);
-                    //display the detailed contact info on side
+                    //display the detailed contact info on bottom
                     displayContact(currentSelectedEntry);
                 }
                 else return; //The click wasn't on the table so we are done now
-
-                //TODO remove, this is just for testing
-                System.out.println(currentSelectedEntry.toString());
 
             }
         });

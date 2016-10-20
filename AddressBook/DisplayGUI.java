@@ -120,7 +120,7 @@ public class DisplayGUI implements ActionListener {
 		} else if (e.getSource() == newButton) {
 			try {
 				File tempFile = File.createTempFile("New File", ".tsv");
-				String label = "FirstName\tLastName\tDelivery\tSecond\tEmail\tPhone\tCity\tState\tZIP";
+				String label = "City\tState\tZip\tDelivery\tSecond\tLastName\tFirstName\tPhone\tEmail\n"; //Fixed Ordering
 				FileWriter fw = new FileWriter(tempFile.getAbsoluteFile());
 				BufferedWriter bw = new BufferedWriter(fw);
 				bw.write(label);
