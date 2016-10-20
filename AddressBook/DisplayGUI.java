@@ -126,6 +126,7 @@ public class DisplayGUI implements ActionListener {
 				bw.write(label);
 				bw.close();
 				AddressBookWrapper createNewBook = new AddressBookWrapper(tempFile.getAbsolutePath(), this);
+				createNewBook.setJustCreated(true);
 				booksOpen.add(createNewBook);
 			} catch (Exception e2) {
 				e2.printStackTrace();

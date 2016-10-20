@@ -38,6 +38,7 @@ public class AddressBookWrapper implements ActionListener {
     private Controller controller;
     private TableRowSorter<DefaultTableModel> displaySorter;
     private DefaultTableModel initialModel;
+    private boolean justCreated = false;
 
     private ArrayList<AddressEntry> lastContactList;
     private AddressEntry lastClickedContact;
@@ -101,6 +102,8 @@ public class AddressBookWrapper implements ActionListener {
         return fileName;
     }
 
+    public boolean setJustCreated(boolean _justcreated) {return justCreated = _justcreated;}
+
     /**
      * Creates and displays this GUI. Adds components that must be present when the window is
      * initially opened, such as the table of contacts, the file menu, the search bar,
@@ -119,6 +122,10 @@ public class AddressBookWrapper implements ActionListener {
         saveAsOption = new JMenuItem("Save As");
         saveAsOption.addActionListener(this);
         saveOption = new JMenuItem("Save");
+        // disable save if it is a new address book
+        if (justCreated = true) {
+            saveOption.setEnabled(false);
+        }
         saveOption.addActionListener(this);
         deleteOption = new JMenuItem("Delete Address Book");
         deleteOption.addActionListener(this);
@@ -458,6 +465,8 @@ public class AddressBookWrapper implements ActionListener {
             if (userFileName != null) {
                 try {
                     controller.saveAs(userFileName);
+                    // re-enable save option
+                    saveOption.setEnabled(true);
                 } catch (Exception ex) {
                     JOptionPane.showMessageDialog(frame, "Error", "Failed to save Address Book as " + userFileName, JOptionPane.ERROR_MESSAGE);
                 }
