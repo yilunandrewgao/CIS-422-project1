@@ -81,6 +81,8 @@ public class AddressBookWrapper implements ActionListener {
             @Override
             public void mouseClicked(MouseEvent e) {
                 int indexClicked = addressBookDisplay.rowAtPoint(e.getPoint());
+                System.out.println(indexClicked);
+                System.out.println(lastContactList);
                 if (indexClicked >= 0){ //-1 indicates clicked in table not on a row
                     currentSelectedEntry = lastContactList.get(indexClicked);
                     //display the detailed contact info on bottom
@@ -140,6 +142,29 @@ public class AddressBookWrapper implements ActionListener {
         };
         addressBookDisplay = new JTable(initialModel);
         addressBookDisplay.setPreferredScrollableViewportSize(new Dimension(600,200));
+        addressBookDisplay.getTableHeader().addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int col = addressBookDisplay.columnAtPoint(e.getPoint());
+                int index = -1;
+                switch(col) {
+                    case 0: index = 6; break;
+                    case 1: index = 5; break;
+                    case 2: index = 3; break;
+                    case 3: index = 4; break;
+                    case 4: index = 8; break;
+                    case 5: index = 7; break;
+                    case 6: index = 0; break;
+                    case 7: index = 1; break;
+                    case 8: index = 2; break;
+
+                }
+                if (index >= 0) {
+                    controller.sortAddressBook(index);
+                }
+
+            }
+        });
 
         displaySorter = new TableRowSorter<DefaultTableModel>(initialModel);
 

@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.regex.*;
+import java.util.Collections;
 
 /**
  * The Controller is a connection between an AddressBook and the GUI that allows the user to manipulate it.
@@ -261,6 +262,13 @@ public class Controller {
 		// change contents of bookToDisplay
 		bookToDisplay.setEntries(newList);
 
+	}
+
+	public void sortAddressBook(int fieldNum) {
+		ArrayList<AddressEntry> entriesToDisplay = bookToDisplay.returnEntries();
+
+		Collections.sort(entriesToDisplay, AddressEntry.getCompByField(fieldNum));
+		bookToDisplay.setEntries(entriesToDisplay);
 	}
 
 	/**

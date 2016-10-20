@@ -1,5 +1,7 @@
 package AddressBook;
 
+import java.util.Comparator;
+
 /**
  * An AddressEntry contains information fields describing a contact.
  */
@@ -33,6 +35,8 @@ public class AddressEntry {
 	{
 		this.entries[index]=entry;
 	}
+
+	public String getEntry(int index) {return this.entries[index];}
 
 	/**
 	 * Sets the first name field of the entry.
@@ -221,5 +225,30 @@ public class AddressEntry {
 	public String getZip()
 	{
 		return this.entries[2];
+	}
+
+
+	public static Comparator<AddressEntry> getCompByField(int fieldNum)
+	{
+		Comparator comp = new Comparator<AddressEntry>(){
+
+			@Override
+			public int compare(AddressEntry entry1, AddressEntry entry2)
+			{
+				String field1 = entry1.getEntry(fieldNum);
+				String field2 = entry2.getEntry(fieldNum);
+
+				if (field1.equals("")) {
+					return 1;
+				}
+				else if (field2.equals("")) {
+					return -1;
+				}
+				else {
+					return field1.compareTo(field2);
+				}
+			}
+		};
+		return comp;
 	}
 }
