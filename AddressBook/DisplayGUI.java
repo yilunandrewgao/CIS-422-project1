@@ -14,6 +14,7 @@ import java.io.*;
  * as well as buttons to either create a new address book or open an existing one.
  */
 public class DisplayGUI implements ActionListener {
+
 	
 	private JFrame frame;
 	private JPanel mainPanel, buttonPanel;
