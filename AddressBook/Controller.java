@@ -264,10 +264,16 @@ public class Controller {
 
 	}
 
-	public void sortAddressBook(int fieldNum) {
+	public void sortAddressBook(int fieldNum, String order) {
 		ArrayList<AddressEntry> entriesToDisplay = bookToDisplay.returnEntries();
 
-		Collections.sort(entriesToDisplay, AddressEntry.getCompByField(fieldNum));
+		if (order == "ASCENDING") {
+			Collections.sort(entriesToDisplay, AddressEntry.getCompByField(fieldNum));
+		}
+		else {
+			Collections.sort(entriesToDisplay, Collections.reverseOrder(AddressEntry.getCompByField(fieldNum)));
+		}
+
 		bookToDisplay.setEntries(entriesToDisplay);
 	}
 

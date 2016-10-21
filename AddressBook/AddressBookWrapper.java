@@ -38,6 +38,7 @@ public class AddressBookWrapper implements ActionListener {
     private Controller controller;
     private TableRowSorter<DefaultTableModel> displaySorter;
     private DefaultTableModel initialModel;
+    private lastClickedHeader headerPair= new lastClickedHeader(-1,"ASCENDING");
 
     private ArrayList<AddressEntry> lastContactList;
     private AddressEntry lastClickedContact;
@@ -142,10 +143,15 @@ public class AddressBookWrapper implements ActionListener {
         };
         addressBookDisplay = new JTable(initialModel);
         addressBookDisplay.setPreferredScrollableViewportSize(new Dimension(600,200));
+
+
         addressBookDisplay.getTableHeader().addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 int col = addressBookDisplay.columnAtPoint(e.getPoint());
+                headerPair.update(col);
+                System.out.println(headerPair.getOrder());
+
                 int index = -1;
                 switch(col) {
                     case 0: index = 6; break;
@@ -160,13 +166,16 @@ public class AddressBookWrapper implements ActionListener {
 
                 }
                 if (index >= 0) {
-                    controller.sortAddressBook(index);
+                    controller.sortAddressBook(index, headerPair.getOrder());
                 }
 
             }
         });
 
         displaySorter = new TableRowSorter<DefaultTableModel>(initialModel);
+
+        System.out.println(initialModel.getColumnCount());
+
 
         for (int i = 0; i < initialModel.getColumnCount(); i++) {
             displaySorter.setComparator(i, new Comparator<String>() {
