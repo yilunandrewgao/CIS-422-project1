@@ -36,7 +36,6 @@ public class AddressBookWrapper implements ActionListener {
     private JScrollPane scrollPane;
     private GridBagConstraints c;
     private Controller controller;
-    private TableRowSorter<DefaultTableModel> displaySorter;
     private DefaultTableModel initialModel;
     private lastClickedHeader headerPair= new lastClickedHeader(-1,"ASCENDING");
 
@@ -155,37 +154,10 @@ public class AddressBookWrapper implements ActionListener {
 
                 controller.sortAddressBook(col, headerPair.getOrder());
 
+                refreshTable();
+
             }
         });
-
-        displaySorter = new TableRowSorter<DefaultTableModel>(initialModel);
-
-        System.out.println(initialModel.getColumnCount());
-
-
-        for (int i = 0; i < initialModel.getColumnCount(); i++) {
-            displaySorter.setComparator(i, new Comparator<String>() {
-
-                @Override
-                public int compare(String field1, String field2) {
-                    if (field1.equals("") && field2.equals("")){
-                        return 0;
-                    }
-                    else if (field1.equals("")) {
-                        return 1;
-                    }
-                    else if (field2.equals("")) {
-                        return -1;
-                    }
-                    else {
-                        return field1.compareTo(field2);
-                    }
-
-                }
-            });
-        }
-
-        addressBookDisplay.setRowSorter(displaySorter);
 
         tablePanel.add(scrollPane);
         scrollPane.setViewportView(addressBookDisplay);
@@ -561,11 +533,7 @@ public class AddressBookWrapper implements ActionListener {
             searchBar.setText("");
             controller.cancelSearch();
 
-            DefaultTableModel addressBookModel = new DefaultTableModel(getAddressBookDisplay(), columnNames);
-            addressBookDisplay.setModel(addressBookModel);
-
-            this.frame.pack();
-            this.frame.setVisible(true);
+            refreshTable();
         }
 
         else if (e.getSource() == InitiateSearch) {
@@ -630,9 +598,6 @@ public class AddressBookWrapper implements ActionListener {
     private void refreshTable(){
         DefaultTableModel addressBookModel = new DefaultTableModel(getAddressBookDisplay(), columnNames);
         addressBookDisplay.setModel(addressBookModel);
-
-        displaySorter.setModel(addressBookModel);
-        addressBookDisplay.setRowSorter(displaySorter);
 
         this.frame.pack();
         this.frame.setVisible(true);
