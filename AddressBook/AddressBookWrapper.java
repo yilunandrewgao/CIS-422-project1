@@ -131,7 +131,8 @@ public class AddressBookWrapper implements ActionListener {
         menuBar.add(fileMenu);
 
         // Adding multi-column list to display address book
-        columnNames = new String[]{"First", "Last", "Address 1", "Address 2", "Email", "Phone", "City", "State", "ZIP"};
+        columnNames = new String[]{"City", "State", "Zip", "Delivery", "Second", "Last Name", "First Name", "Phone", "Email"};
+
         displayData = getAddressBookDisplay();
 
         initialModel = new DefaultTableModel(displayData, columnNames) {
@@ -152,22 +153,7 @@ public class AddressBookWrapper implements ActionListener {
                 headerPair.update(col);
                 System.out.println(headerPair.getOrder());
 
-                int index = -1;
-                switch(col) {
-                    case 0: index = 6; break;
-                    case 1: index = 5; break;
-                    case 2: index = 3; break;
-                    case 3: index = 4; break;
-                    case 4: index = 8; break;
-                    case 5: index = 7; break;
-                    case 6: index = 0; break;
-                    case 7: index = 1; break;
-                    case 8: index = 2; break;
-
-                }
-                if (index >= 0) {
-                    controller.sortAddressBook(index, headerPair.getOrder());
-                }
+                controller.sortAddressBook(col, headerPair.getOrder());
 
             }
         });
@@ -393,15 +379,15 @@ public class AddressBookWrapper implements ActionListener {
 
         Object[][] returnArray = new Object[book.size()][9];
         for(AddressEntry entry:book) {
-            returnArray[line_num][0] = entry.getFirstName();
-            returnArray[line_num][1] = entry.getLastName();
-            returnArray[line_num][2] = entry.getDelivery();
-            returnArray[line_num][3] = entry.getSecond();
-            returnArray[line_num][4] = entry.getEmail();
-            returnArray[line_num][5] = entry.getPhone();
-            returnArray[line_num][6] = entry.getCity();
-            returnArray[line_num][7] = entry.getState();
-            returnArray[line_num][8] = entry.getZip();
+            returnArray[line_num][0] = entry.getCity();
+            returnArray[line_num][1] = entry.getState();
+            returnArray[line_num][2] = entry.getZip();
+            returnArray[line_num][3] = entry.getDelivery();
+            returnArray[line_num][4] = entry.getSecond();
+            returnArray[line_num][5] = entry.getLastName();
+            returnArray[line_num][6] = entry.getFirstName();
+            returnArray[line_num][7] = entry.getPhone();
+            returnArray[line_num][8] = entry.getEmail();
 
             line_num += 1;
         }
