@@ -158,7 +158,7 @@ public class Controller {
 
 		int other_nonempty_fields = 0;
 		for (int i = 0; i <dataFields.length; i++) {
-			if (!(dataFields[i].isEmpty()) && i != 0 && i != 1) {
+			if (!(dataFields[i].isEmpty()) && i != 5 && i != 6) {
 				other_nonempty_fields++;
 			}
 		}
